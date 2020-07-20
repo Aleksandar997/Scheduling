@@ -1,0 +1,14 @@
+<loader #loader></loader>
+<div class="wrapper">
+  <div class="title-wrapper">
+    <h1 mat-dialog-title>{{data.title | translate}}</h1>
+  </div>
+  <div mat-dialog-content class="content">
+    <p>{{data.text | translate}}</p>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions class="button-group">
+    <button type="button" mat-raised-button color="primary" (click)="onDecline()">{{'label_cancel' | translate}}</button>
+    <button [disabled]="isConfirmed" mat-raised-button color="primary" (click)="onConfirm()">{{'label_yes' | translate}}</button>
+  </div>
+</div>

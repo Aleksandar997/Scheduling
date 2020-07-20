@@ -1,0 +1,64 @@
+<mat-toolbar class="toolbar" color="primary">
+    <a mat-icon-button [routerLink]="['/home']" class="anchor-title"><img [src]="logoImage"></a>
+    <h3>{{companyName}}</h3>
+    <span class="spacer"></span>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>perm_identity</mat-icon>
+          </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item disabled class="current-user">
+                <span>{{loggedUser}}</span>
+            </button>
+            <!-- <button mat-menu-item (click)="onRouteClick()" [routerLink]="['/administration/users/passwordchange/0', false]">
+                <mat-icon>vpn_key</mat-icon>
+                <span>{{'btn_change_password' | translate}}</span>
+            </button> -->
+            <button mat-menu-item (click)="changePass()">
+                <mat-icon>vpn_key</mat-icon>
+                <span>{{'btn_change_password' | translate}}</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>{{'btn_logout' | translate}}</span>
+            </button>
+        </mat-menu>
+</mat-toolbar>
+<mat-drawer-container autosize>
+    <mat-drawer mode="side" opened class="sidebar">
+        <mat-nav-list>
+            <div *ngFor="let menu of menus">
+                <a mat-list-item routerLinkActive="list-item-active" [routerLink]="menu.url"
+                    *ngIf="(!menu.children || menu.children.length === 0) && menu.active; else hasChildren">
+                    <mat-icon matSuffix> {{menu.image}}</mat-icon>
+                    <label>{{menu.code | translate}}</label>
+                </a>
+                <ng-template #hasChildren>
+                    <a *ngIf="menu.active" mat-list-item routerLinkActive="list-item-active" (click)="menu.expanded = !menu.expanded">
+                        <mat-icon matSuffix> {{menu.image}} </mat-icon>
+                        <label>{{menu.code | translate}}</label>
+                        <span fxFlex>
+                            <span fxFlex></span>
+                            <mat-icon [@indicatorRotate]="menu.expanded ? 'expanded': 'collapsed'">
+                                expand_more
+                            </mat-icon>
+                        </span>
+                    </a>
+                </ng-template>
+                <div *ngIf="menu.expanded && menu.active">
+                    <a mat-list-item routerLinkActive="list-item-active" class="sidebar-nav-dropdown-item"
+                        [routerLink]="child.url" *ngFor="let child of menu.children"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        <mat-icon matSuffix> {{child.image}} </mat-icon>
+                    <label>{{child.code | translate}}</label>
+                    </a>
+                </div>
+            </div>
+        </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content class="main-content">
+        <!-- <breadcrumbs></breadcrumbs> -->
+        <form-layout>    
+        </form-layout>
+        <!-- <mat-toolbar>Footer</mat-toolbar> -->
+    </mat-drawer-content>
+</mat-drawer-container>

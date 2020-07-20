@@ -1,0 +1,14 @@
+::ng-deep snack-bar-container.success {
+    background-color: green;
+}
+::ng-deep snack-bar-container.error {
+    background-color: red;
+}
+::ng-deep snack-bar-container.warning {
+    background-color: #ffc107;
+}
+::ng-deep snack-bar-container.error,
+::ng-deep snack-bar-container.success,
+::ng-deep snack-bar-container.warning {
+    color: white;
+}

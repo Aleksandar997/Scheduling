@@ -1,0 +1,37 @@
+.form-row {
+    display: flex;
+    align-items: center;
+}
+
+.form-row > * {
+    width: 100%;
+}
+
+.row-actions>*:not(:first-child) {
+    margin-left: 1rem;
+}
+
+.row-actions>button>span {
+    margin-right: 5px;
+}
+
+@media only screen and (max-width: 673px) {
+    .row-actions>mat-form-field {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+    }
+    .form-row {
+        display: inline-grid !important;
+        width: -webkit-fill-available;
+    }
+    .form-row mat-form-field {
+        width: 100% !important;
+    }
+    .row-actions>*:not(:first-child) {
+        margin-left: 0rem;
+    }
+}
+
+.overflow {
+    overflow: auto;
+}

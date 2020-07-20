@@ -1,0 +1,9 @@
+<!-- <button mat-icon-button (click)="decreaseTime()">
+                <i href="javascript:void(0);" class="material-icons">remove</i>
+            </button> -->
+<mat-slider  [class.disabled]="disabled" #slider class="cdk-focused" (change)="test($event)" [displayWith]="formatLabel" 
+    [value]="getTime(date, slider)" [thumbLabel]="true" step="0.01666" min="0.00" max="23.00">
+</mat-slider>
+<!-- <button mat-icon-button (click)="increaseTime()">
+                <i href="javascript:void(0);" class="material-icons">add</i>
+            </button> -->

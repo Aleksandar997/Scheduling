@@ -1,0 +1,16 @@
+.active-checkbox {
+    width: fit-content;
+}
+table {
+    width: 100%;
+}
+table mat-form-field {
+    margin-left: 1rem;
+}
+.center {
+    text-align: -webkit-center;
+}
+
+.center mat-form-field {
+    text-align: -webkit-center;
+}

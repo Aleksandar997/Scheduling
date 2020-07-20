@@ -1,0 +1,81 @@
+<ng-template portalOutlet>
+    <button mat-raised-button [routerLink]="['./add']" color="primary">{{'btn_add_product' | translate}}</button>
+</ng-template>
+<toaster #toaster></toaster>
+<mat-card class="card">
+    <loader #loader></loader>
+    <mat-card-content>
+        <div class="form-row row-actions overflow" autocomplete="off" [formGroup]="filters">
+            <mat-form-field>
+                <input matInput formControlName="name" placeholder="{{'label_name' | translate}}">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="code" placeholder="{{'label_code' | translate}}">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{'label_organization_units' | translate}}</mat-label>
+                <mat-select formControlName="organizationUnits" [compareWith]="selectlistCompare" multiple>
+                    <mat-option *ngFor="let orgUnit of organizationUnits" [value]="orgUnit.id">
+                        {{orgUnit.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{'label_product_type' | translate}}</mat-label>
+                <mat-select formControlName="productTypes" [compareWith]="selectlistCompare" multiple>
+                    <mat-option *ngFor="let pt of productTypes" [value]="pt.id">
+                        {{pt.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <data-grid #productGrid [displayedColumns]="displayedColumns" matSort [gridName]="'productGrid'"
+            [highlightPreviousVisitedRow]="true" [dataSource]="dataSource" [onRowClickLink]="onRowClickLink"
+            (matSortChange)="onSortChange($event)">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_name' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="code">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_code' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let product"> {{product.code}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="productTypeName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_product_type_name' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let product"> {{product.productType.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="active">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_active' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let product">
+                    <mat-icon>{{product.active ? 'check' : 'close'}}</mat-icon>
+                </td>
+            </ng-container>
+
+            <ng-template #actions let-product let-index="index">
+                <button mat-icon-button matTooltip="{{'tooltip_view' | translate}}"
+                    [routerLink]="['./view',product.productId]" (click)="productGrid.setCacheActivePage(index)">
+                    <mat-icon>remove_red_eye</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="{{'tooltip_edit' | translate}}"
+                    [routerLink]="['./edit',product.productId]" (click)="productGrid.setCacheActivePage(index)">
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="{{'tooltip_delete' | translate}}"
+                    (click)="deleteProduct(product.productId)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </ng-template>
+            <mat-paginator (page)="onPageChange($event)" [length]="datasourceLength">
+            </mat-paginator>
+        </data-grid>
+
+    </mat-card-content>
+</mat-card>

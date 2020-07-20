@@ -1,0 +1,16 @@
+.form-actions {
+    text-align: -webkit-right;
+    padding-bottom: 0.4rem;
+}
+
+/* ::ng-deep .data-grid .mat-row {
+    height: 85px !important;
+}
+
+::ng-deep timeline-slider .slider button {
+    width: 8%;
+}
+
+::ng-deep timeline-slider mat-slider {
+    width: 100%;
+} */

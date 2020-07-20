@@ -1,0 +1,144 @@
+<ng-template portalOutlet>
+    <button mat-raised-button [routerLink]="['./add']" *ngIf="checkType('pricelists')" color="primary">{{'btn_add_document' | translate}}</button>
+</ng-template>
+<toaster #toaster></toaster>
+<mat-card class="card">
+    <loader #loader></loader>
+    <mat-card-content>
+        <div class="form-row row-actions overflow" autocomplete="off" [formGroup]="filters">
+            <mat-form-field>
+                <input matInput formControlName="documentNumber" placeholder="{{'label_full_number' | translate}}">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{'label_document_status' | translate}}</mat-label>
+                <mat-select formControlName="documentStatusId" [compareWith]="selectlistCompare">
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let ds of documentStatuses" [value]="ds.id">
+                        {{ds.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{'label_organization_units' | translate}}</mat-label>
+                <mat-select formControlName="organizationUnits" [compareWith]="selectlistCompare" multiple>
+                    <mat-option *ngFor="let orgUnit of organizationUnits" [value]="orgUnit.id">
+                        {{orgUnit.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="checkType('receipts')">
+                <mat-label>{{'label_customers' | translate}}</mat-label>
+                <mat-select formControlName="customers" [compareWith]="selectlistCompare" multiple>
+                    <mat-option *ngFor="let c of customers" [value]="c.id">
+                        {{c.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="checkType('pricelists')">
+                <mat-label>{{'label_pricelist_type' | translate}}</mat-label>
+                <mat-select formControlName="pricelistTypes" [compareWith]="selectlistCompare" multiple>
+                    <mat-option *ngFor="let pt of pricelistTypes" [value]="pt.id">
+                        {{pt.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input clearInputOnBackspace [controlBind]="getControls(filters, 'date')"
+                    (focus)="date.open()" (click)="date.open()" matInput
+                    placeholder="{{'label_date' | translate}}" [matDatepicker]="date"
+                    formControlName="date">
+                <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                <mat-datepicker #date></mat-datepicker>
+            </mat-form-field>
+            <!-- <mat-form-field *ngIf="checkType('pricelists')">
+                <input clearInputOnBackspace [controlBind]="getControls(filters, 'dateFrom')"
+                    (focus)="dateFrom.open()" (click)="dateFrom.open()" matInput
+                    placeholder="{{'label_date_from' | translate}}" [matDatepicker]="dateFrom"
+                    formControlName="dateFrom">
+                <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+                <mat-datepicker #dateFrom></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field *ngIf="checkType('pricelists')">
+                <input clearInputOnBackspace [controlBind]="getControls(filters, 'dateTo')"
+                    (focus)="dateTo.open()" (click)="dateTo.open()" matInput
+                    placeholder="{{'label_date_to' | translate}}" [matDatepicker]="dateTo"
+                    formControlName="dateTo">
+                <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+                <mat-datepicker #dateTo></mat-datepicker>
+            </mat-form-field> -->
+        </div>
+        <data-grid #documentGrid [displayedColumns]="displayedColumns" matSort [gridName]="'documentGrid'"
+            [highlightPreviousVisitedRow]="true" [dataSource]="dataSource" [onRowClickLink]="onRowClickLink"
+            (matSortChange)="onSortChange($event)">
+
+            <ng-container matColumnDef="fullNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_full_number' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let document"> {{document.fullNumber}} </td>
+            </ng-container>
+            <ng-container matColumnDef="documentStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_document_status' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let document"> {{'label' + document.documentStatus.code.insertStringBetweenUpper('_')}} </td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_date' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let document"> {{document.date | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="dateTo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_date_to' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let document"> {{document.dateTo | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="dateFrom">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_date_from' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let document"> {{document.dateFrom | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="pricelistType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_pricelist_type' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let document"> {{document.pricelistType?.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="customer">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_customer' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let document"> {{document.customerName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="organizationUnit">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_organization_unit' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let document"> {{document.organizationUnitNames}} </td>
+            </ng-container>
+            <ng-container matColumnDef="sum">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_sum' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let document"> {{document.sum}} </td>
+            </ng-container>
+
+            <ng-template #actions let-document let-index="index">
+                <button mat-icon-button matTooltip="{{'tooltip_view_schedule' | translate}}" *ngIf="checkType('receipts')"
+                    (click)="viewSchedule(document.scheduleId, index)">
+                    <mat-icon>calendar_today</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="{{'tooltip_view' | translate}}"
+                    [routerLink]="['./view',document.documentId]" (click)="documentGrid.setCacheActivePage(index)">
+                    <mat-icon>remove_red_eye</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="{{'tooltip_edit' | translate}}" *ngIf="checkType('pricelists')"
+                    [routerLink]="['./edit',document.documentId]" (click)="documentGrid.setCacheActivePage(index)">
+                    <mat-icon>mode_edit</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="{{'tooltip_cancel' | translate}}" *ngIf="checkType('pricelists')"
+                    (click)="cancelDocument(document.documentId)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </ng-template>
+
+            <mat-paginator (page)="onPageChange($event)" [length]="datasourceLength">
+            </mat-paginator>
+        </data-grid>
+
+    </mat-card-content>
+</mat-card>

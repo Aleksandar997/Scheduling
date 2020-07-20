@@ -1,0 +1,85 @@
+<ng-template portalOutlet>
+    <button (click)="navigateBack()" mat-raised-button>{{'btn_cancel' | translate}}</button>
+    <button type="submit" *ngIf="!areControlsDisabled()" form="scheduleForm" mat-raised-button
+        color="primary">{{'btn_confirm' | translate}}</button>
+</ng-template>
+<toaster #toaster></toaster>
+<mat-card class="card">
+    <loader #loader></loader>
+    <mat-card-content>
+        <form [formGroup]="form" id="scheduleForm" (ngSubmit)="submit()">
+            <div formGroupName="schedule">
+                <div class="form-row row-actions">
+                    <div class="customer">
+                        <mat-form-field>
+                            <mat-label>{{'label_customer' | translate}}</mat-label>
+                            <mat-select formControlName="customerId" required [compareWith]="selectlistCompare">
+                                <mat-option>--</mat-option>
+                                <mat-option *ngFor="let cust of customers" [value]="cust.id">
+                                    {{cust.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="getServerError(form, 'schedule.customerId')">
+                                {{getServerError(form, 'schedule.customerId')}}
+                            </mat-error>
+                            <mat-error *ngIf="hasError(form, 'schedule.customerId')">
+                                {{'customer_required' | translate}}
+                            </mat-error>
+                        </mat-form-field>
+                        <button mat-mini-fab color="primary" type="button"
+                            matTooltip="{{'tooltip_save_new_customer' | translate}}" (click)="addNewCustomer()">
+                            <mat-icon> {{getControls(form, 'schedule.customerId').value > 0 ? 'edit' : 'person_add'}}
+                            </mat-icon>
+                        </button>
+                    </div>
+                    <mat-form-field>
+                        <input placeholder="{{'label_phone_number' | translate}}" required formControlName="phoneNumber"
+                            matInput>
+                        <mat-icon matSuffix>phone_enabled</mat-icon>
+                        <mat-error *ngIf="getServerError(form, 'schedule.phoneNumber')">
+                            {{getServerError(form, 'schedule.phoneNumber')}}
+                        </mat-error>
+                        <mat-error *ngIf="hasError(form, 'schedule.phoneNumber')">
+                            {{'phone_number_required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="form-row row-actions slider">
+                    <timeline-slider [disabled]="areControlsDisabled()" #timeline
+                        [date]="getControls(form, 'schedule.date')?.value"></timeline-slider>
+                </div>
+            </div>
+            <div class="form-row row-actions">
+                <mat-form-field>
+                    <mat-label>{{'label_organization_units' | translate}}</mat-label>
+                    <mat-select id="orgUnitSelect" required formControlName="organizationUnitId" [compareWith]="selectlistCompare">
+                        <mat-option *ngFor="let orgUnit of organizationUnits" [value]="orgUnit.id">
+                            {{orgUnit.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="getServerError(form, 'organizationUnitId')">
+                        {{getServerError(form, 'organizationUnitId')}}
+                    </mat-error>
+                    <mat-error *ngIf="hasError(form, 'organizationUnitId')">
+                        {{'organization_unit_required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-row row-actions">
+                <mat-form-field>
+                    <mat-label>{{'label_sum' | translate}}</mat-label>
+                    <input formControlName="sum" matInput required>
+                </mat-form-field>
+            </div>
+            <div class="form-row row-actions">
+                <mat-form-field>
+                    <mat-label>{{'label_note' | translate}}</mat-label>
+                    <mat-icon matSuffix>description</mat-icon>
+                    <textarea matInput formControlName="note"></textarea>
+                </mat-form-field>
+            </div>
+            <detail-action #detailAction gridName='scheduleActionGrid' [displayedColumns]="displayedColumns"
+             [areControlsDisabled]="areControlsDisabled()" [matcher]="matcher" [toasterRef]="toaster"></detail-action>
+        </form>
+    </mat-card-content>
+</mat-card>

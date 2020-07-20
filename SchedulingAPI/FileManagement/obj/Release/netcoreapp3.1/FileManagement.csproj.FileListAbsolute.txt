@@ -1,0 +1,13 @@
+E:\SchedulingProject\SchedulingAPI\FileManagement\bin\Release\netcoreapp3.1\FileManagement.deps.json
+E:\SchedulingProject\SchedulingAPI\FileManagement\bin\Release\netcoreapp3.1\FileManagement.dll
+E:\SchedulingProject\SchedulingAPI\FileManagement\bin\Release\netcoreapp3.1\FileManagement.pdb
+E:\SchedulingProject\SchedulingAPI\FileManagement\bin\Release\netcoreapp3.1\Common.dll
+E:\SchedulingProject\SchedulingAPI\FileManagement\bin\Release\netcoreapp3.1\Entity.dll
+E:\SchedulingProject\SchedulingAPI\FileManagement\bin\Release\netcoreapp3.1\Common.pdb
+E:\SchedulingProject\SchedulingAPI\FileManagement\bin\Release\netcoreapp3.1\Entity.pdb
+E:\SchedulingProject\SchedulingAPI\FileManagement\obj\Release\netcoreapp3.1\FileManagement.csprojAssemblyReference.cache
+E:\SchedulingProject\SchedulingAPI\FileManagement\obj\Release\netcoreapp3.1\FileManagement.AssemblyInfoInputs.cache
+E:\SchedulingProject\SchedulingAPI\FileManagement\obj\Release\netcoreapp3.1\FileManagement.AssemblyInfo.cs
+E:\SchedulingProject\SchedulingAPI\FileManagement\obj\Release\netcoreapp3.1\FileManagement.csproj.CopyComplete
+E:\SchedulingProject\SchedulingAPI\FileManagement\obj\Release\netcoreapp3.1\FileManagement.dll
+E:\SchedulingProject\SchedulingAPI\FileManagement\obj\Release\netcoreapp3.1\FileManagement.pdb

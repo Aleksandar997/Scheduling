@@ -1,0 +1,71 @@
+.header {
+    display: flex;
+}
+
+.date {
+    align-self: center;
+}
+
+.date-arrows {
+    width: 50%;
+    text-align-last: right;
+}
+
+.date-arrows button {
+    text-align-last: center;
+}
+
+.not-current-month {
+    opacity: 0.5;
+}
+
+.currentDate {
+    background: lightblue;
+}
+
+.mat-grid-tile {
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-style: solid;
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.active-calendar-tile, 
+.calendar-tile:hover {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-style: solid;
+}
+
+mat-grid-tile .mat-badge-content {
+    position: sticky;
+    
+}
+
+.data-grid {
+    padding: 1rem;
+}
+
+
+mat-card-content {
+    height: fit-content;
+}
+
+.calendar-labels {
+    display: flex;
+}
+
+.calendar-labels span {
+    width: 55%;
+    text-align: right;
+}
+
+mat-card-content {
+    padding-left: 0rem !important;
+    padding-right: 0rem !important;
+}
+
+.card {
+    margin-right: 0rem !important;
+}

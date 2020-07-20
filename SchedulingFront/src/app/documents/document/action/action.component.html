@@ -1,0 +1,124 @@
+<ng-template portalOutlet>
+    <button (click)="navigateBack()" mat-raised-button>{{'btn_cancel' | translate}}</button>
+    <button *ngIf="!areControlsDisabled()" form="documentForm" mat-raised-button
+        color="primary">{{'btn_confirm' | translate}}</button>
+</ng-template>
+<toaster #toaster></toaster>
+<mat-card class="card">
+    <loader #loader></loader>
+    <mat-card-content>
+        <form (ngSubmit)="submit()" [formGroup]="form" id="documentForm" autocomplete="off">
+            <div class="form-row row-actions">
+                <mat-form-field>
+                    <mat-label>{{'label_full_number' | translate}}</mat-label>
+                    <input formControlName="fullNumber" matInput>
+                </mat-form-field>
+                <mat-form-field *ngIf="checkType('receipts')">
+                    <mat-label>{{'label_customer' | translate}}</mat-label>
+                    <mat-select required formControlName="customerId" [compareWith]="selectlistCompare">
+                        <mat-option *ngFor="let c of customers" [value]="c.id">
+                            {{c.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="getServerError(form, 'customerId')">
+                        {{getServerError(form, 'customerId')}}
+                    </mat-error>
+                    <mat-error *ngIf="hasError(form, 'customerId')">
+                        {{'customer_required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'label_document_status' | translate}}</mat-label>
+                    <mat-select required formControlName="documentStatusId" [compareWith]="selectlistCompare">
+                        <mat-option *ngFor="let ds of documentStatuses" [value]="ds.id">
+                            {{ds.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="getServerError(form, 'documentStatusId')">
+                        {{getServerError(form, 'documentStatusId')}}
+                    </mat-error>
+                    <mat-error *ngIf="hasError(form, 'documentStatusId')">
+                        {{'document_status_required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field *ngIf="checkType('pricelists')">
+                    <mat-label>{{'label_pricelist_type' | translate}}</mat-label>
+                    <mat-select required formControlName="pricelistTypeId" [compareWith]="selectlistCompare">
+                        <mat-option *ngFor="let pts of pricelistTypes" [value]="pts.id">
+                            {{pts.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="getServerError(form, 'pricelistTypeId')">
+                        {{getServerError(form, 'pricelistTypeId')}}
+                    </mat-error>
+                    <mat-error *ngIf="hasError(form, 'pricelistTypeId')">
+                        {{'pricelist_type_required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-row row-actions">
+                <mat-form-field>
+                    <mat-label>{{'label_organization_units' | translate}}</mat-label>
+                    <mat-select required id="orgUnitSelect" formControlName="organizationUnitIds" [compareWith]="selectlistCompare"
+                        [multiple]="checkType('pricelists')">
+                        <mat-option *ngFor="let orgUnit of organizationUnits" [value]="orgUnit.id">
+                            {{orgUnit.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="getServerError(form, 'organizationUnitIds')">
+                        {{getServerError(form, 'organizationUnitIds')}}
+                    </mat-error>
+                    <mat-error *ngIf="hasError(form, 'organizationUnitIds')">
+                        {{'organization_unit_required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="issuingPlace" matInput placeholder="{{'issuing_place' | translate}}">
+                    <mat-error *ngIf="getServerError(form, 'issuingPlace')">
+                        {{getServerError(form, 'issuingPlace')}}
+                    </mat-error>
+                    <mat-error *ngIf="hasError(form, 'issuingPlace')">
+                        {{'issuing_place_required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-row row-actions">
+                <mat-form-field>
+                    <input required clearInputOnBackspace [controlBind]="getControls(form, 'date')" (focus)="date.open()"
+                        (click)="date.open()" matInput placeholder="{{'label_date' | translate}}" [matDatepicker]="date"
+                        formControlName="date">
+                    <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                    <mat-datepicker #date></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field *ngIf="checkType('pricelists') && isPricelistDiscount">
+                    <input required clearInputOnBackspace [controlBind]="getControls(form, 'dateFrom')" (focus)="dateFrom.open()"
+                        (click)="dateFrom.open()" matInput placeholder="{{'label_date_from' | translate}}"
+                        [matDatepicker]="dateFrom" formControlName="dateFrom">
+                    <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+                    <mat-datepicker #dateFrom></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field *ngIf="checkType('pricelists') && isPricelistDiscount">
+                    <input required clearInputOnBackspace [controlBind]="getControls(form, 'dateTo')" (focus)="dateTo.open()"
+                        (click)="dateTo.open()" matInput placeholder="{{'label_date_to' | translate}}"
+                        [matDatepicker]="dateTo" formControlName="dateTo">
+                    <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+                    <mat-datepicker #dateTo></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="form-row row-actions" *ngIf="checkType('receipts')">
+                <mat-form-field>
+                    <mat-label>{{'label_sum' | translate}}</mat-label>
+                    <input formControlName="sum" matInput>
+                </mat-form-field>
+            </div>
+            <div class="form-row row-actions">
+                <mat-form-field>
+                    <mat-label>{{'label_note' | translate}}</mat-label>
+                    <textarea matInput formControlName="note"></textarea>
+                </mat-form-field>
+            </div>
+            <detail-action #detailAction gridName='documentActionGrid' [displayedColumns]="displayedColumns"
+                [areControlsDisabled]="areControlsDisabled()" [matcher]="matcher" [toasterRef]="toaster"></detail-action>
+        </form>
+    </mat-card-content>
+</mat-card>

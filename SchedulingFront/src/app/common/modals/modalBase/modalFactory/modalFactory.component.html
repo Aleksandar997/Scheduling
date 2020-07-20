@@ -1,0 +1,12 @@
+<toaster #toaster></toaster>
+<loader #loader></loader>
+<div class="wrapper">
+    <div class="title-wrapper" *ngIf="data.title">
+        <h1 mat-dialog-title>{{data.title | translate}}</h1>
+      </div>
+    <div mat-dialog-content class="content">
+        <ng-template #factory>
+        </ng-template>
+    </div>
+</div>
+

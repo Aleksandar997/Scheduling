@@ -1,0 +1,672 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\HairdresserSalonProject\\HairdresserSalonAPI\\HairdresserSalonAPI\\HairdresserSalonAPI.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj",
+        "projectName": "Common",
+        "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Configuration\\Configuration.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Configuration\\Configuration.csproj",
+        "projectName": "Configuration",
+        "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Configuration\\Configuration.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Configuration\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\SQLContext.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\SQLContext.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.Extensions.Configuration.Binder": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj",
+        "projectName": "Entity",
+        "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj",
+        "projectName": "Localization",
+        "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\SQLContext.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\SQLContext.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Security\\Security.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Security\\Security.csproj",
+        "projectName": "Security",
+        "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Security\\Security.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Security\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\UserManagement\\UserManagement.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\UserManagement\\UserManagement.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\SQLContext.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\SQLContext.csproj",
+        "projectName": "SQLContext",
+        "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\SQLContext.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.35, )"
+            },
+            "Microsoft.Extensions.Caching.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Aleksandar\\source\\repos\\Framework\\UserManagement\\UserManagement.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\UserManagement\\UserManagement.csproj",
+        "projectName": "UserManagement",
+        "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\UserManagement\\UserManagement.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\UserManagement\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Web\\Web.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Web\\Web.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Web\\Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Web\\Web.csproj",
+        "projectName": "Web",
+        "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Web\\Web.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Web\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\HairdresserSalonProject\\HairdresserSalonAPI\\HairdresserSalonAPI\\HairdresserSalonAPI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\HairdresserSalonProject\\HairdresserSalonAPI\\HairdresserSalonAPI\\HairdresserSalonAPI.csproj",
+        "projectName": "HairdresserSalonAPI",
+        "projectPath": "E:\\HairdresserSalonProject\\HairdresserSalonAPI\\HairdresserSalonAPI\\HairdresserSalonAPI.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "E:\\HairdresserSalonProject\\HairdresserSalonAPI\\HairdresserSalonAPI\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Common\\Common.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Configuration\\Configuration.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Configuration\\Configuration.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Entity\\Entity.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Localization\\Localization.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Security\\Security.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Security\\Security.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\SQLContext.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\SQLContext\\SQLContext.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\UserManagement\\UserManagement.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\UserManagement\\UserManagement.csproj"
+              },
+              "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Web\\Web.csproj": {
+                "projectPath": "C:\\Users\\Aleksandar\\source\\repos\\Framework\\Web\\Web.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

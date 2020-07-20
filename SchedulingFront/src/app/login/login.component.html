@@ -1,0 +1,46 @@
+<div class="background">
+    <toaster #toaster></toaster>
+    <div class="container">
+        <loader #loader></loader>
+        <mat-card class="card-container">
+            <div class="wrapper">
+                <div class="logo">
+                    <img [src]="logoImage">
+                </div>
+                <h3>{{'label_login' | translate: cultures}}</h3>
+                <form [formGroup]="loginForm">
+                    <mat-form-field>
+                        <input matInput name="Username" placeholder="{{'label_username' | translate: cultures}}"
+                            formControlName="userName" #username>
+                        <mat-icon matSuffix>perm_identity</mat-icon>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput name="Password" type="password"
+                            placeholder="{{'label_password' | translate: cultures}}"
+                            formControlName="password">
+                        <mat-icon matSuffix>lock</mat-icon>
+                    </mat-form-field>
+                    <!-- <mat-form-field>
+                        <mat-label>{{'label_language_selection' | translate: cultures}}</mat-label>
+                        <mat-select formControlName="culture" [compareWith]="selectlistCompare">
+                            <mat-select-trigger>
+                                <span class="{{selectedCulture?.flag}}"></span>
+                                {{selectedCulture?.value}}
+                            </mat-select-trigger>
+                            <mat-option [value]="culture.name" *ngFor="let culture of cultures">
+                                <span class="{{culture.flag}}"></span>
+                                {{culture.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                    <div>
+                        <button type="submit" mat-raised-button color="primary"
+                            (click)="login()">{{'btn_login' | translate: cultures}}</button>
+                        <button class="btn-forgotten-password" mat-button [disabled] (click)="forgottenPassword()"
+                            color="primary">{{'label_forgotten_password' | translate: cultures}}</button>
+                    </div>
+                </form>
+            </div>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+.form-actions {
+    text-align: -webkit-right;
+    padding-bottom: 0.4rem;
+}
+
+
+::ng-deep #orgUnitSelect .mat-option {
+    pointer-events: none !important;
+}

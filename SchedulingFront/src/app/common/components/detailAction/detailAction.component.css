@@ -1,0 +1,12 @@
+.form-actions {
+    text-align: -webkit-right;
+    padding-bottom: 0.4rem;
+}
+
+::ng-deep .priceFromPricelist {
+    animation: highLightInput 0.4s 1 !important;
+}
+@keyframes highLightInput
+{
+    25% {background-color: #673ab7;}
+}

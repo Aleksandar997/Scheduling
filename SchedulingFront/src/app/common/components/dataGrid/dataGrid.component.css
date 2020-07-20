@@ -1,0 +1,118 @@
+/* TABLE ACTIONS START */
+
+.table-actions-header, .table-actions-cell {
+    display: none;
+    pointer-events: none;
+}
+
+.table-row {
+    background: initial !important;
+    height: 30px;
+    cursor: pointer;
+    white-space: pre;
+}
+
+.table-row:hover {
+    border: none;
+}
+.mat-paginator {
+    margin-top: 5px !important;
+}
+
+.table-row:hover .table-actions-cell {
+    place-items: center;
+    position: absolute !important;
+    padding-right: 0px;
+    display: flex;
+    pointer-events: all;
+}
+
+.table-actions-cell button:hover {
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+    transform: translateY(-0.25em);
+}
+
+/* .table-actions-cell button {
+  border: none !important;
+  background: white !important;
+} */
+
+
+
+@media (hover: none) {
+    .table-row:hover .table-actions-cell {
+        animation: delay-pointer-events 40ms linear;
+    }
+    .table-row {
+        cursor: none;
+    }
+}
+
+.table-row:hover {
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+}
+
+@keyframes delay-pointer-events {
+    0% {
+        visibility: hidden;
+    }
+    50% {
+        visibility: hidden;
+    }
+    100% {
+        visibility: visible;
+    }
+}
+
+table {
+    width: -webkit-fill-available;
+}
+
+/* TABLE ACTIONS END */
+
+
+
+table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+  

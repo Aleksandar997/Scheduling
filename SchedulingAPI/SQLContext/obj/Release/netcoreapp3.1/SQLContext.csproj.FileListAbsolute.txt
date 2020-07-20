@@ -1,0 +1,13 @@
+E:\SchedulingProject\SchedulingAPI\SQLContext\bin\Release\netcoreapp3.1\SQLContext.deps.json
+E:\SchedulingProject\SchedulingAPI\SQLContext\bin\Release\netcoreapp3.1\SQLContext.dll
+E:\SchedulingProject\SchedulingAPI\SQLContext\bin\Release\netcoreapp3.1\SQLContext.pdb
+E:\SchedulingProject\SchedulingAPI\SQLContext\bin\Release\netcoreapp3.1\Common.dll
+E:\SchedulingProject\SchedulingAPI\SQLContext\bin\Release\netcoreapp3.1\Entity.dll
+E:\SchedulingProject\SchedulingAPI\SQLContext\bin\Release\netcoreapp3.1\Common.pdb
+E:\SchedulingProject\SchedulingAPI\SQLContext\bin\Release\netcoreapp3.1\Entity.pdb
+E:\SchedulingProject\SchedulingAPI\SQLContext\obj\Release\netcoreapp3.1\SQLContext.csprojAssemblyReference.cache
+E:\SchedulingProject\SchedulingAPI\SQLContext\obj\Release\netcoreapp3.1\SQLContext.AssemblyInfoInputs.cache
+E:\SchedulingProject\SchedulingAPI\SQLContext\obj\Release\netcoreapp3.1\SQLContext.AssemblyInfo.cs
+E:\SchedulingProject\SchedulingAPI\SQLContext\obj\Release\netcoreapp3.1\SQLContext.csproj.CopyComplete
+E:\SchedulingProject\SchedulingAPI\SQLContext\obj\Release\netcoreapp3.1\SQLContext.dll
+E:\SchedulingProject\SchedulingAPI\SQLContext\obj\Release\netcoreapp3.1\SQLContext.pdb

@@ -1,0 +1,52 @@
+<toaster #toaster></toaster>
+<div class="wrapper">
+  <loader #loader></loader>
+  <div class="title-wrapper">
+    <h1 mat-dialog-title>{{'confirm_customer_save_title' | translate}}</h1>
+  </div>
+  <div mat-dialog-content class="content">
+    <form [formGroup]="form" id="customerActionForm" (ngSubmit)="onConfirm()">
+      <div class="form-row row-actions">
+        <mat-form-field>
+          <mat-label>{{'label_first_name' | translate}}</mat-label>
+          <input formControlName="firstName" matInput required>
+          <mat-error *ngIf="getServerError(form, 'firstName')">
+            {{getServerError(form, 'firstName')}}
+          </mat-error>
+          <!-- <mat-error *ngIf="hasError(form, 'firstName')">
+            {{'first_name_required' | translate}}
+          </mat-error> -->
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'label_last_name' | translate}}</mat-label>
+          <input formControlName="lastName" matInput required>
+          <mat-error *ngIf="getServerError(form, 'lastName')">
+            {{getServerError(form, 'lastName')}}
+          </mat-error>
+          <!-- <mat-error *ngIf="hasError(form, 'lastName')">
+            {{'last_name_required' | translate}}
+          </mat-error> -->
+        </mat-form-field>
+      </div>
+      <div class="form-row row-actions">
+        <mat-form-field>
+          <mat-label>{{'label_phone_number' | translate}}</mat-label>
+          <input formControlName="phoneNumber" matInput required>
+          <mat-error *ngIf="getServerError(form, 'phoneNumber')">
+            {{getServerError(form, 'phoneNumber')}}
+          </mat-error>
+          <!-- <mat-error *ngIf="hasError(form, 'phoneNumber')">
+            {{'phone_number_required' | translate}}
+          </mat-error> -->
+          <mat-icon matSuffix>phone_enabled</mat-icon>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions class="button-group">
+    <button type="button" mat-raised-button color="primary" (click)="onDecline()">{{'label_no' | translate}}</button>
+    <button [disabled]="isConfirmed" mat-raised-button color="primary"
+      form="customerActionForm">{{'label_yes' | translate}}</button>
+  </div>
+</div>

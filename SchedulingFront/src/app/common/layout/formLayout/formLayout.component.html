@@ -1,0 +1,11 @@
+<div class="wrapper">
+    <mat-toolbar *ngIf="title" class="form-layout-actions">
+        <h4><span matTooltip="{{title | translate}}">{{title | translate}}</span></h4>
+        <div class="form-actions" *ngIf="!disableActions">
+            <ng-container #actions></ng-container>
+        </div>
+    </mat-toolbar>
+    <div class="card-wrapper">
+        <router-outlet></router-outlet>
+    </div>
+</div>

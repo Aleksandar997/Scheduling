@@ -1,0 +1,3 @@
+::ng-deep .cdk-focused.disabled {
+    pointer-events: none;
+ }

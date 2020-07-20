@@ -1,0 +1,109 @@
+.wrapper mat-toolbar {
+    position: fixed;
+    z-index: 999;
+    width: calc(100% - 4.2rem);
+    transition: 0.4s;
+}
+
+mat-toolbar .form-actions {
+    width: 100%;
+    text-align-last: right;
+}
+
+mat-toolbar .form-actions button:last-child {
+    margin-left: 0.3rem;
+}
+
+
+.card-wrapper {
+    padding-top: 4rem;
+}
+
+.card-wrapper {
+    height: calc(100% - 9rem);
+}
+
+.wrapper {
+    height: 100%;
+}
+
+.card {
+    overflow: overlay;
+    height: 95%;
+    margin-right: 0.9rem;
+}
+
+.card-actions {
+    position: fixed;
+    width: 100%;
+    margin-left: -4.9rem !important;
+}
+
+.wrapper mat-toolbar {
+    position: fixed;
+    z-index: 998;
+    margin-top: -10px;
+}
+
+mat-card-content {
+    height: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+mat-paginator {
+    bottom: 0px;
+    position: sticky;
+    z-index: 100;
+    background: inherit; 
+    margin-top: 3px; 
+}
+
+
+.table-responsive {
+    overflow: auto;
+    position: relative;
+    max-height: 90%;
+}
+
+table th,
+mat-header-row {
+    top: 0px;
+    position: sticky;
+    z-index: 100;
+    background: inherit;
+}
+
+.form-layout-actions h4 {
+    white-space: pre-wrap;
+    width: -webkit-fill-available;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+@media only screen and (max-width: 367px) {
+    .form-layout-actions {
+        display: table-row-group !important;
+        height: max-content;
+    }
+    .form-layout-actions h4 {
+        white-space: pre-wrap;
+        width: -webkit-fill-available;
+    
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    /* .form-layout-actions .form-actions {
+        width: -webkit-fill-available;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    } */
+    
+    .form-layout-actions .form-actions {
+        text-align-last: center !important;
+    }
+}
