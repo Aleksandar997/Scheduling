@@ -8,7 +8,7 @@ const routes: Routes = [
             {
                 path: ':code',
                 // data: { shouldReuse: true },
-                loadChildren: './document/document.module#DocumentModule'
+                loadChildren: () => import('./document/document.module').then(m => m.DocumentModule)
             }
         ]
     }

@@ -21,22 +21,22 @@ namespace SchedulingAPI.Controllers
             _documentRepository = documentRepository;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Document.View")]
         [HttpGet("selectAllByType")]
         public async Task<IActionResult> SelectAllByType() =>
             await AutoResponse(() => _documentRepository.SelectAll(HttpContext.Request.Query.ToObject<DocumentPaging>(), UserId));
 
-        [Authorize]
+        [Authorize(Roles = "Document.View")]
         [HttpGet("selectById/{id}")]
         public async Task<IActionResult> SelectById(long id) =>
              await AutoResponse(() => _documentRepository.SelectById(id, UserId));
 
-        [Authorize]
+        [Authorize(Roles = "Document.Save")]
         [HttpPost("save")]
         public async Task<IActionResult> Save([FromBody] Document document) =>
             await AutoResponse(() => _documentRepository.Save(document, UserId));
 
-        [Authorize]
+        [Authorize(Roles = "Document.Delete")]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(long id) =>
             await AutoResponse(() => _documentRepository.Delete(id));

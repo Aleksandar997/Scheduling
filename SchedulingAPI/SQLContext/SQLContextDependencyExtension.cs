@@ -20,7 +20,7 @@ namespace SQLContext
                 where JoinClauseService : class, IJoinClauseService
 
         {
-            services.AddSingleton<ISqlContextExecution, ExecutionService>(x => Activator.CreateInstance<ExecutionService>());
+            services.AddTransient<ISqlContextExecution, ExecutionService>(x => Activator.CreateInstance<ExecutionService>());
             services.AddSingleton<ISelectClauseService, SelectClauseService>(x => Activator.CreateInstance<SelectClauseService>());
             services.AddSingleton<IWhereClauseService, WhereClauseService>(x => Activator.CreateInstance<WhereClauseService>());
             services.AddSingleton<IOrderByClauseService, OrderByClauseService>(x => Activator.CreateInstance<OrderByClauseService>());
@@ -30,11 +30,12 @@ namespace SQLContext
         public static void AddSQLContextDependencies(this IServiceCollection services)
 
         {
-            services.AddSingleton<ISqlContextExecution, DapperExecution>(x => new DapperExecution());
+            services.AddTransient<ISqlContextExecution, DapperExecution>(x => new DapperExecution());
             services.AddSingleton<ISelectClauseService, SelectClauseService>(x => new SelectClauseService());
             services.AddSingleton<IWhereClauseService, WhereClauseService>(x => new WhereClauseService());
             services.AddSingleton<IOrderByClauseService, OrderByClauseService>(x => new OrderByClauseService());
             services.AddSingleton<IJoinClauseService, JoinClauseService>(x => new JoinClauseService());
+            services.AddSingleton<ISaveService, SaveService>(x => new SaveService());
         }
     }
 }

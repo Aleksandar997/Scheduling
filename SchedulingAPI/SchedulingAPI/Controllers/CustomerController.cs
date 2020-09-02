@@ -18,17 +18,17 @@ namespace SchedulingAPI.Controllers
             _customerRepository = customerRepository;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer.Save")]
         [HttpPost("save")]
         public async Task<IActionResult> Save([FromBody] Customer customer) =>
             await AutoResponse(() => _customerRepository.Save(customer, UserId));
 
-        [Authorize]
+        [Authorize(Roles = "Customer.View")]
         [HttpGet("selectAll")]
         public async Task<IActionResult> SelectCustomers() =>
             await AutoResponse(() => _customerRepository.SelectAll(UserId));
 
-        [Authorize]
+        [Authorize(Roles = "Customer.View")]
         [HttpGet("selectbyId/{id}")]
         public async Task<IActionResult> SelectbyId(int id) =>
             await AutoResponse(() => _customerRepository.SelectById(id));

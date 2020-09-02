@@ -17,22 +17,22 @@ namespace SchedulingAPI.Controllers
         {
             _productRepository = productRepository;
         }
-        [Authorize]
+        [Authorize(Roles = "Product.View")]
         [HttpGet("selectAll")]
         public async Task<IActionResult> SelectAll() =>
             await AutoResponse(() => _productRepository.SelectAll(HttpContext.Request.Query.ToObject<ProductPaging>(), UserId));
 
-        [Authorize]
+        [Authorize(Roles = "Product.View")]
         [HttpGet("selectById")]
         public async Task<IActionResult> SelectById() =>
             await AutoResponse(() => _productRepository.SelectById(HttpContext.Request.Query.ToObject<int?>()));
 
-        [Authorize]
+        [Authorize(Roles = "Product.Save")]
         [HttpPost("save")]
         public async Task<IActionResult> SaveAsync([FromBody] Product product) =>
             await AutoResponse(() => _productRepository.SaveAsync(product, UserId));
 
-        [Authorize]
+        [Authorize(Roles = "Product.Delete")]
         [HttpDelete("deleteProduct/{id}")]
         public async Task<IActionResult> Delete(int id) =>
             await AutoResponse(() => _productRepository.Delete(id));

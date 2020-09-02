@@ -11,8 +11,10 @@ export class Product {
     productType: ProductType;
     price: number;
     organizationUnitId: number;
-    productPricelist = new Array<ProductPricelist>();
     organizationUnits = new Array<number>();
+    employees: Array<number>;
+    productPricelist = new Array<ProductPricelist>();
+    organizationUnitsString: string;
 }
 
 export class ProductPricelist {
@@ -22,6 +24,7 @@ export class ProductPricelist {
     price: number;
     documentId: number;
     productId: number;
+    name: string;
     constructor(organizationUnitId: number = null, organizationUnitName: string = null) {
         this.organizationUnitId = organizationUnitId;
         this.organizationUnitName = organizationUnitName;
@@ -36,4 +39,25 @@ export class ProductPaging extends BasePaging {
     code: string;
     productTypeId: number;
     organizationUnits = new Array<number>();
+}
+
+export class EmployeeOrganizationUnitProduct {
+    productId: number;
+    name: string;
+    organizationUnitId: number;
+    employeeId: number;
+}
+export class ProductSelectList {
+    products: Array<Product>;
+    productsByOrgUnit: Array<EmployeeOrganizationUnitProduct>;
+    productPricelist = new Array<ProductPricelist>();
+
+}
+export class ProductSelectListInput {
+    allOrgUnits: boolean;
+    organizationUnits = new Array<number>();
+    constructor(organizationUnits: Array<number>, allOrgUnits = false) {
+        this.organizationUnits = organizationUnits;
+        this.allOrgUnits = allOrgUnits;
+    }
 }

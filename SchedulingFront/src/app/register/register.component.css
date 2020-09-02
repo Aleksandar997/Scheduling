@@ -1,0 +1,51 @@
+.container {
+    height: calc(100% - 9rem);
+    display: grid !important;
+    overflow: auto;
+    /* width: calc(100% - 8rem); */
+}
+
+
+mat-horizontal-stepper {
+    height: -webkit-fill-available;
+}
+
+mat-card {
+    width: -webkit-fill-available;
+}
+
+.form-row mat-form-field {
+    width: -webkit-fill-available
+}
+
+.form-row mat-progress-bar {
+    width: 48%;
+}
+
+::ng-deep .file-upload-container {
+    width: 48%;
+    max-width: 48%;
+    /* opacity: 1; */
+}
+
+.file-upload {
+    text-align: -webkit-center;
+}
+
+
+.mat-card-image:first-child {
+    margin-top: 0;
+}
+
+.mat-card-image {
+    margin: 0;
+}
+
+.finish-step {
+    text-align-last: center;
+    margin-right: 2rem;
+}
+
+.progress-bar {
+    justify-content: center;
+}

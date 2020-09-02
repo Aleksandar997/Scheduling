@@ -76,13 +76,12 @@ namespace SchedulingAPI.Repository.Implementations
                         product.Code,
                         product.ProductTypeId,
                         product.Active,
-                        OrgUnits = ParameterHelper.ToUserDefinedTableType(product.OrganizationUnits.Select(x => new { value = x }), "IntList"),
                         Pricelist = ParameterHelper.ToUserDefinedTableType(product.ProductPricelist.Select(x => 
                             new
                             {
                                 x.OrganizationUnitId,
                                 x.DocumentId,
-                                DocumentDetailId = x.DocumentDetailId ?? 0,
+                                x.DocumentDetailId,
                                 x.Price
                             }
                         ).ToList(), "organization_unit_price"),

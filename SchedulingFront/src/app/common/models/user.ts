@@ -1,11 +1,16 @@
 import { Menu } from './menu';
 import { Role } from './role';
 import { Company } from './company';
+import { Employee } from 'src/app/models/employee';
+import { BasePaging } from './basePaging';
+import { ChartMetaData } from './chartMetaData';
+import { Theme } from '../theme/themeModel';
 
 export class User {
     userId: number;
     userName: string;
     password: string;
+    passwordRepeat: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -20,6 +25,15 @@ export class User {
     isAdmin: boolean;
     permissions;
     company: Company;
+    employeeId: number;
+    isEmployee: boolean;
+    employee: Employee;
+    sysDTCreated: Date;
+    isUserSave = false;
+    roleIds = new Array<number>();
+    roleNames: string;
+    chartMetaData: Array<ChartMetaData>;
+    theme: Theme;
     constructor() {
         this.userId = 0;
         this.code = null;
@@ -45,4 +59,10 @@ export class PasswordModel {
 export class UserCredentials {
     userName: string;
     email: string;
+}
+
+export class UserPaging extends BasePaging {
+    firstName: string;
+    lastName: string;
+    identificationNumber: string;
 }

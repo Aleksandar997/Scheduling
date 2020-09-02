@@ -72,6 +72,6 @@ namespace Entity.Base
     }
     public enum ResponseStatus
     {
-        Success, Error
+        Success, Error, PasswordExpired
     }
 }

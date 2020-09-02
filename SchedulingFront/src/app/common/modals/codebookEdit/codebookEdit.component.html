@@ -1,0 +1,26 @@
+<loader #loader></loader>
+<div class="wrapper" *ngIf="columns.length > 0">
+    <div class="title-wrapper">
+        <h1 mat-dialog-title>{{data.title | translate}}</h1>
+    </div>
+    <div mat-dialog-content class="content" [formGroup]="form">
+        <div class="form-row row-actions" *ngFor="let column of columns">
+            <mat-form-field>
+                <input type="{{column.controlType == 1 ? 'number' : 'text'}}" [formControl]="form.get(column.value)" matInput placeholder="{{'label' + column.label.insertStringBetweenUpper('_') | translate}}">
+                <mat-error *ngIf="form?.getServerError(column.value)">
+                    {{form.getServerError(column.value)}}
+                </mat-error>
+                <mat-error *ngIf="form?.hasError(column.value)">
+                    {{column.label.insertStringBetweenUpper('_') + 'required' | translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions class="button-group">
+        <button type="button" mat-raised-button color="primary"
+            (click)="onDecline()">{{'label_cancel' | translate}}</button>
+        <button [disabled]="isConfirmed" mat-raised-button color="primary"
+            (click)="onConfirm()">{{'label_yes' | translate}}</button>
+    </div>
+</div>

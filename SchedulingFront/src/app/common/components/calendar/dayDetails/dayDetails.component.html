@@ -1,8 +1,10 @@
-<div class="form-actions">
-    <button (click)="navigateToAction('/add')" mat-raised-button color="primary">{{'btn_add_detail' | translate}}</button>
-</div>
-<data-grid #calendarDetailsGrid [displayedColumns]="displayedColumns" matSort class="data-grid" [serverSidePagination]="false"
-    [gridName]="'calendarDetailsGrid'" [highlightPreviousVisitedRow]="true" [onRowClickLink]="onRowClickLink">
+<!-- <div class="form-actions">
+    <button (click)="navigateToAction('/add')" mat-raised-button
+        color="primary">{{'btn_add_detail' | translate}}</button>
+</div> -->
+<data-grid #calendarDetailsGrid [displayedColumns]="displayedColumns" matSort class="data-grid"
+    [serverSidePagination]="false" [gridName]="'calendarDetailsGrid'" [highlightPreviousVisitedRow]="true"
+    [onRowClickLink]="onRowClickLink">
 
     <ng-container matColumnDef="time">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_time' | translate}}</th>
@@ -11,25 +13,22 @@
         </td>
     </ng-container>
 
-    <div *ngFor="let col of displayedColumns">
-        <ng-container [matColumnDef]="col" *ngIf="col != 'actions' && col != 'time'">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{('label' + getNestedPropName(col).insertStringBetweenUpper('_')) | translate}}</th>
-            <td mat-cell *matCellDef="let item"> {{getNestedObjProp(item, col)}} </td>
-        </ng-container>
-    </div>
+    <ng-container matColumnDef="{{col}}" *ngFor="let col of matColumnsDef">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{('label' + getNestedPropName(col).insertStringBetweenUpper('_')) | translate}}</th>
+        <td mat-cell *matCellDef="let item"> {{getNestedObjProp(item, col)}} </td>
+    </ng-container>
 
     <ng-template #actions let-item let-index="index">
-        <button mat-icon-button matTooltip="{{'tooltip_view' | translate}}" 
-        (click)="navigateToAction('/view/' + item.id)">
+        <button mat-icon-button matTooltip="{{'tooltip_view' | translate}}"
+            (click)="navigateToAction('/view/' + item.id)">
             <mat-icon>remove_red_eye</mat-icon>
         </button>
         <button mat-icon-button (click)="navigateToAction('/edit/' + item.id)"
-         matTooltip="{{'tooltip_edit' | translate}}">
+            matTooltip="{{'tooltip_edit' | translate}}">
             <mat-icon>mode_edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="onDeleteDetail(item.id)"
-            matTooltip="{{'tooltip_delete' | translate}}">
+        <button mat-icon-button (click)="onDeleteDetail(item.id)" matTooltip="{{'tooltip_delete' | translate}}">
             <mat-icon>delete</mat-icon>
         </button>
     </ng-template>

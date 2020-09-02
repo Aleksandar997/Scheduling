@@ -1,19 +1,22 @@
 ﻿using Common.Base;
 using Entity.Base;
+using FileManagement.Models;
+using FileManagement.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace FileManagement.Service
 {
     public class FileService
     {
+        private static readonly IFileRepository fileRepository = DependencyInjectionResolver.GetService<IFileRepository>();
         private static readonly IHttpContextAccessor HttpContextAccessor = DependencyInjectionResolver.GetService<IHttpContextAccessor>();
-        private static readonly IHostingEnvironment env = DependencyInjectionResolver.GetService<IHostingEnvironment>();
+        private static readonly IWebHostEnvironment env = DependencyInjectionResolver.GetService<IWebHostEnvironment>();
         private static readonly List<string> AlowImageExtensions = (".jpg,.jpeg,.png,.bmp").Split(',').ToList();
         private static readonly string Host = HttpContextAccessor.HttpContext.Request.Scheme + "://" + HttpContextAccessor.HttpContext.Request.Host + HttpContextAccessor.HttpContext.Request.PathBase + "/";
         private static readonly string ServerPath = env.ContentRootPath + "/";
@@ -31,26 +34,28 @@ namespace FileManagement.Service
                     }
                     catch (Exception)
                     {
-                        return new ResponseBase<List<string>>();
-                        //return ResponseBase<List<string>>.ReturnResponse(new List<string>() { name }, ResponseStatus.Error, new ResponseMessage("image_delete_error").SingleToList());
+                        return ResponseBase<List<string>>.Error("image_delete_error");
                     }
                 }
             }
             return ResponseBase<List<string>>.ReturnResponse(fileNames, ResponseStatus.Success);
         }
-        public static ResponseBase<FileInfo> UploadFile(IFormFile file)
+        public static async Task<ResponseBase<FormFileBase>> UploadFile(FormFileBase formFileBase)
         {
-            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-            var fullPath = GetFileFullPath(fileName);
+            DeleteFile(new List<string>() { formFileBase.FullPreviousFileName });
+            formFileBase.FileName = Guid.NewGuid().ToString();
+            formFileBase.Extension = Path.GetExtension(formFileBase.FormFile.FileName);
+            var fullPath = GetFileFullPath(formFileBase.FullFileName);
             using (var stream = new FileStream(fullPath, FileMode.Create))
             {
-                file.CopyTo(stream);
+                await formFileBase.FormFile.CopyToAsync(stream);
             }
-            if (!CheckExtension(fileName))
-                return new ResponseBase<FileInfo>();
-            //return ResponseBase<FileInfo>.ReturnResponse(new FileInfo(fileName, file.FileName), ResponseStatus.Error, new ResponseMessage("file_extension_not_allowed").SingleToList());
+            if (!CheckExtension(formFileBase.FullFileName))
+                return ResponseBase<FormFileBase>.Error("file_extension_not_allowed");
 
-            return ResponseBase<FileInfo>.ReturnResponse(new FileInfo(fileName, file.FileName), ResponseStatus.Success);
+            var res = await fileRepository.UploadFile(formFileBase);
+            res.Data.FormFile = null;
+            return res;
         }
         private static string GetFileFullPath(string fileName)
         {
@@ -67,18 +72,5 @@ namespace FileManagement.Service
     }
 }
 
-//var uploadFileInfo = new List<UploadFileInfo>();
 
-//            foreach (var file in HttpContext.Request.Form.Files)
-//            {
-//                using (var ms = new MemoryStream())
-//                {
-//                    await file.CopyToAsync(ms);
-//var img = new FormFile(ms, 0, ms.Length, file.Name, file.FileName);
 
-//var res = FileService.UploadFile(img);
-//uploadFileInfo.Add(res.Data);
-//                    if (res.Status == ResponseStatus.Error)
-//                        return Ok(ResponseBase<List<UploadFileInfo>>.ReturnResponse(uploadFileInfo, ResponseStatus.Error, res.Messages));
-//                }
-//            }

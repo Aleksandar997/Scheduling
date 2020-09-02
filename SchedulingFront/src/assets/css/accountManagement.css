@@ -27,7 +27,7 @@ mat-form-field {
 }
 
 .background {
-    background: url('/assets/img/LoginBackgroundImage.png') no-repeat center center fixed;
+    background: url('/assets/img/loginCardImage.png') no-repeat center center fixed;
     background-size: cover;
     position: fixed;
     top: 0;
@@ -73,4 +73,14 @@ mat-form-field {
 
 .button-group > button:last-child {
     margin-left: 1rem !important;
+}
+
+.register {
+    background: url('/assets/img/loginCardImage.png');
+    display: inline-grid;
+    align-content: center;
+}
+
+.container .login {
+    display: flex;
 }

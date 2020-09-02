@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
-import { PortalOutletDirective } from './portalOutlet.directive';
+import { PortalOutletDirective, FiltersPortalOutletDirective } from './portalOutlet.directive';
 
 @NgModule({
     declarations: [
-      PortalOutletDirective
+      PortalOutletDirective,
+      FiltersPortalOutletDirective
     ],
     exports: [
-      PortalOutletDirective
+      PortalOutletDirective,
+      FiltersPortalOutletDirective
     ],
   })
   export class PortalOutletDirectiveModule { }

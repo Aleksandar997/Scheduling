@@ -6,7 +6,19 @@ import { PortalService } from '../../services/portal.service';
 })
 export class PortalOutletDirective implements AfterViewInit {
   constructor(private portalService: PortalService, public templateRef: TemplateRef<any>, private changeDetector: ChangeDetectorRef) {
-    this.portalService.registerOutlet(this.templateRef);
+    this.portalService.registerActions(this.templateRef);
+  }
+  ngAfterViewInit() {
+    // this.portalService.registerOutlet(this.templateRef);
+  }
+}
+
+@Directive({
+  selector: '[filtersPortalOutlet]'
+})
+export class FiltersPortalOutletDirective implements AfterViewInit {
+  constructor(private portalService: PortalService, public templateRef: TemplateRef<any>, private changeDetector: ChangeDetectorRef) {
+    this.portalService.registerFilters(this.templateRef);
   }
   ngAfterViewInit() {
     // this.portalService.registerOutlet(this.templateRef);

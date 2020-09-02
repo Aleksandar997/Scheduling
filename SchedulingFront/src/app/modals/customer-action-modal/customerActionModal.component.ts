@@ -8,15 +8,14 @@ import { Customer } from 'src/app/models/customer';
 import { Subscription } from 'rxjs';
 import { FormGroupHelper } from 'src/app/common/helpers/formGroupHelper';
 import { FormBase } from 'src/app/common/base/formBase';
-import { ToasterComponent } from 'src/app/common/components/toaster/toaster.component';
+import { ToasterService } from 'src/app/common/components/toaster/toaster.service';
 
 @Component({
   templateUrl: './customerActionModal.component.html',
   styleUrls: ['./customerActionModal.component.css']
 })
 export class CustomerActionModalComponent extends FormBase implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('loader', { static: false }) loader: LoaderComponent;
-  @ViewChild('toaster', { static: false }) toaster: ToasterComponent;
+  @ViewChild('loader') loader: LoaderComponent;
   isConfirmed = false;
   form: FormGroup = this.fb.group({
     customerId: new FormControl(null),
@@ -72,9 +71,9 @@ export class CustomerActionModalComponent extends FormBase implements OnInit, Af
       this.data.onConfirm();
     }).catch(err => {
       this.loader.hide();
-      this.addErrors(err.error, this.form);
+      this.form.addServerErrors(err.error);
       this.isConfirmed = false;
-      this.toaster.openError('customer_save_error')
+      ToasterService.openError('customer_save_error')
     });
   }
 

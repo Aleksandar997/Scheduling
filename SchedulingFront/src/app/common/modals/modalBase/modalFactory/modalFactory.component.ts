@@ -1,7 +1,6 @@
-import { Component, Inject, ViewChild, ViewContainerRef, ComponentFactory, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
+import { Component, Inject, ViewChild, ViewContainerRef, ComponentFactory, ComponentFactoryResolver, AfterViewInit, ComponentRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { LoaderComponent } from 'src/app/common/components/loader/loader.component';
-import { ToasterComponent } from 'src/app/common/components/toaster/toaster.component';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -9,19 +8,19 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./modalFactory.component.css']
 })
 export class ModalFactoryComponent implements AfterViewInit {
-  @ViewChild('factory', { static: false, read: ViewContainerRef }) factory: ViewContainerRef;
-  @ViewChild('toaster', { static: false }) toaster: ToasterComponent;
-  @ViewChild('loader', { static: false }) loader: LoaderComponent;
+  @ViewChild('factory', { read: ViewContainerRef }) factory: ViewContainerRef;
+  @ViewChild('loader') loader: LoaderComponent;
   closeSub: Subscription;
+  comp: ComponentRef<any>;
   constructor(public dialogRef: MatDialogRef<ModalFactoryComponent>, private facResolver: ComponentFactoryResolver,
               @Inject(MAT_DIALOG_DATA) public data: ModalFactoryModel) {
   }
   ngAfterViewInit() {
     let compFactory: ComponentFactory<any>;
     compFactory = this.facResolver.resolveComponentFactory(this.data.type);
-    const comp = this.factory.createComponent(compFactory);
-    comp.instance.initLogged(this.loader, this.toaster);
-    this.closeSub = comp.instance.closed.subscribe(() => this.hide());
+    this.comp = this.factory.createComponent(compFactory);
+    this.comp.instance.initModal(this.loader);
+    this.closeSub = this.comp.instance.closed.subscribe(() => this.hide());
   }
 
   hide() {

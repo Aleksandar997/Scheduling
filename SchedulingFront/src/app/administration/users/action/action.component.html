@@ -1,0 +1,113 @@
+<ng-template portalOutlet>
+    <button (click)="navigateBack()" mat-raised-button>{{'btn_cancel' | translate}}</button>
+    <button *ngIf="!areControlsDisabled()" form="userForm" mat-raised-button
+        color="primary">{{'btn_confirm' | translate}}</button>
+</ng-template>
+<form (ngSubmit)="submit()" [formGroup]="form" id="userForm">
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <input formControlName="firstName" matInput placeholder="{{'label_first_name' | translate}}">
+            <mat-error *ngIf="form.getServerError('firstName')">
+                {{form.getServerError('firstName')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('firstName')">
+                {{'first_name_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <input formControlName="lastName" matInput placeholder="{{'label_last_name' | translate}}">
+            <mat-error *ngIf="form.getServerError('lastName')">
+                {{form.getServerError('lastName')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('lastName')">
+                {{'first_name_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <input formControlName="userName" matInput placeholder="{{'label_user_name' | translate}}">
+            <mat-error *ngIf="form.getServerError('userName')">
+                {{form.getServerError('userName')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('userName')">
+                {{'user' | translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-checkbox class="active-checkbox" formControlName="active">{{'label_active'}}</mat-checkbox>
+    </div>
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <input formControlName="email" matInput placeholder="{{'label_email' | translate}}">
+            <mat-error *ngIf="form.getServerError('email')">
+                {{form.getServerError('email')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('email')">
+                {{'email_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <mat-label>{{'label_roles' | translate}}</mat-label>
+            <mat-select formControlName="roleIds" [compareWith]="selectlistCompare" multiple>
+                <mat-option id="t" *ngFor="let role of roles" [value]="role.id">
+                    {{role.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error>
+                {{form.getServerError('roles')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('roles')">
+                {{'roles_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions">
+        <mat-form-field formGroupName="employee">
+            <input formControlName="identificationNumber" matInput
+                placeholder="{{'label_identification_number' | translate}}">
+            <mat-error *ngIf="form.getServerError('employee.identificationNumber')">
+                {{form.getServerError('employee.identificationNumber')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('employee.identificationNumber')">
+                {{'first_name_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions" formGroupName="employee">
+        <mat-form-field>
+            <mat-label>{{'label_products' | translate}}</mat-label>
+            <mat-select id="productSelect" formControlName="products" [compareWith]="selectlistCompare"
+                multiple>
+                <mat-option *ngFor="let prod of products" [value]="prod.id">
+                    {{prod.name}} <span class="org-unit-names">{{prod.code}}</span>
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.getServerError('employee.products')">
+                {{form.getServerError('employee.products')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('employee.products')">
+                {{'product_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions" formGroupName="employee">
+        <mat-form-field>
+            <mat-label>{{'label_organization_units' | translate}}</mat-label>
+            <mat-select formControlName="organizationUnits" [compareWith]="selectlistCompare" multiple>
+                <mat-option *ngFor="let orgUnit of organizationUnits" [value]="orgUnit.id">
+                    {{orgUnit.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.getServerError('employee.organizationUnits')">
+                {{form.getServerError('employee.organizationUnits')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('employee.organizationUnits')">
+                {{'organization_unit_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>

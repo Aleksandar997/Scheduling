@@ -1,4 +1,4 @@
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,21 +13,29 @@ import { Interceptor } from './common/http/interceptor';
 
 import './common/extensions/ArrayExtensions';
 import './common/extensions/StringExtensions';
-import { GestureConfig, MatPaginatorIntl } from '@angular/material';
+import './common/extensions/FormGroupExtensions';
+import { MatPaginatorIntl } from '@angular/material';
 import { MatPaginatorIntlLocalized } from './common/adapters/matPaginatorIntlLocalized';
-import { RegisterComponent } from './register/register.component';
+import { RegisterModule } from './register/register.module';
+import { ToasterModule } from './common/components/toaster/toaster.module';
+import { RouterModule } from '@angular/router';
+import { CalendarModule } from './common/components/calendar/calendar.module';
+import { ThemeService } from './common/theme/theme.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    RegisterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
+    // BrowserAnimationsModule,
+    RouterModule,
     HttpClientModule,
     AppRoutingModule,
     LoginModule,
-    AppLayoutModule
+    AppLayoutModule,
+    RegisterModule,
+    ToasterModule
   ],
   providers: [
     AuthGuard,
@@ -46,7 +54,8 @@ import { RegisterComponent } from './register/register.component';
       provide: MatPaginatorIntl,
       useClass: MatPaginatorIntlLocalized
     },
-    { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig },
+    ThemeService
   ],
   bootstrap: [AppComponent]
 })

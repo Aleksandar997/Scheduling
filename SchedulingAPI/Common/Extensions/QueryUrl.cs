@@ -14,7 +14,7 @@ namespace Common.Extensions
             var json = keyValuePairs.FirstOrDefault().Value;
             return JsonConvert.DeserializeObject<T>(json);
         }
-        public static List<T> ToList<T>(IQueryCollection keyValuePairs)
+        public static List<T> ToList<T>(this IQueryCollection keyValuePairs)
         {
             var json = keyValuePairs.FirstOrDefault().Value;
             return JsonConvert.DeserializeObject<List<T>>(json);

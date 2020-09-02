@@ -40,6 +40,7 @@ namespace SchedulingAPI.Repository.Implementations
                         document.Note,
                         document.Sum,
                         document.OrganizationUnitId,
+                        document.Schedule.BindToEmployee,
                         userId,
                         Details = ParameterHelper.ToUserDefinedTableType(document.DocumentDetails.Select(x => new
                         {

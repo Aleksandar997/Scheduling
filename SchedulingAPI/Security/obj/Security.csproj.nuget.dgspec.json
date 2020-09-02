@@ -4,6 +4,68 @@
     "E:\\SchedulingProject\\SchedulingAPI\\Security\\Security.csproj": {}
   },
   "projects": {
+    "E:\\SchedulingProject\\SchedulingAPI\\CodebookManagement\\CodebookManagement.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\SchedulingProject\\SchedulingAPI\\CodebookManagement\\CodebookManagement.csproj",
+        "projectName": "CodebookManagement",
+        "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\CodebookManagement\\CodebookManagement.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "E:\\SchedulingProject\\SchedulingAPI\\CodebookManagement\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "E:\\SchedulingProject\\SchedulingAPI\\ExpressionContext\\ExpressionContext.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\ExpressionContext\\ExpressionContext.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\SQLContext\\SQLContext.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\SQLContext\\SQLContext.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "E:\\SchedulingProject\\SchedulingAPI\\Common\\Common.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -41,6 +103,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Microsoft.AspNetCore.Authorization": {
+              "target": "Package",
+              "version": "[3.1.6, )"
+            },
             "Microsoft.AspNetCore.Http.Features": {
               "target": "Package",
               "version": "[3.1.6, )"
@@ -61,6 +127,173 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\SchedulingProject\\SchedulingAPI\\CompanyManagement\\CompanyManagement.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\SchedulingProject\\SchedulingAPI\\CompanyManagement\\CompanyManagement.csproj",
+        "projectName": "CompanyManagement",
+        "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\CompanyManagement\\CompanyManagement.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "E:\\SchedulingProject\\SchedulingAPI\\CompanyManagement\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "E:\\SchedulingProject\\SchedulingAPI\\Localization\\Localization.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Localization\\Localization.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\Web\\Web.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Web\\Web.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\SchedulingProject\\SchedulingAPI\\Configuration\\Configuration.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\SchedulingProject\\SchedulingAPI\\Configuration\\Configuration.csproj",
+        "projectName": "Configuration",
+        "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Configuration\\Configuration.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "E:\\SchedulingProject\\SchedulingAPI\\Configuration\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "E:\\SchedulingProject\\SchedulingAPI\\Common\\Common.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Common\\Common.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\Entity\\Entity.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Entity\\Entity.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\SQLContext\\SQLContext.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\SQLContext\\SQLContext.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\Web\\Web.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Web\\Web.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.Extensions.Configuration.Binder": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
@@ -126,6 +359,156 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\SchedulingProject\\SchedulingAPI\\ExpressionContext\\ExpressionContext.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\SchedulingProject\\SchedulingAPI\\ExpressionContext\\ExpressionContext.csproj",
+        "projectName": "ExpressionContext",
+        "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\ExpressionContext\\ExpressionContext.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "E:\\SchedulingProject\\SchedulingAPI\\ExpressionContext\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "E:\\SchedulingProject\\SchedulingAPI\\Common\\Common.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Common\\Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\SchedulingProject\\SchedulingAPI\\FileManagement\\FileManagement.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\SchedulingProject\\SchedulingAPI\\FileManagement\\FileManagement.csproj",
+        "projectName": "FileManagement",
+        "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\FileManagement\\FileManagement.csproj",
+        "packagesPath": "C:\\Users\\Aleksandar\\.nuget\\packages\\",
+        "outputPath": "E:\\SchedulingProject\\SchedulingAPI\\FileManagement\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Aleksandar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "E:\\SchedulingProject\\SchedulingAPI\\Common\\Common.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Common\\Common.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\Entity\\Entity.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Entity\\Entity.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\SQLContext\\SQLContext.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\SQLContext\\SQLContext.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\Web\\Web.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Web\\Web.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
@@ -332,7 +715,7 @@
             },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[3.1.6, )"
             },
             "System.Data.SqlClient": {
               "target": "Package",
@@ -384,6 +767,18 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
+              "E:\\SchedulingProject\\SchedulingAPI\\CodebookManagement\\CodebookManagement.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\CodebookManagement\\CodebookManagement.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\CompanyManagement\\CompanyManagement.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\CompanyManagement\\CompanyManagement.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\Configuration\\Configuration.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Configuration\\Configuration.csproj"
+              },
+              "E:\\SchedulingProject\\SchedulingAPI\\FileManagement\\FileManagement.csproj": {
+                "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\FileManagement\\FileManagement.csproj"
+              },
               "E:\\SchedulingProject\\SchedulingAPI\\Localization\\Localization.csproj": {
                 "projectPath": "E:\\SchedulingProject\\SchedulingAPI\\Localization\\Localization.csproj"
               },

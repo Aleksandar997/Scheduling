@@ -28,35 +28,40 @@ import { Subject, Subscription } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DeviceHelper } from '../../helpers/deviceHelper';
 
+export class DataGridComponentCache {
+  static activePageCache = new Map<string, string>();
+}
+
 @Component({
   selector: 'data-grid',
   templateUrl: './dataGrid.component.html',
   styleUrls: ['./dataGrid.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ]
 })
 export class DataGridComponent<T> implements AfterContentInit, AfterViewInit, OnInit, OnDestroy {
-  private static activePageCache = new Map<string, string>();
+
   @ContentChildren(MatColumnDef) columnDefs: QueryList<MatColumnDef>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  @ContentChild(MatPaginator, { static: false }) paginatorContentChild: MatPaginator;
+  @ContentChild(MatPaginator) paginatorContentChild: MatPaginator;
   @Input() serverSidePagination = true;
   @Input() expandableRows = false;
   @Input() gridName: string;
-  @ContentChild('actions', { static: false }) actions;
-  @ContentChild('expandedRow', { static: false }) expandedRow;
+  @ContentChild('actions') actions;
+  @ContentChild('expandedRow') expandedRow;
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   expandedElement;
   @Input() displayedColumns;
   @Input() dataSource = new MatTableDataSource<T>();
-  @Input() highlightPreviousVisitedRow: boolean;
 
+
+  @Input() highlightPreviousVisitedRow: boolean;
   @ViewChildren(MatRow) matRows: QueryList<MatRow>;
 
   @Input() rowColorFunc: (item) => any;
@@ -68,7 +73,6 @@ export class DataGridComponent<T> implements AfterContentInit, AfterViewInit, On
   @Input() formArray;
 
   pageSizeOptions = [];
-
   dataSetterSub: Subscription;
   private isMobile = DeviceHelper.isMobile();
   private activePageData: string[] = [];
@@ -82,6 +86,13 @@ export class DataGridComponent<T> implements AfterContentInit, AfterViewInit, On
     });
   }
 
+  getSize() {
+    return {
+      pageSize: this.paginator.pageSize,
+      pageIndex: this.paginator.pageIndex
+    };
+  }
+
   getPaginatorLength() {
     const paginator = (this.serverSidePagination ? this.paginatorContentChild : this.dataSource.paginator);
     return paginator ? paginator.length : 0;
@@ -90,8 +101,9 @@ export class DataGridComponent<T> implements AfterContentInit, AfterViewInit, On
   private activePageKey = () => this.gridName + 'activePage';
   // private activePageValue = (index: number = null) =>
   //      index ? `${this.paginatorRef.pageIndex};${index}` : `${this.paginatorRef.pageIndex}`;
-  private activePageValue = (index: number = null) => `${this.dataSource.paginator.pageIndex};${index}`;
-  setCacheActivePage = (index: number = null) => DataGridComponent.activePageCache.set(this.activePageKey(), this.activePageValue(index));
+  private activePageValue = (index: number = null) => `${this.paginator.pageIndex};${index}`;
+  setCacheActivePage = (index: number = null) =>
+    DataGridComponentCache.activePageCache.set(this.activePageKey(), this.activePageValue(index))
 
   getActionsHeight = (i: number) => document.getElementsByClassName('table-row').item(i).clientHeight;
 
@@ -111,15 +123,65 @@ export class DataGridComponent<T> implements AfterContentInit, AfterViewInit, On
       this.router.navigate([this.router.routerState.snapshot.url + route]);
       return;
     }
-    this.rowClickInvoke.emit();
+    this.rowClickInvoke.emit(row);
+    if (this.rowClickInvoke.observers.length > 0 || route) {
+      document.getElementById(this.gridName).childNodes.item(1).childNodes.forEach(e => {
+        if (e.nodeName === 'TR') {
+          // this.renderer.setStyle(
+          //   e,
+          //   'background',
+          //   'initial',
+          //   RendererStyleFlags2.Important);
+          this.renderer.removeClass(
+            e,
+            'highlight');
+        }
+      });
+      this.setActivePage();
+      this.setActivePageStyle();
+    }
   }
 
   ngOnInit() {
-    const activePagePair: string = DataGridComponent.activePageCache.get(this.activePageKey());
+    this.setActivePage();
+    if (this.paginator.pageIndex !== +this.activePageData[0]) {
+      this.paginator.pageIndex = +this.activePageData[0];
+      // this.pageChange(
+      //   {
+      //     pageIndex: this.paginator.pageIndex,
+      //     pageSize: this.paginator.pageSize
+      //   });
+    }
+  }
+
+  setActivePage() {
+    const activePagePair: string = DataGridComponentCache.activePageCache.get(this.activePageKey());
     if (!activePagePair) {
       return;
     }
     this.activePageData = activePagePair.split(';');
+  }
+
+  setActivePageStyle() {
+    const id = this.gridName + this.activePageData.join(';');
+    if (!this.highlightPreviousVisitedRow ||
+      !(this.activePageData.length > 0)
+      || !id
+      || +this.activePageData[0] !== this.paginator.pageIndex) {
+      return;
+    }
+    const e = document.getElementById(id);
+    if (!e) {
+      return;
+    }
+    this.renderer.addClass(
+      e,
+      'highlight');
+    // this.renderer.setStyle(
+    //   document.getElementById(id),
+    //   'background',
+    //   'lightblue',
+    //   RendererStyleFlags2.Important + RendererStyleFlags2.DashCase);
   }
 
   ngOnDestroy() {
@@ -127,18 +189,23 @@ export class DataGridComponent<T> implements AfterContentInit, AfterViewInit, On
   }
 
   ngAfterContentInit() {
+
     this.columnDefs.forEach(columnDef => {
       this.table.addColumnDef(columnDef);
     });
     this.pageSizeOptions =
       this.paginatorContentChild &&
-      this.paginatorContentChild._displayedPageSizeOptions &&
-      this.paginatorContentChild._displayedPageSizeOptions.length > 2 ?
+        this.paginatorContentChild._displayedPageSizeOptions &&
+        this.paginatorContentChild._displayedPageSizeOptions.length > 2 ?
         this.paginatorContentChild._displayedPageSizeOptions : BasePaging.pageSizeOptions;
+  }
 
+  pageChange(event) {
+    this.paginatorContentChild.page.emit(event);
   }
 
   ngAfterViewInit() {
+
     this.dataSource.paginator = this.serverSidePagination ? this.paginatorContentChild : this.paginator;
     if (this.formArray) {
       this.renderer.setAttribute(document.getElementById(this.gridName), 'formArray', this.formArray)
@@ -159,14 +226,7 @@ export class DataGridComponent<T> implements AfterContentInit, AfterViewInit, On
       if (this.serverSidePagination && this.dataSource.paginator) {
         this.dataSource.paginator.pageIndex = +(this.activePageData[0]);
       }
-      if (!this.highlightPreviousVisitedRow || !(this.activePageData.length > 0)) {
-        return;
-      }
-      this.renderer.setStyle(
-        document.getElementById(this.gridName + this.activePageData.join(';')),
-        'background',
-        'lightblue',
-        RendererStyleFlags2.Important + RendererStyleFlags2.DashCase);
+      this.setActivePageStyle();
     };
   }
 }

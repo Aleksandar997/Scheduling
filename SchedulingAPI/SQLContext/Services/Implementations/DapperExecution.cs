@@ -17,7 +17,7 @@ namespace SQLContext.Services.Implementations
     {
         Connection connection { get; set; }
         SqlMapper.GridReader reader;
-        async Task<SqlReaderBaseModel> ISqlContextExecution.ExecuteManual(
+        public async Task<SqlReaderBaseModel> ExecuteManual(
             string storedProcedure, 
             string connectionString,
             DynamicParameter param,
@@ -39,16 +39,16 @@ namespace SQLContext.Services.Implementations
             }
         }
 
-        void ISqlContextExecution.Dispose()
+        public void Dispose()
         {
             if (connection == null)
                 throw new Exception("CONNECTION IS NOT INITIALIZED");
             connection.Dispose();
         }
 
-        async Task<ResponseBase<IEnumerable<object>>> ISqlContextExecution.Execute(SelectModel selectModel, string connectionString)
+        public async Task<ResponseBase<IEnumerable<object>>> Execute(SelectModel selectModel, string connectionString)
         {
-            var execBase = new ExecuteInfoModel(selectModel.Joins.ToArray(), selectModel.Table.Type);
+            var execBase = new ExecuteInfoModel(selectModel.Joins, selectModel.SelectedColumns, selectModel.Table.Type);
             using (var connection = Connection.CreateConnection(connectionString))
             {
                 var sql = selectModel.ToSql();
@@ -59,7 +59,7 @@ namespace SQLContext.Services.Implementations
                     var baseRes = multi.Read(execBase);
                     foreach (var item in selectModel.SubQueries)
                     {
-                        var execUnion = new ExecuteInfoModel(item.Value.Joins.Where(x => x.Type != null).ToArray(), item.Value.Table.Type);
+                        var execUnion = new ExecuteInfoModel(item.Value.Joins.Where(x => x.Type != null).ToList(), item.Value.SelectedColumns, item.Value.Table.Type);
                         var children = multi.Read(execUnion).ToList();
 
                         baseRes.ForEach(x =>
@@ -82,6 +82,21 @@ namespace SQLContext.Services.Implementations
                         Messages = connection.Messages
                     };
                 }
+            }
+        }
+
+        public async Task<ResponseBase<int>> ExecuteSave(SaveModel saveModel, string connectionString)
+        {
+            var a = saveModel.ToSql();
+            using (var connection = Connection.CreateConnection(connectionString))
+            {
+                var count = await connection.DbConnection.ExecuteScalarAsync<int>(saveModel.ToSql(), null, null, null, CommandType.Text);
+                return new ResponseBase<int>()
+                {
+                    Count = count,
+                    Status = connection.Messages.Any() ? ResponseStatus.Error : ResponseStatus.Success,
+                    Messages = connection.Messages
+                };
             }
         }
     }

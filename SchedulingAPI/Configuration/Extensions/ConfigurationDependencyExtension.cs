@@ -1,4 +1,6 @@
 ﻿using Configuration.Repository;
+using Configuration.Repository.Implementations;
+using Configuration.Repository.Interfaces;
 using Configuration.Services;
 using Entity;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,7 @@ namespace Configuration.Extensions
         {
             services.AddSingleton<IConfigurationRepository, ConfigurationRepository>(c => new ConfigurationRepository(connectionString));
             services.AddSingleton<IConfigurationService, ConfigurationService>();
+            services.AddSingleton<IThemeRepository, ThemeRepository>(c => new ThemeRepository(connectionString));
         }
     }
 }

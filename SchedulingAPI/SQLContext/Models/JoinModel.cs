@@ -26,6 +26,50 @@ namespace SQLContext.Models
         public virtual string ToSql() => $"INNER JOIN {ChildTable.QuoteName()} ON {ChildTable.QuoteName()}.{ChildColumn.QuoteName()} = {ParentTable.QuoteName()}.{ParentColumn.QuoteName()}";
     }
 
+    public static class JoinModelFactory
+    {
+        public static JoinModel Initialize(JoinType joinType, string parentTable, string childTable, string parentColumn, string childColumn, Type joinedTable)
+        {
+            switch (joinType)
+            {
+                case JoinType.Inner:
+                    return new InnerJoinModel(
+                          parentTable,
+                          childTable,
+                          parentColumn,
+                          childColumn,
+                          joinedTable
+                      );
+                case JoinType.Left:
+                    return new LeftJoinModel(
+                          parentTable,
+                          childTable,
+                          parentColumn,
+                          childColumn,
+                          joinedTable
+                    );
+                case JoinType.Right:
+                    return new RightJoinModel(
+                          parentTable,
+                          childTable,
+                          parentColumn,
+                          childColumn,
+                          joinedTable
+                    );
+                case JoinType.Full:
+                    return new FullJoinModel(
+                          parentTable,
+                          childTable,
+                          parentColumn,
+                          childColumn,
+                          joinedTable
+                    );
+                default:
+                    return null;
+            }
+        }
+    }
+
     public class InnerJoinModel : JoinModel 
     {
         public InnerJoinModel(string parentTable, string childTable, string parentColumn, string childColumn, Type type) : base(parentTable, childTable, parentColumn, childColumn, type)

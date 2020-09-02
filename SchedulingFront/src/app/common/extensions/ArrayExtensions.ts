@@ -4,6 +4,7 @@ interface Array<T> {
     assignObject(init?: Array<Partial<object>>);
     // onlyUnique();
 }
+
 Array.prototype.firstElement = function() {
     if (this && this.length > 0) {
         return this[0];

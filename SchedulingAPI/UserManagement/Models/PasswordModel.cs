@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -12,7 +13,7 @@ namespace UserManagement.Models
         [Required(ErrorMessage = "username_required")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "password_required")]
+        [ConditionalRequired("IsAdmin;false", "password_required")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "new_password_required")]
@@ -22,8 +23,9 @@ namespace UserManagement.Models
         [Required(ErrorMessage = "user_password_required")]
         public string NewPasswordRepeat { get; set; }
 
-        [Required(ErrorMessage = "email_required")]
         public string Email { get; set; }
+
+        public bool IsAdmin { get; set; }
 
         public PasswordModel(string userName, string email, string newPassword)
         {
@@ -43,5 +45,15 @@ namespace UserManagement.Models
         public string Email { get; set; }
 
         public string NewPassword { get; set; }
+
+        public UserCredentials(User user)
+        {
+            UserName = user.UserName;
+            Email = user.Email;
+            NewPassword = user.Password;
+        }
+
+        public UserCredentials() { }
+
     }
 }

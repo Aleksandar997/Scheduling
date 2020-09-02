@@ -1,16 +1,14 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Injector, EventEmitter } from '@angular/core';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { Component, OnInit, AfterViewInit, Injector } from '@angular/core';
+import { MatTableDataSource, } from '@angular/material';
 import { Product, ProductPaging } from '../models/product';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ProductService } from '../services/product.service';
-import { ToasterComponent } from '../common/components/toaster/toaster.component';
-import { LoaderComponent } from '../common/components/loader/loader.component';
 import { SystemService } from '../services/system.service';
 import { SelectListModel } from '../common/models/selectListModel';
-import { FormBase } from '../common/base/formBase';
-import { ModalBaseComponent } from '../common/modals/modalBase/modalBase.component';
-import { ModalBase } from '../common/models/modalBase';
-import { ConfirmationModalComponent } from '../common/modals/confirmationModal/confirmationModal.component';
+import { FormBase, ActionType } from '../common/base/formBase';
+import { ResponseBase } from '../common/models/responseBase';
+import { OrganizationUnit } from '../models/organizationUnit';
+import { ProductType } from '../models/productType';
 
 @Component({
   selector: 'products',
@@ -19,8 +17,6 @@ import { ConfirmationModalComponent } from '../common/modals/confirmationModal/c
 })
 export class ProductsComponent extends FormBase implements OnInit, AfterViewInit {
   displayedColumns = ['name', 'code', 'productTypeName', 'active', 'actions'];
-  @ViewChild('toaster', { static: false }) toaster: ToasterComponent;
-  @ViewChild('loader', { static: false }) loader: LoaderComponent;
   dataSource = new MatTableDataSource<Product>();
   filters: FormGroup = this.fb.group({
     name: new FormControl(),
@@ -28,11 +24,10 @@ export class ProductsComponent extends FormBase implements OnInit, AfterViewInit
     productTypes: new FormControl(),
     organizationUnits: new FormControl([])
   });
-  loaderEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
-  confirmationModal = new ModalBaseComponent(this.dialog);
   constructor(private inj: Injector, private fb: FormBuilder, private productService: ProductService,
-              private systemService: SystemService, private dialog: MatDialog) {
+              private systemService: SystemService) {
     super(inj);
+    this.genericName = 'product';
   }
   paging = new ProductPaging();
   organizationUnits = new Array<SelectListModel>();
@@ -41,7 +36,7 @@ export class ProductsComponent extends FormBase implements OnInit, AfterViewInit
   ngOnInit() {
     this.filters.valueChanges.subscribe(res => {
       this.paging.assign(res);
-      this.getData();
+      this.awaitExecution(() => this.getData());
     });
   }
 
@@ -51,47 +46,32 @@ export class ProductsComponent extends FormBase implements OnInit, AfterViewInit
   }
 
   getData() {
-    this.loader.show();
-    this.productService.getProducts(this.paging).then(res => {
-      this.dataSource.data = res.data;
-      this.datasourceLength = res.count;
-      this.loader.hide();
-    }).catch(err => {
-      this.loader.hide();
-      this.toaster.handleErrors(err, 'products_get_error');
+    this.execGetFunc(() => {
+      return this.productService.getProducts(this.paging).then(res => {
+        this.dataSource.data = res.data;
+        this.datasourceLength = res.count;
+      }) as Promise<ResponseBase<Product>>;
     });
   }
 
   selectList() {
-    this.loader.show();
-    this.systemService.getOrganizationUnits().then(res => {
-      this.organizationUnits = res.data.map(x => new SelectListModel(x.organizationUnitId, x.name));
-    }).catch(err => {
-      this.loader.hide();
-      this.toaster.handleErrors(err, 'organization_unit_get_error');
+    this.execGetFunc(() => {
+      return this.systemService.getOrganizationUnits().then(res => {
+        this.organizationUnits = res.data.map(x => new SelectListModel(x.organizationUnitId, x.name));
+      }) as Promise<ResponseBase<Array<OrganizationUnit>>>;
     });
-    this.systemService.getProductTypes().then(res => {
-      this.productTypes = res.data.map(x => new SelectListModel(x.productTypeId, x.name));
-    }).catch(err => {
-      this.loader.hide();
-      this.toaster.handleErrors(err, 'product_type_get_error');
+    this.execGetFunc(() => {
+      return this.systemService.getProductTypes().then(res => {
+        this.productTypes = res.data.map(x => new SelectListModel(x.productTypeId, x.name));
+      }) as Promise<ResponseBase<Array<ProductType>>>;
     });
+
   }
 
   deleteProduct(productId: number) {
-    this.confirmationModal.openDialog(
-      new ModalBase('confirm_product_delete_title', 'confirm_product_delete_text', null, this.loaderEmitter, () => {
-        this.loaderEmitter.emit(true);
-        this.productService.deleteProduct(productId).then(() => {
-          this.loaderEmitter.emit(false);
-          this.toaster.openSuccess('product_delete_success');
-          this.confirmationModal.closeDialog();
-        }).catch(err => {
-          this.toaster.handleErrors(err, 'product_delete_error')
-          this.loaderEmitter.emit(false);
-          this.confirmationModal.closeDialog();
-        });
-      }), ConfirmationModalComponent);
+    this.execFunc(() => {
+      this.productService.deleteProduct(productId);
+    }, ActionType.Delete);
   }
 
   onRowClickLink = (product: Product) => '/edit/' + product.productId;

@@ -1,0 +1,25 @@
+.file-upload {
+    display: flex;
+    align-items: center;
+    place-content: center;
+}
+
+.file-upload button {
+    position: absolute;
+    display: none;
+}
+
+img {
+    margin: 0 !important;
+    width: 100%;
+}
+
+.file-upload img:hover ~ button {
+    display: flow-root;
+    pointer-events: none;
+}
+
+.file-upload img:hover {
+    opacity: 0.4;
+    cursor: pointer;
+}

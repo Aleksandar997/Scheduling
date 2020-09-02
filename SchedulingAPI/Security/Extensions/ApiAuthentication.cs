@@ -21,7 +21,7 @@ namespace Security.Extensions
                     OnMessageReceived = context =>
                     {
                         var accessToken = context.Request.Query["access-token"];
-                        if (!string.IsNullOrEmpty(accessToken) && context.HttpContext.Request.Path.StartsWithSegments("/hunmessages"))
+                        if (!string.IsNullOrEmpty(accessToken) && context.HttpContext.Request.Path.StartsWithSegments("/signal"))
                             context.Token = accessToken;
                         return Task.CompletedTask;
                     }

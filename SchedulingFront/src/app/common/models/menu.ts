@@ -12,6 +12,7 @@ export class Menu {
     clicked: boolean;
     children: Array<Menu> = new Array<Menu>();
     defaultPermissions: Array<Permission>;
+    notificationCount: number;
     expanded: boolean;
     constructor(menu: Menu = null) {
         if (menu) {
@@ -20,5 +21,12 @@ export class Menu {
         this.parentMenuId = null;
         this.expanded = false;
         this.clicked = false;
+    }
+
+    static roleSaveInit(menuId: number, active: boolean) {
+        const menu = new Menu();
+        menu.menuId = menuId;
+        menu.active = active;
+        return menu;
     }
 }

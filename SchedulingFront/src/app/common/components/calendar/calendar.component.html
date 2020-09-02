@@ -1,15 +1,11 @@
-<ng-template portalOutlet>
-  <!-- <div class="header">
+<div id="calendar-card">
+  <!-- <div class="form-row row-actions" autocomplete="off">
+    <ng-container *ngTemplateOutlet="filters">
+    </ng-container>
+  </div> -->
 
-      </div> -->
-</ng-template>
 
-<mat-card class="card" id="calendar-card">
-  <mat-card-content>
-    <div class="form-row row-actions" autocomplete="off">
-      <ng-container *ngTemplateOutlet="filters">
-      </ng-container>
-    </div>
+  <div>
     <div class="calendar-labels" autocomplete="off">
       <span class="date">{{date}}</span>
       <div class="date-arrows">
@@ -22,18 +18,19 @@
       </div>
     </div>
     <div class="calendar">
-      <mat-grid-list cols="7" [rowHeight]="getRowHeight()">
-        <mat-grid-tile *ngFor="let day of days" [colspan]="1" [rowspan]="1">
-          {{day | translate}}
+      <mat-grid-list cols="7" [rowHeight]="rowHeight">
+        <mat-grid-tile *ngFor="let day of days" [colspan]="1" [rowspan]="1" class="calendar-header-tile">
+          <span>{{(day | translate)[0]}}</span>
+          <span>{{day | translate}}</span>
         </mat-grid-tile>
       </mat-grid-list>
 
-      <mat-grid-list cols="7" [rowHeight]="getRowHeight()">
+      <mat-grid-list cols="7" [rowHeight]="rowHeight">
         <mat-grid-tile *ngFor="let tile of tiles; let i = index" class="mat-grid-tile calendar-tile"
           [matBadge]="tile.details.length" matBadgeColor="accent" [matBadgeHidden]="tile.details.length === 0"
           (click)="openTilePreview(tile)" [ngClass]="{
               'not-current-month' : !tile.currentMonth, 
-              'currentDate' : tile.isToday,
+              'highlight' : tile.isToday,
               'active-calendar-tile' : opened?.day == tile.day && opened?.month == tile.month
             }">
           {{tile.day}}
@@ -41,9 +38,8 @@
       </mat-grid-list>
 
     </div>
-    <div class="data-grid">
-      <day-details (deleteDetail)="deleteDetail.emit($event)" [displayedColumns]="displayedColumns"></day-details>
-    </div>
-
-  </mat-card-content>
-</mat-card>
+  </div>
+  <div class="data-grid">
+    <day-details (deleteDetail)="deleteDetail.emit($event)" [displayedColumns]="displayedColumns"></day-details>
+  </div>
+</div>

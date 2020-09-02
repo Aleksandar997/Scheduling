@@ -18,3 +18,11 @@
 .customer mat-form-field {
     width: 100%;
 }
+
+mat-slide-toggle {
+    width: auto;
+}
+
+.bindToEmployee {
+    width: fit-content;
+}

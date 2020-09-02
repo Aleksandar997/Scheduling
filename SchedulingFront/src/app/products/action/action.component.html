@@ -3,83 +3,83 @@
     <button *ngIf="!areControlsDisabled()" form="productForm" mat-raised-button
         color="primary">{{'btn_confirm' | translate}}</button>
 </ng-template>
-<toaster #toaster></toaster>
-<mat-card class="card">
-    <loader #loader></loader>
-    <mat-card-content>
-        <form (ngSubmit)="submit()" [formGroup]="form" id="productForm">
-            <div class="form-row row-actions">
-                <mat-form-field>
-                    <input formControlName="name" matInput placeholder="{{'label_name' | translate}}">
-                    <mat-error *ngIf="getServerError(form, 'name')">
-                        {{getServerError(form, 'name')}}
-                    </mat-error>
-                    <mat-error *ngIf="hasError(form, 'name')">
-                        {{'name_required' | translate}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="form-row row-actions">
-                <mat-form-field>
-                    <input matInput formControlName="code" placeholder="{{'label_code' | translate}}">
-                    <mat-error *ngIf="getServerError(form, 'code')">
-                        {{getServerError(form, 'code')}}
-                    </mat-error>
-                    <mat-error *ngIf="hasError(form, 'code')">
-                        {{'code_required' | translate}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="form-row row-actions">
-                <mat-form-field>
-                    <mat-label>{{'label_product_type' | translate}}</mat-label>
-                    <mat-select formControlName="productTypeId" [compareWith]="selectlistCompare">
-                        <mat-option *ngFor="let pt of productTypes" [value]="pt.id">
-                            {{pt.name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="getServerError(form, 'productTypeId')">
-                        {{getServerError(form, 'code')}}
-                    </mat-error>
-                    <mat-error *ngIf="hasError(form, 'productTypeId')">
-                        {{'productType_required' | translate}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="form-row row-actions">
-                <mat-form-field>
-                    <mat-label>{{'label_organization_units' | translate}}</mat-label>
-                    <mat-select formControlName="organizationUnits" [compareWith]="selectlistCompare" multiple>
-                        <mat-option *ngFor="let orgUnit of organizationUnits" [value]="orgUnit.id">
-                            {{orgUnit.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-checkbox class="active-checkbox" formControlName="active">{{'label_active'}}</mat-checkbox>
-            </div>
-            <div class="table-responsive mat-elevation-z8">
-                <table #pricelist mat-table [dataSource]="dataSource" formArrayName="productPricelist">
-                    <ng-container matColumnDef="organizationUnit">
-                        <th mat-header-cell *matHeaderCellDef>
-                            {{'label_organization_unit' | translate}}
-                        </th>
-                        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-                            {{getControls(element, 'organizationUnitName').value}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="price">
-                        <th class="center" mat-header-cell *matHeaderCellDef>{{'label_price' | translate}}
-                        </th>
-                        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index" class="center">
-                            <mat-form-field>
-                                <input type="number" name="price{{index}}" formControlName="price" matInput>
-                            </mat-form-field>
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = dataindex"></tr>
-                </table>
-            </div>
-        </form>
-    </mat-card-content>
-</mat-card>
+<form (ngSubmit)="submit()" [formGroup]="form" id="productForm">
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <input formControlName="name" matInput placeholder="{{'label_name' | translate}}">
+            <mat-error *ngIf="form.getServerError('name')">
+                {{form.getServerError('name')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('name')">
+                {{'name_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <input matInput formControlName="code" placeholder="{{'label_code' | translate}}">
+            <mat-error *ngIf="form.getServerError('code')">
+                {{form.getServerError('code')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('code')">
+                {{'code_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <mat-label>{{'label_product_type' | translate}}</mat-label>
+            <mat-select formControlName="productTypeId" [compareWith]="selectlistCompare">
+                <mat-option *ngFor="let pt of productTypes" [value]="pt.id">
+                    {{pt.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.getServerError('productTypeId')">
+                {{form.getServerError('code')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('productTypeId')">
+                {{'productType_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <mat-label>{{'label_organization_units' | translate}}</mat-label>
+            <mat-select formControlName="organizationUnits" [compareWith]="selectlistCompare" multiple>
+                <mat-option *ngFor="let orgUnit of organizationUnits" [value]="orgUnit.id">
+                    {{orgUnit.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.getServerError('organizationUnits')">
+                {{form.getServerError('organizationUnits')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('organizationUnits')">
+                {{'organization_unit_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-checkbox class="active-checkbox" formControlName="active">{{'label_active'}}</mat-checkbox>
+    </div>
+    <div class="table-responsive mat-elevation-z8">
+        <table #pricelist mat-table [dataSource]="dataSource" formArrayName="productPricelist">
+            <ng-container matColumnDef="organizationUnit">
+                <th mat-header-cell *matHeaderCellDef>
+                    {{'label_organization_unit' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+                    {{element.getControls('organizationUnitName').value}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="price">
+                <th class="center" mat-header-cell *matHeaderCellDef>{{'label_price' | translate}}
+                </th>
+                <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index" class="center">
+                    <mat-form-field>
+                        <input type="number" name="price{{index}}" formControlName="price" matInput>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = dataindex"></tr>
+        </table>
+    </div>
+</form>

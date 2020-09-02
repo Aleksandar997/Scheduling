@@ -12,6 +12,8 @@ import { MatDialogModule } from '@angular/material';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { LoaderModule } from '../../components/loader/loader.module';
 import { ToasterModule } from '../../components/toaster/toaster.module';
+import { CodebookEditModule } from '../codebookEdit/codebookEdit.module';
+import { CodebookEditComponent } from '../codebookEdit/CodebookEdit.component';
 // import { ModalFactoryModule } from './modalFactory/modalFactory.module';
 
 @NgModule({
@@ -23,7 +25,8 @@ import { ToasterModule } from '../../components/toaster/toaster.module';
         TranslatePipeModule,
         MatDialogModule,
         LoaderModule,
-        ToasterModule
+        ToasterModule,
+        CodebookEditModule
         // ModalFactoryModule
     ],
     declarations: [
@@ -33,7 +36,8 @@ import { ToasterModule } from '../../components/toaster/toaster.module';
     entryComponents: [
         ConfirmationModalComponent,
         CustomerActionModalComponent,
-        ModalFactoryComponent
+        ModalFactoryComponent,
+        CodebookEditComponent
     ],
     exports: [ModalBaseComponent]
 })

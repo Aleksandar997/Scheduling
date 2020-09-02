@@ -43,3 +43,7 @@ E:\SchedulingProject\SchedulingAPI\Configuration\obj\Debug\netcoreapp3.1\Configu
 E:\SchedulingProject\SchedulingAPI\Configuration\obj\Debug\netcoreapp3.1\Configuration.csproj.CopyComplete
 E:\SchedulingProject\SchedulingAPI\Configuration\obj\Debug\netcoreapp3.1\Configuration.dll
 E:\SchedulingProject\SchedulingAPI\Configuration\obj\Debug\netcoreapp3.1\Configuration.pdb
+E:\SchedulingProject\SchedulingAPI\Configuration\bin\Debug\netcoreapp3.1\Localization.dll
+E:\SchedulingProject\SchedulingAPI\Configuration\bin\Debug\netcoreapp3.1\Web.dll
+E:\SchedulingProject\SchedulingAPI\Configuration\bin\Debug\netcoreapp3.1\Web.pdb
+E:\SchedulingProject\SchedulingAPI\Configuration\bin\Debug\netcoreapp3.1\Localization.pdb

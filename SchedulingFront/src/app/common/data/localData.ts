@@ -2,6 +2,8 @@ import { StorageHelper } from '../helpers/storageHelper';
 import { User } from '../models/user';
 import { CacheService } from '../services/cache.service';
 import { Subject, BehaviorSubject } from 'rxjs';
+import { Company } from '../models/company';
+import { ChartMetaData } from '../models/chartMetaData';
 
 export class LocalData {
     // keys
@@ -11,41 +13,51 @@ export class LocalData {
     private static currentUser = 'currentUser';
     private static cultureName = 'cultureName';
     private static translationData = 'translationData';
+    private static chartMetaDataName = 'chartMetaData';
     // private static translationData = 'translationData';
 
     private static _user = new BehaviorSubject<User>(null);
     private static _culture = new Subject<string>();
     private static _translates = new BehaviorSubject<Array<any>>([]);
-
+    private static _chartMetaData = new BehaviorSubject<Array<ChartMetaData>>([]);
     private static dataStore: {
         user: User,
         culture: string
         translates: Array<any>
+        chartMetaData: Array<ChartMetaData>
     } = {
             user: null,
             culture: null,
-            translates: null
+            translates: null,
+            chartMetaData: null
         };
 
     static user = () => {
         if (!LocalData.dataStore.user) {
-            LocalData.setUser(StorageHelper.getData(LocalData.currentUser))
+            LocalData.setUser(StorageHelper.getData(LocalData.currentUser));
         }
         return LocalData._user.asObservable();
     }
 
     static culture = () => {
         if (!LocalData.dataStore.culture) {
-            LocalData.setCulture(StorageHelper.getData(LocalData.cultureName))
+            LocalData.setCulture(StorageHelper.getData(LocalData.cultureName));
         }
         return LocalData._culture.asObservable();
     }
 
     static translates = () => {
         if (!LocalData.dataStore.translates) {
-            LocalData.setTranslations(StorageHelper.getData(LocalData.translationData))
+            LocalData.setTranslations(StorageHelper.getData(LocalData.translationData));
         }
         return LocalData._translates.asObservable();
+    }
+
+    static chartMetaData = () => {
+        if (!LocalData.dataStore.chartMetaData) {
+            LocalData.setChartsMetaData(StorageHelper.getData(LocalData.chartMetaDataName));
+        }
+        return LocalData._chartMetaData.asObservable();
     }
 
     static removeAllUserData() {
@@ -55,6 +67,23 @@ export class LocalData {
         StorageHelper.clearAllData();
     }
 
+    static setChartsMetaData(chartMetaData: Array<ChartMetaData>) {
+        this.dataStore.chartMetaData = chartMetaData;
+        StorageHelper.setData(this.chartMetaDataName, chartMetaData);
+        this._chartMetaData.next(Object.assign({}, this.dataStore).chartMetaData);
+    }
+
+    static async setChartMetaData(chartMetaData: ChartMetaData) {
+        for (const c of this.dataStore.chartMetaData) {
+            if (c.name === chartMetaData.name) {
+                c.x = chartMetaData.x;
+                c.y = chartMetaData.y;
+            }
+        }
+        StorageHelper.setData(this.chartMetaDataName, this.dataStore.chartMetaData);
+        this._chartMetaData.next(Object.assign({}, this.dataStore).chartMetaData);
+    }
+
     // user data
     static setUser(user: User) {
         this.dataStore.user = user;
@@ -62,9 +91,26 @@ export class LocalData {
         this._user.next(Object.assign({}, this.dataStore).user);
     }
 
+    static setCompany(company: Company) {
+        this.dataStore.user.company = company;
+        StorageHelper.setData(this.currentUser, this.dataStore.user);
+        this._user.next(Object.assign({}, this.dataStore).user);
+    }
+
+    static setUserSaveInfo(user: User) {
+        if (this.dataStore.user.userId !== user.userId) {
+            return;
+        }
+        this.dataStore.user.firstName = user.firstName;
+        this.dataStore.user.lastName = user.lastName;
+        LocalData.setUser(this.dataStore.user);
+        // this.dataStore.user.userName = user.userName;
+        // this.dataStore.user.firstName = user.firstName;
+    }
+
     private static getUserData = () => LocalData.dataStore.user ? LocalData.dataStore.user : StorageHelper.getData(LocalData.currentUser);
 
-    static getCompany = () => LocalData.getUserData().company.companyId;
+    static getCompany = () => LocalData.getUserData().company;
 
     static getUser = (): User => LocalData.getUserData();
 

@@ -7,13 +7,15 @@ import { Menu } from '../models/menu';
 import { TokenOptionsParams, TokenOptions } from '../http/customHttpParams';
 import { CacheService } from './cache.service';
 import { ResponseBase } from '../models/responseBase';
+import { DataGridComponentCache } from '../components/dataGrid/dataGrid.component';
+import { ThemeService } from '../theme/theme.service';
 
 @Injectable()
 export class AuthenticationService {
 
-    constructor(private router: Router, private http: HttpClient) {
+    constructor(private router: Router, private http: HttpClient, private themeService: ThemeService) {
     }
-    apiUrl = '/user';
+    apiUrl = '/framework/user';
     login(username: string, password: string) {
         const headers = new HttpHeaders({
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -23,7 +25,6 @@ export class AuthenticationService {
         data.append('grant_type', 'password');
         data.append('username', username == null ? '' : username);
         data.append('password', password);
-        data.append('culture', LocalData.getCulture());
 
         return this.http.post('/token', data.toString(), { headers, params: new TokenOptionsParams(TokenOptions.IgnoreRefreshToken) })
             .toPromise().then((response: { accessToken: string; expiresIn: number; refreshToken: any }) => {
@@ -37,7 +38,9 @@ export class AuthenticationService {
                             user = userResponse.data;
                             user.menus = user.menus.map(m => new Menu(m));
                             user.permissions = user.permissions.map(p => p.code);
+                            this.themeService.setThemeStyleSheet(user.theme);
                             LocalData.setUser(user);
+                            LocalData.setChartsMetaData(user.chartMetaData);
                         });
                 }
             });
@@ -61,6 +64,7 @@ export class AuthenticationService {
 
     logout(param = '') {
         LocalData.removeAllUserData();
+        DataGridComponentCache.activePageCache.clear();
         this.router.navigate(['/login'], param !== '' ? { queryParams: { code: param } } : undefined);
     }
 }

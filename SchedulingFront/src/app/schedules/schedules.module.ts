@@ -12,7 +12,9 @@ import {
   MatIconModule,
   MatTooltipModule,
   MatPaginatorModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatSliderModule,
+  MatSlideToggleModule
 } from '@angular/material';
 import { TranslatePipeModule } from '../common/pipes/translate/translatePipe.module';
 import { PortalOutletDirectiveModule } from '../common/directives/portalOutlet/portalOutlet.module';
@@ -60,7 +62,8 @@ import { DetailActionModule } from '../common/components/detailAction/detailActi
     MatPaginatorModule,
     TimelineSliderModule,
     MatAutocompleteModule,
-    DetailActionModule
+    DetailActionModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: []

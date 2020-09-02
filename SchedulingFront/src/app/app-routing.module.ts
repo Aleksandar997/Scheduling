@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { AppLayoutComponent } from './common/layout/appLayout/appLayout.component';
 import { AuthGuard } from './common/guards/auth.guard';
 import { ForgottenPasswordComponent } from './login/forgottenPassword/forgottenPassword.component';
+import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,10 @@ const routes: Routes = [
     component: ForgottenPasswordComponent
   },
   {
+    path: 'registration',
+    component: RegisterComponent
+  },
+  {
     path: '',
     component: AppLayoutComponent, canActivate: [AuthGuard],
     data: {
@@ -29,21 +34,47 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: './home/home.module#HomeModule'
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
       },
       {
         path: 'schedules',
-        loadChildren: './schedules/schedules.module#SchedulesModule'
+        loadChildren: () => import('./schedules/schedules.module').then(m => m.SchedulesModule)
       },
       {
         path: 'documents',
         // data: { shouldReuse: true },
-        loadChildren: './documents/documents.module#DocumentsModule'
+        loadChildren: () => import('./documents/documents.module').then(m => m.DocumentsModule)
       },
       {
         path: 'products',
         // data: { shouldReuse: true },
-        loadChildren: './products/products.module#ProductsModule'
+        loadChildren: () => import('./products/products.module').then(m => m.ProductsModule)
+      },
+      {
+        path: 'organizationunits',
+        // data: { shouldReuse: true },
+        loadChildren: () => import('./organizationUnits/organizationUnits.module').then(m => m.OrganizationUnitsModule)
+        // loadChildren: './codebooks/codebooks.module#CodebooksModule'
+      },
+      {
+        path: 'administration',
+        // data: { shouldReuse: true },
+        loadChildren: () => import('./administration/administration.module').then(m => m.AdministrationModule)
+      },
+      {
+        path: 'codebooks',
+        // data: { shouldReuse: true },
+        loadChildren: () => import('./codebooks/codebooks.module').then(m => m.CodebooksModule)
+      },
+      {
+        path: 'companysettings',
+        // data: { shouldReuse: true },
+        loadChildren: () => import('./companySettings/companySettings.module').then(m => m.CompanySettingsModule)
+      },
+      {
+        path: 'customers',
+        // data: { shouldReuse: true },
+        loadChildren: () => import('./customers/customers.module').then(m => m.CustomersModule)
       },
     //   {
     //     path: 'documents',

@@ -5,12 +5,22 @@ import { BehaviorSubject } from 'rxjs';
 export class PortalService {
 
   disableActions = false;
-  outlet = new BehaviorSubject<TemplateRef<any>>(null);
+  actions = new BehaviorSubject<TemplateRef<any>>(null);
+  filters = new BehaviorSubject<TemplateRef<any>>(null);
   title = new BehaviorSubject<string>(null);
   constructor() { }
-  registerOutlet(outlet: TemplateRef<any>) {
-    this.outlet.next(outlet);
+  registerActions(outlet: TemplateRef<any>) {
+    this.actions.next(outlet);
   }
+
+  registerFilters(outlet: TemplateRef<any>) {
+    this.filters.next(outlet);
+  }
+
+  clearFilters() {
+    this.filters.next(null);
+  }
+
   registerTitle(title: string) {
     this.title.next(title);
   }

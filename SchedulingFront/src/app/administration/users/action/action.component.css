@@ -1,0 +1,15 @@
+::ng-deep .productFromOrganizationUnit {
+    animation: highLightInput 0.4s 1 !important;
+}
+@keyframes highLightInput
+{
+    25% {background-color: #673ab7;}
+}
+
+::ng-deep mat-option .org-unit-names {
+    opacity: 0.5;
+}
+/* 
+::ng-deep mat-option {
+    pointer-events: none !important;
+} */

@@ -17,10 +17,23 @@ mat-toolbar .form-actions button:last-child {
 
 .card-wrapper {
     padding-top: 4rem;
+    height: calc(100% - 9rem);
 }
 
-.card-wrapper {
-    height: calc(100% - 9rem);
+.filters {
+    height: 10%;
+    margin-bottom: 1%;
+}
+
+/* .card-wrapper >:last-child {
+    height: 77%;
+} */
+.content {
+    height: 77%;
+}
+
+.content-full {
+    height: -webkit-fill-available;
 }
 
 .wrapper {
@@ -29,7 +42,6 @@ mat-toolbar .form-actions button:last-child {
 
 .card {
     overflow: overlay;
-    height: 95%;
     margin-right: 0.9rem;
 }
 
@@ -91,7 +103,7 @@ mat-header-row {
     .form-layout-actions h4 {
         white-space: pre-wrap;
         width: -webkit-fill-available;
-    
+        text-align: center;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;

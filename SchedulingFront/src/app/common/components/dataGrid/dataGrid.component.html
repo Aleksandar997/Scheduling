@@ -36,7 +36,7 @@
     </table>
 
     <!-- paginator -->
-    <mat-paginator (page)="paginatorContentChild.page.emit($event)" 
+    <mat-paginator (page)="pageChange($event)" 
     [length]="getPaginatorLength()" 
     showFirstLastButtons
     [pageSizeOptions]="pageSizeOptions">

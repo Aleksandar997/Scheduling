@@ -1,0 +1,16 @@
+<div class="file-upload-container">
+    <div class="file-upload">
+        <img mat-card-image src={{imagePreview}} (click)="fileInput.click()">
+        <input id="fileInput" name="file" (change)="onFileChange($event)" #fileInput type="file" hidden>
+        <button type="button" mat-icon-button color="primary">
+            <mat-icon>cloud_upload</mat-icon>
+        </button>
+    </div>
+    <div>
+        <progress-loader></progress-loader>
+    </div>
+
+</div>
+<!-- <div class="form-row row-actions progress-bar">
+    <mat-progress-bar mode="determinate"></mat-progress-bar>
+</div> -->

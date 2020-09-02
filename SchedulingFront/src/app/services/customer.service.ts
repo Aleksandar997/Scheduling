@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SubjectCompanyModel } from '../common/models/subjectCompanyModel';
 import { Customer } from '../models/customer';
 import { ResponseBase } from '../common/models/responseBase';
+import { Subject } from 'rxjs';
+import { SubjectAdapter } from '../common/base/subjectAdapter';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
   url = '/customer';
-  private _customers = new SubjectCompanyModel<Array<Customer>>();
+  private _customers = new SubjectAdapter<Array<Customer>>();
   customers = this._customers.get();
   constructor(private http: HttpClient) { }
 

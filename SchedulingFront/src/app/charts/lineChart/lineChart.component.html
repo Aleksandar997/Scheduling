@@ -1,0 +1,15 @@
+<loader #loader></loader>
+<ngx-charts-line-chart 
+    (window:resize)="onResize()"
+    [view]="view"
+    [results]="data"
+    [xAxisLabel]="xAxisLabel | translate"
+    [legendTitle]="legendTitle | translate"
+    [yAxisLabel]="yAxisLabel | translate"
+    [legend]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [gradient]="true">
+</ngx-charts-line-chart>

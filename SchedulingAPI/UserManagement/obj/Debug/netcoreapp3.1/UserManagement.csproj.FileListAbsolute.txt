@@ -55,3 +55,13 @@ E:\SchedulingProject\SchedulingAPI\UserManagement\obj\Debug\netcoreapp3.1\UserMa
 E:\SchedulingProject\SchedulingAPI\UserManagement\obj\Debug\netcoreapp3.1\UserManagement.csproj.CopyComplete
 E:\SchedulingProject\SchedulingAPI\UserManagement\obj\Debug\netcoreapp3.1\UserManagement.dll
 E:\SchedulingProject\SchedulingAPI\UserManagement\obj\Debug\netcoreapp3.1\UserManagement.pdb
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\FileManagement.dll
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\FileManagement.pdb
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\CodebookManagement.dll
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\ExpressionContext.dll
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\CodebookManagement.pdb
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\ExpressionContext.pdb
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\CompanyManagement.dll
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\CompanyManagement.pdb
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\Configuration.dll
+E:\SchedulingProject\SchedulingAPI\UserManagement\bin\Debug\netcoreapp3.1\Configuration.pdb

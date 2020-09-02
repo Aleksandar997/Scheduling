@@ -19,16 +19,12 @@
     opacity: 0.5;
 }
 
-.currentDate {
-    background: lightblue;
-}
-
 .mat-grid-tile {
     border: 1px solid rgba(0, 0, 0, 0);
     border-style: solid;
     display: block;
     position: absolute;
-    overflow: hidden;
+    overflow: inherit;
     cursor: pointer;
 }
 
@@ -38,14 +34,14 @@
     border-style: solid;
 }
 
-mat-grid-tile .mat-badge-content {
+::ng-deep mat-grid-tile > .mat-badge-content {
     position: sticky;
     
 }
 
-.data-grid {
+/* .data-grid {
     padding: 1rem;
-}
+} */
 
 
 mat-card-content {
@@ -57,7 +53,7 @@ mat-card-content {
 }
 
 .calendar-labels span {
-    width: 55%;
+    width: 65%;
     text-align: right;
 }
 
@@ -68,4 +64,58 @@ mat-card-content {
 
 .card {
     margin-right: 0rem !important;
+}
+
+/* #calendar-card > * {
+    width: 50%;
+    height: 100%;
+} */
+::ng-deep.calendar-header-tile figure > *:first-child {
+    display:none;
+}
+::ng-deep.calendar-header-tile figure > *:last-child {
+    display: flex;
+}
+@media only screen and (max-width: 1000px) {
+    ::ng-deep.calendar-header-tile figure > *:first-child {
+        display: flex !important;
+    }
+    ::ng-deep.calendar-header-tile figure > *:last-child {
+        display:none;
+    }
+}
+
+::ng-deep.mat-badge-content {
+    position: initial;
+}
+
+#calendar-card {
+    /* height: 80%;
+
+    display: flex;
+    width: 100%; */
+
+    height: -webkit-fill-available;
+    display: inline-flex;
+    width: 100%;
+}
+
+#calendar-card > * {
+    width: 50%;
+}
+
+@media only screen and (max-width: 673px) {
+    #calendar-card {
+        height: 80%;
+    
+        display: block;
+        width: 100%;
+    }
+    
+    #calendar-card > * {
+        width: 100%;
+    }
+    .data-grid {
+        margin-top: 1rem;
+    }
 }

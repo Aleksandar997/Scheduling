@@ -8,7 +8,7 @@ let TimelineSliderValue;
   styleUrls: ['./timelineSlider.component.css']
 })
 export class TimelineSliderComponent implements OnInit, AfterViewInit {
-  @ViewChild('slider', { static: false }) slider: MatSlider;
+  @ViewChild('slider') slider: MatSlider;
   @Input() date: Date;
   @Input() disabled = false;
   // value = () => {

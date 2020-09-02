@@ -1,0 +1,45 @@
+<ng-template portalOutlet>
+    <button form="companySettingsForm" mat-raised-button color="primary">{{'btn_confirm' | translate}}</button>
+</ng-template>
+<mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{'label_company_settings' | translate}}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="file-upload">
+            <file-upload [modelName]="'company_settings'"></file-upload>
+        </div>
+        <form (ngSubmit)="submit()" [formGroup]="form" id="companySettingsForm" autocomplete="off">
+            <div class="form-row row-actions">
+                <mat-form-field>
+                    <input formControlName="name" matInput placeholder="{{'label_name' | translate}}">
+                    <mat-error *ngIf="form.getServerError('name')">
+                        {{form.getServerError('name')}}
+                    </mat-error>
+                    <mat-error *ngIf="form.hasError('name')">
+                        {{'name_required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <!-- <div class="form-row row-actions">
+            <mat-form-field>
+                <mat-label>{{'label_themes' | translate}}</mat-label>
+                <mat-select required formControlName="theme"
+                    [compareWith]="selectlistCompare">
+                    <mat-option *ngFor="let theme of themes" [value]="theme.id">
+                        {{theme.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.getServerError('theme')">
+                    {{form.getServerError('theme')}}
+                </mat-error>
+                <mat-error *ngIf="form.hasError('theme')">
+                    {{'theme_required' | translate}}
+                </mat-error>
+            </mat-form-field>
+        </div> -->
+        </form>
+    </mat-expansion-panel>
+</mat-accordion>

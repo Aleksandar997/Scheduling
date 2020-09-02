@@ -3,4 +3,10 @@ export class DocumentType {
     name: string;
     code: string;
     codePath: string;
+    documentTypeCompany: DocumentTypeCompany = new DocumentTypeCompany();
+}
+
+export class DocumentTypeCompany {
+    year: number;
+    defaultNumber: number;
 }

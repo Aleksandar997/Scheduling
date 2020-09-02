@@ -1,1 +1,172 @@
-<p>register works!</p>
+<div class="background">
+    <toaster #toaster></toaster>
+    <div class="container">
+        <loader #loader></loader>
+        <mat-card class="card-container">
+            <div class="wrapper">
+                <mat-vertical-stepper labelPosition="bottom" #stepper [formGroup]="register">
+                    <mat-step stepControlName="license" errorMessage="{{'license_required' | translate}}">
+                        <form formGroupName="license">
+                            <ng-template matStepLabel>{{'label_license' | translate}}</ng-template>
+                            <div class="form-row row-actions">
+                                <mat-form-field>
+                                    <mat-label>{{'label_license_key' | translate}}</mat-label>
+                                    <input matInput placeholder="{{'placeholder_enter_license_key' | translate}}"
+                                        formControlName="value" required>
+                                    <mat-error *ngIf="register.getServerError('license.value')">
+                                        {{register.getServerError('license.value')}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('license.value')">
+                                        {{'license_required' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <button type="button" (click)="navigate()" mat-button>{{'label_cancel' | translate}}</button>
+                                <button type="button" mat-button matStepperNext>{{'label_next' | translate}}</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step stepControlName="user" errorMessage="{{'user_info_required' | translate}}" state="userInfo">
+                        <form formGroupName="user">
+                            <ng-template matStepLabel>{{'label_user_info' | translate}}</ng-template>
+                            <div class="form-row row-actions">
+                                <mat-form-field>
+                                    <mat-label>{{'label_username' | translate}}</mat-label>
+                                    <input matInput formControlName="userName" required>
+                                    <mat-error *ngIf="register.getServerError('user.userName')">
+                                        {{register.getServerError('user.userName')}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('user.userName')">
+                                        {{'username_required' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-row row-actions">
+                                <mat-form-field>
+                                    <mat-label>{{'label_first_name' | translate}}</mat-label>
+                                    <input matInput formControlName="firstName" required>
+                                    <mat-error *ngIf="register.getServerError('user.firstName')">
+                                        {{register.getServerError('user.firstName')}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('user.firstName')">
+                                        {{'first_name_required' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{'label_last_name' | translate}}</mat-label>
+                                    <input matInput formControlName="lastName" required>
+                                    <mat-error *ngIf="register.getServerError('user.lastName')">
+                                        {{register.getServerError('user.lastName')}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('user.lastName')">
+                                        {{'last_name_required' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-row row-actions">
+                                <mat-form-field>
+                                    <mat-label>{{'label_email' | translate}}</mat-label>
+                                    <input matInput formControlName="email" required>
+                                    <mat-error *ngIf="register.getServerError('user.email')">
+                                        {{register.getServerError('user.email')}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('user.email')">
+                                        {{'email_required' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-row row-actions">
+                                <mat-form-field>
+                                    <mat-label>{{'label_password' | translate}}</mat-label>
+                                    <input type="password" #password matInput formControlName="password" required>
+                                    <button type="button" mat-icon-button matSuffix (click)="setPasswordType(password)">
+                                        <mat-icon>{{getVisibility(password)}}</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="register.getServerError('user.password')">
+                                        {{register.getServerError('user.password')}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('user.password')">
+                                        {{'password_required' | translate}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('user.password', 'notMatch')">
+                                        {{'passwords_dont_match' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{'label_password_repeat' | translate}}</mat-label>
+                                    <input type="password" #passwordRepeat matInput formControlName="passwordRepeat"
+                                        required>
+                                    <button type="button" mat-icon-button matSuffix
+                                        (click)="setPasswordType(passwordRepeat)">
+                                        <mat-icon>{{getVisibility(passwordRepeat)}}</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="register.getServerError('user.passwordRepeat')">
+                                        {{register.getServerError('user.passwordRepeat')}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('user.passwordRepeat')">
+                                        {{'password_repeat_required' | translate}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('user.passwordRepeat', 'notMatch')">
+                                        {{'passwords_dont_match' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <button type="button" mat-button matStepperPrevious>{{'label_back' | translate}}</button>
+                                <button type="button" mat-button matStepperNext>{{'label_next' | translate}}</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step stepControlName="company" errorMessage="{{'company_info_required' | translate}}">
+                        <form [formGroup]="register.get('user').get('company')">
+                            <ng-template matStepLabel>{{'label_company_info' | translate}}</ng-template>
+                            <div class="file-upload">
+                                <file-upload [modelName]="'company'"></file-upload>
+                            </div>
+
+                            <div class="form-row row-actions">
+                                <mat-form-field>
+                                    <mat-label>{{'label_company_name' | translate}}</mat-label>
+                                    <input matInput formControlName="name" required>
+                                    <mat-error *ngIf="register.getServerError('user.company.name')">
+                                        {{register.getServerError('user.company.name')}}
+                                    </mat-error>
+                                    <mat-error *ngIf="register.hasError('user.company.name')">
+                                        {{'company_name_required' | translate}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <button type="button" mat-button matStepperPrevious>{{'label_back' | translate}}</button>
+                                <button type="button" mat-button matStepperNext>{{'label_next' | translate}}</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>{{'label_confirm_settings' | translate}}</ng-template>
+                        <!-- <p>You are now done.</p>
+                        <div>
+                            <button mat-button matStepperPrevious>Back</button>
+                            <button mat-button (click)="stepper.reset()">Reset</button>
+                        </div> -->
+                        <div class="finish-step">
+                            <mat-icon>how_to_reg</mat-icon>
+                            <h3>{{'confirm_company_save' | translate}}</h3>
+                            <div>
+                                <button mat-button (click)="reset()">Reset</button>
+                                <button type="submit" mat-button (click)="submit()">Confirm</button>
+                            </div>
+                        </div>
+                    </mat-step>
+                    <ng-template matStepperIcon="userInfo">
+                        <mat-icon>call_end</mat-icon>
+                      </ng-template>
+                </mat-vertical-stepper>
+            </div>
+        </mat-card>
+    </div>
+</div>
+<!-- 
+how_to_reg
+group_add -->

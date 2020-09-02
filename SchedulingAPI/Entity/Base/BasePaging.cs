@@ -9,5 +9,10 @@ namespace Entity.Base
         public int Skip { get; set; }
         public int? Take { get; set; }
         public string Filter { get; set; }
+
+        public virtual object GetAnonFilterObject()
+        {
+            return null;
+        }
     }
 }

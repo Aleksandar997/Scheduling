@@ -1,7 +1,7 @@
 import { SortDirection } from '../helpers/sortDirection';
 
 export class BasePaging {
-    static pageSizeOptions = [2, 50, 100];
+    static pageSizeOptions = [20, 50, 100];
     sortBy: string;
     sortOrder: SortOrders;
     skip: number;
@@ -26,7 +26,7 @@ export class BasePaging {
         this.sortBy = null;
         this.sortOrder = SortOrders.Asc;
         this.skip = 0;
-        this.take = 2;
+        this.take = 20;
     }
 }
 

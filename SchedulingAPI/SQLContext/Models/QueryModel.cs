@@ -2,13 +2,48 @@
 using SQLContext.Helpers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
 namespace SQLContext.Models
 {
+    public class SaveModel
+    {
+        public string Table { get; set; }
+        public List<string> Columns { get; set; }
+        public List<string> Values { get; set; }
+        public int? Id { get; set; }
+        public Type Type { get; set; }
+        StringBuilder sb;
+        public SaveModel(string table, List<string> columns, List<string> values, int? id, Type type)
+        {
+            sb = new StringBuilder();
+            Table = table;
+            Columns = columns;
+            Values = values;
+            Id = id;
+            Type = type;
+        }
+ 
+        public string ToSql()
+        {
+            if (sb == null)
+                throw new Exception("SAVE OBJECT IS NULL");
+            if (Id > 0)
+            {
+                return sb.Append($"UPDATE {Table} ")
+                         .Append($"SET {string.Join(", ", Columns.Select((x, i) => $"{x} = {@"'" + Values[i] + @"'"}"))} ")
+                         .Append($"WHERE {KeyHelper.GetPrimaryKey(Type)} = {Id} ")
+                         .Append($"SELECT {Id}")
+                         .ToString();
+            }
+            return sb.Append($"INSERT INTO {Table}({string.Join(", ", Columns)}) ")
+                     .Append($"VALUES({string.Join(", ", Values.Select(x => @"'" + x + @"'"))}) ")
+                     .Append("SELECT SCOPE_IDENTITY()")
+                     .ToString();
+        }
+    }
     public class SelectModel
     {
         private StringBuilder stringBuilder = new StringBuilder();
@@ -145,15 +180,7 @@ namespace SQLContext.Models
         public TableModel(Type type)
         {
             Type = type;
-            Name = GetTableName();
-        }
-
-        private string GetTableName()
-        {
-            var attribute = Type.CustomAttributes.Where(x => x.AttributeType == typeof(TableAttribute)).FirstOrDefault();
-            if (attribute == null)
-                return Type.Name;
-            return attribute.ConstructorArguments.FirstOrDefault().Value.ToString();
+            Name = type.GetTableName();
         }
     }
 
@@ -182,6 +209,7 @@ namespace SQLContext.Models
         internal string Value { get; private set; }
         internal Type TableType { get; set; }
         internal bool IsPrimaryKey { get; set; }
+        public string CleanValue { get; set; }
         internal Column(string table, string columnValue, bool isPrimaryKey, Type tableType = null)
         {
             //ColumnValue = columnValue;
@@ -189,6 +217,7 @@ namespace SQLContext.Models
             IsPrimaryKey = isPrimaryKey;
             Table = table;
             Value = table == null ? columnValue : string.Format("{0}.{1}", table.QuoteName(), columnValue.QuoteName());
+            CleanValue = columnValue;
         }
     }
     

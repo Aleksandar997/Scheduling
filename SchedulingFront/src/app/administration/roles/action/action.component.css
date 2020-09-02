@@ -1,0 +1,14 @@
+.tree-views {
+    display: flex;
+}
+
+.tree-views mat-accordion {
+    width: 49%;
+}
+
+.permissions {
+    margin-left: 2%;
+}
+mat-panel-title {
+    width: 100%;
+}

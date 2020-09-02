@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SQLContext.Helpers
 {
-    internal static class KeyHelper
+    public static class KeyHelper
     {
         public static string GetPrimaryKey(Type type)
         {

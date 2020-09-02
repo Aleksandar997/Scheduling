@@ -1,0 +1,49 @@
+<ng-template portalOutlet>
+    <button mat-raised-button [routerLink]="['./add']" color="primary">{{'btn_add_translate' | translate}}</button>
+</ng-template>
+<data-grid #resourceGrid [displayedColumns]="displayedColumns" matSort [gridName]="'translateGrid'"
+    [highlightPreviousVisitedRow]="true" [dataSource]="dataSource" [onRowClickLink]="onRowClickLink"
+    (matSortChange)="onSortChange($event)">
+
+    <ng-container matColumnDef="resource">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_resource' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let resource"> {{resource.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="translates">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_translates' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let resource" class="translate-item translate-value">
+            <div *ngFor="let translate of resource.translates">
+                {{translate.value}}
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cultures">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_cultures' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let resource" class="translate-item">
+            <div *ngFor="let translate of resource.translates">
+                {{translate.culture.value}}
+            </div>
+        </td>
+    </ng-container>
+    <ng-template #actions let-resource let-index="index">
+        <button mat-icon-button matTooltip="{{'tooltip_view' | translate}}"
+            [routerLink]="['./view',resource.resourceId]" (click)="resourceGrid.setCacheActivePage(index)">
+            <mat-icon>remove_red_eye</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="{{'tooltip_edit' | translate}}"
+            [routerLink]="['./edit',resource.resourceId]" (click)="resourceGrid.setCacheActivePage(index)">
+            <mat-icon>mode_edit</mat-icon>
+        </button>
+        <!-- <button mat-icon-button matTooltip="{{'tooltip_delete' | translate}}"
+        (click)="deleteresource(resource.resourceId)">
+        <mat-icon>delete</mat-icon>
+    </button> -->
+    </ng-template>
+    <mat-paginator (page)="onPageChange($event)" [length]="datasourceLength">
+    </mat-paginator>
+</data-grid>

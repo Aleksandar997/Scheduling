@@ -18,6 +18,7 @@ import { ToasterModule } from '../common/components/toaster/toaster.module';
 import { ForgottenPasswordComponent } from './forgottenPassword/forgottenPassword.component';
 import { PasswordChangeComponent } from '../administration/users/passwordChange/passwordChange.component';
 import { UsersModule } from '../administration/users/users.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { UsersModule } from '../administration/users/users.module';
     ToasterModule,
     MatSelectModule,
     ReactiveFormsModule,
-    UsersModule
+    UsersModule,
+    RouterModule
   ],
   providers: [
     AuthenticationService,

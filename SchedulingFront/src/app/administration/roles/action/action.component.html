@@ -1,0 +1,60 @@
+<ng-template portalOutlet>
+    <button (click)="navigateBack()" mat-raised-button>{{'btn_cancel' | translate}}</button>
+    <button *ngIf="!areControlsDisabled()" form="roleForm" mat-raised-button
+        color="primary">{{'btn_confirm' | translate}}</button>
+</ng-template>
+<form (ngSubmit)="submit()" [formGroup]="form" id="roleForm">
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <input formControlName="name" matInput placeholder="{{'label_name' | translate}}">
+            <mat-error *ngIf="form.getServerError('name')">
+                {{form.getServerError('name')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('name')">
+                {{'name_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-row row-actions">
+        <mat-form-field>
+            <input matInput formControlName="code" placeholder="{{'label_code' | translate}}">
+            <mat-error *ngIf="form.getServerError('code')">
+                {{form.getServerError('code')}}
+            </mat-error>
+            <mat-error *ngIf="form.hasError('code')">
+                {{'code_required' | translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-checkbox class="active-checkbox" formControlName="active">{{'label_active'}}</mat-checkbox>
+    </div>
+    <div class="tree-views">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="menusExpanded">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{'label_menus' | translate}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <!-- Type your name and age -->
+                        <mat-icon>view_sidebar</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <tree-view #treeViewMenus [activeCheckbox]="true" [config]="menusConfig"></tree-view>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion class="permissions">
+            <mat-expansion-panel [expanded]="permissionsExpanded">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{'label_permissions' | translate}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <!-- Type your name and age -->
+                        <mat-icon>how_to_reg</mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <tree-view #treeViewPermissions [activeCheckbox]="true" [config]="permissionConfig"></tree-view>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</form>

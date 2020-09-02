@@ -11,9 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CodebookManagement\CodebookManagement.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\CompanyManagement\CompanyManagement.csproj" />
     <ProjectReference Include="..\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\Entity\Entity.csproj" />
+    <ProjectReference Include="..\ExpressionContext\ExpressionContext.csproj" />
     <ProjectReference Include="..\FileManagement\FileManagement.csproj" />
     <ProjectReference Include="..\Localization\Localization.csproj" />
     <ProjectReference Include="..\Security\Security.csproj" />

@@ -1,43 +1,45 @@
 import { Component, OnInit, ViewChild, Injector, AfterViewInit, OnDestroy, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { ToasterComponent } from 'src/app/common/components/toaster/toaster.component';
 import { LoaderComponent } from 'src/app/common/components/loader/loader.component';
 import { actionEnum } from 'src/app/common/enums';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, AbstractControl, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { FormBase } from 'src/app/common/base/formBase';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormBase, ActionType } from 'src/app/common/base/formBase';
 import { TimelineSliderComponent } from 'src/app/common/components/timelineSlider/timelineSlider.component';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { SelectListModel } from 'src/app/common/models/selectListModel';
 import { SystemService } from 'src/app/services/system.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { FormGroupHelper } from 'src/app/common/helpers/formGroupHelper';
-import { DocumentDetail } from 'src/app/models/documentDetail';
 import { ModalBaseComponent } from 'src/app/common/modals/modalBase/modalBase.component';
 import { ModalBase } from 'src/app/common/models/modalBase';
-import { ProductPricelist } from 'src/app/models/product';
 import { CustomerActionModalComponent } from 'src/app/modals/customer-action-modal/customerActionModal.component';
 import { CustomerService } from 'src/app/services/customer.service';
 import { ErrorStateMatcherAdapter } from 'src/app/common/adapters/errorStateMatcherAdapter';
 import { Document } from '../../models/document';
 import { ConfirmationModalComponent } from 'src/app/common/modals/confirmationModal/confirmationModal.component';
 import { DetailActionComponent } from 'src/app/common/components/detailAction/detailAction.component';
+import { LocalData } from 'src/app/common/data/localData';
+import { ToasterService } from 'src/app/common/components/toaster/toaster.service';
+import { ActionFormBase } from 'src/app/common/base/actionFormBase';
+import { ResponseBase } from 'src/app/common/models/responseBase';
+import { OrganizationUnit } from 'src/app/models/organizationUnit';
 
 @Component({
   templateUrl: './action.component.html',
   styleUrls: ['./action.component.css']
 })
-export class ActionComponent extends FormBase implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('toaster', { static: false }) toaster: ToasterComponent;
-  @ViewChild('loader', { static: false }) loader: LoaderComponent;
-  @ViewChild('timeline', { static: false }) timeline: TimelineSliderComponent;
-  @ViewChild('detailAction', { static: false }) detailAction: DetailActionComponent;
-  loaderEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
-  modalBase = new ModalBaseComponent(this.dialog);
-  displayedColumns = ['product', 'employee', 'price', 'discount', 'priceWithDiscount', 'actions'];
-  action: actionEnum;
-  customerSub: Subscription;
-  scheduleId: number;
+// @AutoUnsub()
+export class ActionComponent extends ActionFormBase<any> implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('timeline') timeline: TimelineSliderComponent;
+  @ViewChild('detailAction') detailAction: DetailActionComponent;
+  displayedColumns = LocalData.isUserAdmin() ?
+  ['employee', 'product', 'price', 'discount', 'priceWithDiscount', 'actions'] :
+  ['product', 'price', 'discount', 'priceWithDiscount', 'actions'];
+
+  // customerSub: Subscription;
+  scheduleId = null;
+  subs = new Array<Subscription>();
   matcher = new ErrorStateMatcherAdapter();
   form: FormGroup;
   customers: Array<SelectListModel>;
@@ -45,11 +47,9 @@ export class ActionComponent extends FormBase implements OnInit, AfterViewInit, 
   prevUrl: string;
   organizationUnits = new Array<SelectListModel>();
   constructor(private inj: Injector, private activatedRoute: ActivatedRoute,
-              private fb: FormBuilder, private changeDetector: ChangeDetectorRef, private customerService: CustomerService,
-              private systemService: SystemService, private scheduleService: ScheduleService, private dialog: MatDialog) {
+              private changeDetector: ChangeDetectorRef, private customerService: CustomerService,
+              private systemService: SystemService, private scheduleService: ScheduleService) {
     super(inj);
-    this.action = this.activatedRoute.snapshot.data.action as actionEnum;
-    this.scheduleId = +this.activeRouter.snapshot.params.id;
     const state = this.router.getCurrentNavigation().extras.state;
     this.prevUrl = state ? state.prevUrl : null;
     this.form = this.fb.group({
@@ -60,11 +60,12 @@ export class ActionComponent extends FormBase implements OnInit, AfterViewInit, 
         customerId: new FormControl({ value: null, disabled: this.areControlsDisabled() }, [Validators.required]),
         date: new FormControl({ value: (state ? new Date(state.date) : new Date()), disabled: this.areControlsDisabled() }),
         phoneNumber: new FormControl({ value: null, disabled: true }, [Validators.required]),
+        bindToEmployee: new FormControl(true),
       }),
       organizationUnitId: new FormControl({ value: null, disabled: this.areControlsDisabled() }, [Validators.required]),
       documentDetails: this.fb.array([])
     });
-    this.customerSub = this.customerService.customers.subscribe(async res => {
+    this.subs.push(this.customerService.customers.subscribe(async res => {
       this.customerPhoneNumbers = await res.map(x => {
         return {
           customerId: x.customerId,
@@ -72,59 +73,71 @@ export class ActionComponent extends FormBase implements OnInit, AfterViewInit, 
         };
       });
       this.customers = res.map(x => new SelectListModel(x.customerId, `${x.firstName} ${x.lastName}`));
-    });
+    }));
+    this.navigateBackUrl = this.prevUrl ? this.prevUrl : '/schedules';
   }
   ngAfterViewInit() {
-    this.loader.show();
     this.getLists();
     this.getData();
-    this.detailAction.sum.subscribe(res => {
-      this.getControls(this.form, 'sum').setValue(res);
-    });
+    this.subs.push(this.detailAction.sum.subscribe(res => {
+      this.form.getControls('sum').setValue(res);
+    }));
   }
   ngOnDestroy() {
-    this.customerSub.unsubscribe();
+    this.subs.forEach(x => x.unsubscribe);
   }
 
   ngOnInit() {
-    this.getControls(this.form, 'schedule.customerId').valueChanges.subscribe(res => {
+    this.scheduleId = this.getId();
+    this.subs.push(this.form.getControls('schedule.customerId').valueChanges.subscribe(res => {
       const currentCustomer = this.customerPhoneNumbers.find(x => x.customerId === +res);
       if (!currentCustomer) {
-        this.getControls(this.form, 'schedule.phoneNumber').setValue(null);
+        this.form.getControls('schedule.phoneNumber').setValue(null);
         return;
       }
-      this.getControls(this.form, 'schedule.phoneNumber').setValue(currentCustomer.phoneNumber);
-    });
-    this.getControls(this.form, 'organizationUnitId').valueChanges.subscribe(res => {
+      this.form.getControls('schedule.phoneNumber').setValue(currentCustomer.phoneNumber);
+    }));
+    this.subs.push(this.form.getControls('organizationUnitId').valueChanges.subscribe(res => {
       if (!res) {
         return;
       }
       this.detailAction.setOrganizationUnit(res);
-    });
+    }));
+    if (!LocalData.isUserAdmin()) {
+      return;
+    }
+    this.subs.push(this.form.getControls('schedule.bindToEmployee').valueChanges.subscribe(res => {
+      this.detailAction.bindToEmployeeToggle(res);
+      if (res) {
+        this.displayedColumns = ['employee', 'product', 'price', 'discount', 'priceWithDiscount', 'actions'];
+        return;
+      }
+      this.displayedColumns.splice(this.displayedColumns.indexOf('employee'), 1);
+    }));
   }
 
   getData() {
     if (!this.scheduleId) {
-      this.loader.hide();
       return;
     }
-    this.scheduleService.getScheduleById(this.scheduleId).then(res => {
-      FormGroupHelper.mapObjectToFormGroup(res.data, this.form);
-      const details = (this.getControls(this.form, 'documentDetails') as FormArray);
-      this.detailAction.data.next(details);
-      this.loader.hide();
-    }).catch(err => {
-      this.loader.hide();
-      this.toaster.handleErrors(err, 'schedule_get_error');
+    this.getById(productId => {
+      return this.scheduleService.getScheduleById(this.scheduleId).then(res => {
+        FormGroupHelper.mapObjectToFormGroup(res.data, this.form);
+        const details = (this.form.getControls('documentDetails') as FormArray);
+        // this.form.getControls('bindToEmployee').setValue(res.data.schedule.bindToEmployee);
+        this.detailAction.data.next(details);
+      }) as Promise<ResponseBase<Document>>;
     });
   }
 
   getLists() {
-    this.systemService.getOrganizationUnits().then(res => {
-      this.organizationUnits = res.data.map(x => new SelectListModel(x.organizationUnitId, x.name));
-    }).catch(err => {
-      this.loader.hide();
-      this.toaster.handleErrors(err, 'organization_unit_get_error');
+    this.execGetFunc(() => {
+      return this.systemService.getOrganizationUnits().then(res => {
+        this.organizationUnits = res.data.map(x => new SelectListModel(x.organizationUnitId, x.name));
+        if (this.organizationUnits.length === 1 && this.action == actionEnum.Add) {
+          this.form.getControls('organizationUnitId').setValue(this.organizationUnits.map(x => x.id).firstElement());
+        }
+      }) as Promise<ResponseBase<OrganizationUnit>>;
     });
 
     this.customerService.selectAll();
@@ -133,38 +146,20 @@ export class ActionComponent extends FormBase implements OnInit, AfterViewInit, 
 
   submit() {
     this.detailAction.matcher.submit();
-    if (!FormGroupHelper.isValid(this.form)) {
-      this.toaster.openWarning(this.getLocalization('form_not_valid'));
-      return;
-    }
-    const time = this.timeline.value().toString().split(':');
-    const document = this.form.getRawValue() as Document;
-    document.schedule.date = new Date(document.schedule.date);
-    document.schedule.date.setHours(+time[0], +time[1]);
-    document.documentDetails = this.detailAction.formArray.getRawValue();
-    this.modalBase.openDialog(
-      new ModalBase('confirm_schedule_save_title', 'confirm_schedule_save_text', null, this.loaderEmitter, () => {
-        this.loaderEmitter.emit(true);
-        this.scheduleService.saveSchedule(document).then(() => {
-          this.loaderEmitter.emit(false);
-          this.toaster.openSuccess('schedule_save_success');
-          this.modalBase.closeDialog();
-          this.navigateBack();
-        }).catch(err => {
-          this.loaderEmitter.emit(false);
-          this.toaster.handleErrors(err, 'schedule_save_error');
-          this.modalBase.closeDialog();
-        });
-      }), ConfirmationModalComponent);
+    return this.execFunc(() => {
+      const time = this.timeline.value().toString().split(':');
+      const document = this.form.getRawValue() as Document;
+      document.schedule.date = new Date(document.schedule.date);
+      document.schedule.date.setHours(+time[0], +time[1]);
+      document.documentDetails = this.detailAction.formArray.getRawValue();
+      return this.scheduleService.saveSchedule(document) as Promise<ResponseBase<number>>;
+    }, ActionType.Save, this.form);
   }
 
-  navigateBack() {
-    this.router.navigate([this.prevUrl ? this.prevUrl : '/schedules']);
-  }
   addNewCustomer() {
-    this.modalBase.openDialog(
-      ModalBase.InstanceWithoutText(this.getControls(this.form, 'schedule.customerId').value, this.loaderEmitter, () => {
-        this.getControls(this.form, 'schedule.customerId').updateValueAndValidity();
+    this.modal.openDialog(
+      ModalBase.InstanceWithoutText(this.form.getControls('schedule.customerId').value, this.loaderEmitter, () => {
+        this.form.getControls('schedule.customerId').updateValueAndValidity();
       }),
       CustomerActionModalComponent
     );

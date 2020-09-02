@@ -2,6 +2,7 @@ import { BasePaging } from '../common/models/basePaging';
 import { IDayDetail } from '../common/components/calendar/base/dayDetail';
 import { Employee } from './employee';
 import { Customer } from './customer';
+import { CalendarPaging } from '../common/models/calendarPaging';
 
 export class Schedule implements IDayDetail {
     id: number;
@@ -14,6 +15,7 @@ export class Schedule implements IDayDetail {
     employeeId: number;
     employee: Employee;
     employees: string;
+    bindToEmployee: boolean;
     constructor() {
         this.scheduleId = null;
         this.customer = null;
@@ -37,14 +39,16 @@ export class Schedule implements IDayDetail {
 //     schedule: Schedule;
 // }
 
-export class CalendarPaging {
+export class SchedulePaging extends CalendarPaging {
     dateFrom: Date;
     dateTo: Date;
     filter: any;
+    employees = new Array<number>();
+    organizationUnits = new Array<number>();
 
-    constructor(dateFrom: Date = null, dateTo: Date = null) {
-        this.dateFrom = dateFrom;
-        this.dateTo = dateTo;
+    setCalendarDate(calendarPaging: CalendarPaging) {
+        this.dateFrom = calendarPaging.dateFrom;
+        this.dateTo = calendarPaging.dateTo;
     }
 }
 

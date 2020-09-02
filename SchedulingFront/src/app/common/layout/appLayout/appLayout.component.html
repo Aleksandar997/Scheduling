@@ -2,38 +2,78 @@
     <a mat-icon-button [routerLink]="['/home']" class="anchor-title"><img [src]="logoImage"></a>
     <h3>{{companyName}}</h3>
     <span class="spacer"></span>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>perm_identity</mat-icon>
-          </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item disabled class="current-user">
-                <span>{{loggedUser}}</span>
+    <button mat-icon-button [matMenuTriggerFor]="notifications" (click)="openNotifications()">
+        <mat-icon [matBadgeHidden]="getNotificationNumber() === 0" [matBadge]="getNotificationNumber()"
+            matBadgeColor="warn" matSuffix>notifications</mat-icon>
+    </button>
+    <mat-menu #notifications class="notification-menu">
+        <!-- <loader #loader></loader> -->
+        <div class="notification-menu-label">
+            <h4>{{'label_notifications' | translate}}</h4>
+            <button (click)="$event.stopPropagation();clearToasterNotifications()" mat-icon-button
+                matTooltip="{{'tooltip_clear_notifications' | translate}}">
+                <mat-icon>delete_outline</mat-icon>
             </button>
-            <!-- <button mat-menu-item (click)="onRouteClick()" [routerLink]="['/administration/users/passwordchange/0', false]">
-                <mat-icon>vpn_key</mat-icon>
-                <span>{{'btn_change_password' | translate}}</span>
-            </button> -->
-            <button mat-menu-item (click)="changePass()">
-                <mat-icon>vpn_key</mat-icon>
-                <span>{{'btn_change_password' | translate}}</span>
-            </button>
-            <button mat-menu-item (click)="logout()">
-                <mat-icon>logout</mat-icon>
-                <span>{{'btn_logout' | translate}}</span>
-            </button>
-        </mat-menu>
+        </div>
+        <progress-loader></progress-loader>
+        <button (click)="viewNotification(n.urlPath)" mat-menu-item color="primary" matTooltip="{{n.message}}"
+            class="notification" *ngFor="let n of notificationsArray">
+            <div class="text-overflow">
+                <mat-icon [ngClass]="getStatusCode(n.status)">{{getNotificationIcon(n.status)}}</mat-icon>
+                <span class="message">{{n.message}}</span>
+            </div>
+            <span class="time">{{n.time | date :'HH:mm' }}</span>
+        </button>
+    </mat-menu>
+
+    <button mat-icon-button [matMenuTriggerFor]="themeMenu">
+        <mat-icon>format_color_fill</mat-icon>
+    </button>
+    <mat-menu #themeMenu="matMenu">
+        <button [ngClass]="{'highlight' : theme.active}" mat-menu-item *ngFor="let theme of themes" (click)="changeTheme(theme)">
+            <span>{{theme.name}}</span>
+        </button>
+        <!-- <mat-radio-group 
+            [(ngModel)]="aciveThemeId">
+            <mat-radio-button *ngFor="let theme of themes" [value]="theme.themeId">
+                {{theme.name}}
+            </mat-radio-button>
+        </mat-radio-group> -->
+    </mat-menu>
+
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>perm_identity</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item disabled class="current-user">
+            <span>{{loggedUser}}</span>
+        </button>
+        <button mat-menu-item (click)="changePass()">
+            <mat-icon>vpn_key</mat-icon>
+            <span>{{'btn_change_password' | translate}}</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>{{'btn_logout' | translate}}</span>
+        </button>
+    </mat-menu>
 </mat-toolbar>
+
 <mat-drawer-container autosize>
-    <mat-drawer mode="side" opened class="sidebar">
-        <mat-nav-list>
+    <mat-drawer mode="side" opened class="sidebar" id="sidebar">
+        <mat-nav-list (swiperight)="swipeRight()" (swipeleft)="swipeLeft()">
             <div *ngFor="let menu of menus">
                 <a mat-list-item routerLinkActive="list-item-active" [routerLink]="menu.url"
                     *ngIf="(!menu.children || menu.children.length === 0) && menu.active; else hasChildren">
-                    <mat-icon matSuffix> {{menu.image}}</mat-icon>
+                    <!-- <mat-icon [matBadgeHidden]="menu.notificationCount === 0" [matBadge]="menu.notificationCount"
+                        matBadgeColor="warn" matSuffix>{{menu.image}}</mat-icon> -->
+                    <mat-icon>{{menu.image}}</mat-icon>
                     <label>{{menu.code | translate}}</label>
                 </a>
                 <ng-template #hasChildren>
-                    <a *ngIf="menu.active" mat-list-item routerLinkActive="list-item-active" (click)="menu.expanded = !menu.expanded">
+                    <a *ngIf="menu.active" mat-list-item routerLinkActive="list-item-active"
+                        (click)="menu.expanded = !menu.expanded">
                         <mat-icon matSuffix> {{menu.image}} </mat-icon>
                         <label>{{menu.code | translate}}</label>
                         <span fxFlex>
@@ -49,7 +89,7 @@
                         [routerLink]="child.url" *ngFor="let child of menu.children"
                         [routerLinkActiveOptions]="{ exact: true }">
                         <mat-icon matSuffix> {{child.image}} </mat-icon>
-                    <label>{{child.code | translate}}</label>
+                        <label>{{child.code | translate}}</label>
                     </a>
                 </div>
             </div>
@@ -57,7 +97,7 @@
     </mat-drawer>
     <mat-drawer-content class="main-content">
         <!-- <breadcrumbs></breadcrumbs> -->
-        <form-layout>    
+        <form-layout>
         </form-layout>
         <!-- <mat-toolbar>Footer</mat-toolbar> -->
     </mat-drawer-content>

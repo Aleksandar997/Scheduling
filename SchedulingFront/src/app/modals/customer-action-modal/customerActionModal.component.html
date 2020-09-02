@@ -10,20 +10,20 @@
         <mat-form-field>
           <mat-label>{{'label_first_name' | translate}}</mat-label>
           <input formControlName="firstName" matInput required>
-          <mat-error *ngIf="getServerError(form, 'firstName')">
-            {{getServerError(form, 'firstName')}}
+          <mat-error *ngIf="form.getServerError('firstName')">
+            {{form.getServerError('firstName')}}
           </mat-error>
-          <!-- <mat-error *ngIf="hasError(form, 'firstName')">
+          <!-- <mat-error *ngIf="form.hasError('firstName')">
             {{'first_name_required' | translate}}
           </mat-error> -->
         </mat-form-field>
         <mat-form-field>
           <mat-label>{{'label_last_name' | translate}}</mat-label>
           <input formControlName="lastName" matInput required>
-          <mat-error *ngIf="getServerError(form, 'lastName')">
-            {{getServerError(form, 'lastName')}}
+          <mat-error *ngIf="form.getServerError('lastName')">
+            {{form.getServerError('lastName')}}
           </mat-error>
-          <!-- <mat-error *ngIf="hasError(form, 'lastName')">
+          <!-- <mat-error *ngIf="form.hasError('lastName')">
             {{'last_name_required' | translate}}
           </mat-error> -->
         </mat-form-field>
@@ -32,10 +32,10 @@
         <mat-form-field>
           <mat-label>{{'label_phone_number' | translate}}</mat-label>
           <input formControlName="phoneNumber" matInput required>
-          <mat-error *ngIf="getServerError(form, 'phoneNumber')">
-            {{getServerError(form, 'phoneNumber')}}
+          <mat-error *ngIf="form.getServerError('phoneNumber')">
+            {{form.getServerError('phoneNumber')}}
           </mat-error>
-          <!-- <mat-error *ngIf="hasError(form, 'phoneNumber')">
+          <!-- <mat-error *ngIf="form.hasError('phoneNumber')">
             {{'phone_number_required' | translate}}
           </mat-error> -->
           <mat-icon matSuffix>phone_enabled</mat-icon>

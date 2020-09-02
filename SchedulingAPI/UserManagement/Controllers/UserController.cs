@@ -1,13 +1,14 @@
 ﻿using Localization.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserManagement.Models;
-using UserManagement.Service;
+using UserManagement.Service.Interfaces;
 using Web.Adapters;
 
 namespace UserManagement.Controllers
 {
-    [Route("api/user")]
+    [Route("api/framework/user")]
     public class UserController : ControllerAdapter
     {
         private IUserService _userService { get; set; }
@@ -20,6 +21,7 @@ namespace UserManagement.Controllers
         public async Task<IActionResult> GetUser() =>
             await AutoResponse(() => _userService.SelectById(UserId));
 
+        //[Authorize(Roles = "User.ChangePassword")]
         [HttpPut("changePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] PasswordModel passwordModel) =>
             await AutoResponse(() => _userService.ChangePassword(passwordModel));

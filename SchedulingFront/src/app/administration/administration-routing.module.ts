@@ -5,27 +5,27 @@ const routes: Routes = [
     {
         path: '',
         children: [
-            // {
-            //     path: 'roles',
-            //     data: {
-            //         title: 'title_roles'
-            //     },
-            //     loadChildren: './roles/roles.module#RolesModule'
-            // },
+            {
+                path: 'roles',
+                data: {
+                    title: 'title_roles'
+                },
+                loadChildren: () => import('./roles/roles.module').then(m => m.RolesModule)
+            },
             {
                 path: 'users',
                 data: {
                     title: 'title_users'
                 },
-                loadChildren: './users/users.module#UsersModule'
+                loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
             },
-            // {
-            //     path: 'translate',
-            //     data: {
-            //         title: 'title_translate'
-            //     },
-            //     loadChildren: './translate/translate.module#TranslateModule'
-            // }
+            {
+                path: 'translates',
+                data: {
+                    title: 'title_translates'
+                },
+                loadChildren: () => import('./translates/translates.module').then(m => m.TranslatesModule)
+            }
         ]
     }
 ];

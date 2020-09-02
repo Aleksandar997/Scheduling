@@ -1,0 +1,12 @@
+::ng-deep .file-upload-container {
+    width: 15%;
+    max-width: 15%;
+}
+
+.file-upload {
+    text-align: -webkit-center;
+}
+
+.company-wrapper {
+    
+}

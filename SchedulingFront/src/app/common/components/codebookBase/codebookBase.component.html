@@ -1,0 +1,62 @@
+<ng-template #actions>
+    <button mat-raised-button [routerLink]="['./add']" color="primary" *ngIf="!disableAdd">{{'btn_add' + code.insertStringBetweenUpper('_') | translate}}</button>
+</ng-template>
+<ng-template filtersPortalOutlet [formGroup]="filters">
+    <mat-form-field>
+        <input matInput formControlName="name" placeholder="{{'label_name' | translate}}">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput formControlName="code" placeholder="{{'label_code' | translate}}">
+    </mat-form-field>
+</ng-template>
+<data-grid #codebookGrid [displayedColumns]="displayColumns" matSort [gridName]="code + 'Grid'" *ngIf="displayColumns.length > 0"
+    [highlightPreviousVisitedRow]="true" [dataSource]="dataSource"(matSortChange)="onSortChange($event)" (rowClickInvoke)="edit($event.id)">
+
+    <!-- <div *ngFor="let col of displayColumns"> -->
+        <ng-container [matColumnDef]="col" *ngFor="let col of matColumnsDef">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{('label' + getNestedPropName(col).insertStringBetweenUpper('_')) | translate}}
+            </th>
+            <!-- <mat-icon>{{product.active ? 'check' : 'close'}}</mat-icon> -->
+            <td mat-cell *matCellDef="let item"> 
+                <div *ngIf="col == 'active';else regular">
+                    <mat-icon>{{getNestedObjProp(item, col) ? 'check' : 'close'}}</mat-icon>
+                </div> 
+                <ng-template #regular>
+                    {{getNestedObjProp(item, col)}}
+                </ng-template>
+            </td>
+        </ng-container>
+    <!-- </div> -->
+
+    <!-- <ng-template #actionsTemplate>
+    </ng-template> -->
+    <ng-template #actions *ngIf="!enableActionForm" let-codebook let-index="index">
+        <button mat-icon-button matTooltip="{{'tooltip_edit' | translate}}"
+        (click)="codebookGrid.setCacheActivePage(index);edit(codebook.id)">
+            <mat-icon>mode_edit</mat-icon>
+        </button>
+        <!-- <button mat-icon-button matTooltip="{{'tooltip_delete' | translate}}"
+            (click)="deleteCodebook(codebook.id)">
+            <mat-icon>delete</mat-icon>
+        </button> -->
+    </ng-template>
+
+    <ng-template #actions *ngIf="enableActionForm" let-codebook let-index="index">
+        <button mat-icon-button matTooltip="{{'tooltip_view' | translate}}"
+            [routerLink]="['./view',codebook.id]" (click)="codebookGrid.setCacheActivePage(index)">
+            <mat-icon>remove_red_eye</mat-icon>
+        </button>
+
+        <button mat-icon-button matTooltip="{{'tooltip_edit' | translate}}"
+        (click)="codebookGrid.setCacheActivePage(index);" [routerLink]="['./edit',codebook.id]">
+            <mat-icon>mode_edit</mat-icon>
+        </button>
+        <!-- <button mat-icon-button matTooltip="{{'tooltip_delete' | translate}}"
+            (click)="deleteCodebook(codebook.id)">
+            <mat-icon>delete</mat-icon>
+        </button> -->
+    </ng-template>
+    <mat-paginator (page)="onPageChange($event)" [length]="datasourceLength">
+    </mat-paginator>
+</data-grid>

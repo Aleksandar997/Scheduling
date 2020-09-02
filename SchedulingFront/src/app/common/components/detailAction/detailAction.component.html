@@ -1,45 +1,46 @@
 <div class="form-actions">
     <button type="button" (click)="addDetail()" mat-raised-button *ngIf="!areControlsDisabled"
-    matTooltip="{{'tooltip_add_product_service' | translate}}" color="primary">{{'btn_add_product_service' | translate}}</button>
+        matTooltip="{{'tooltip_add_product_service' | translate}}"
+        color="primary">{{'btn_add_product_service' | translate}}</button>
 </div>
 <data-grid #documentDetailsAction [displayedColumns]="displayedColumns" matSort [gridName]="gridName"
     [dataSource]="dataSource" [formArray]="formArray" [serverSidePagination]="false">
 
-    <ng-container matColumnDef="product">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{requiredLabel('label_service' | translate)}}
-        </th>
-        <td mat-cell *matCellDef="let element; let index = index" [formGroup]="element">
-            <mat-form-field>
-                <mat-select formControlName="productId" [compareWith]="selectlistCompare"
-                    [errorStateMatcher]="matcher">
-                    <mat-option *ngFor="let prod of products" [value]="prod.id">
-                        {{prod.name}}
-                    </mat-option>
-                </mat-select>
-                <mat-error *ngIf="getServerError(element, 'productId')">
-                    {{getServerError(element, 'productId')}}
-                </mat-error>
-                <mat-error *ngIf="hasError(element, 'productId')">
-                    {{'product_required' | translate}}
-                </mat-error>
-            </mat-form-field>
-        </td>
-    </ng-container>
     <ng-container matColumnDef="employee">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{requiredLabel('label_employee' | translate)}}
         </th>
         <td mat-cell *matCellDef="let element; let index = index" [formGroup]="element">
             <mat-form-field>
-                <mat-select formControlName="employeeId" [compareWith]="selectlistCompare" [errorStateMatcher]="matcher">
+                <mat-select formControlName="employeeId" [compareWith]="selectlistCompare"
+                    [errorStateMatcher]="matcher">
                     <mat-option *ngFor="let emp of employees" [value]="emp.id">
                         {{emp.name}}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="getServerError(element, 'employeeId')">
-                    {{getServerError(element.get('employee'), 'employeeId')}}
+                <mat-error *ngIf="element.getServerError('employeeId')">
+                    {{element.get('employee').getServerError('employeeId')}}
                 </mat-error>
-                <mat-error *ngIf="hasError(element, 'employeeId')">
+                <mat-error *ngIf="element.hasError('employeeId')">
                     {{'employee_required' | translate}}
+                </mat-error>
+            </mat-form-field>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="product">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{requiredLabel('label_service' | translate)}}
+        </th>
+        <td mat-cell *matCellDef="let element; let index = index" [formGroup]="element">
+            <mat-form-field>
+                <mat-select formControlName="productId" [compareWith]="selectlistCompare" [errorStateMatcher]="matcher">
+                    <mat-option *ngFor="let prod of getProductSelectList(element)" [value]="prod.id">
+                        {{prod.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="element.getServerError('productId')">
+                    {{element.getServerError('productId')}}
+                </mat-error>
+                <mat-error *ngIf="element.hasError('productId')">
+                    {{'product_required' | translate}}
                 </mat-error>
             </mat-form-field>
         </td>
@@ -49,11 +50,12 @@
         </th>
         <td mat-cell *matCellDef="let element; let index = index" [formGroup]="element">
             <mat-form-field>
-                <input name="quantity{{index}}" formControlName="quantity" matInput type="number" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="getServerError(element, 'quantity')">
-                    {{getServerError(element, 'quantity')}}
+                <input name="quantity{{index}}" formControlName="quantity" matInput type="number"
+                    [errorStateMatcher]="matcher">
+                <mat-error *ngIf="element.getServerError('quantity')">
+                    {{element.getServerError('quantity')}}
                 </mat-error>
-                <mat-error *ngIf="hasError(element, 'quantity')">
+                <mat-error *ngIf="element.hasError('quantity')">
                     {{'quantity_required' | translate}}
                 </mat-error>
             </mat-form-field>
@@ -64,14 +66,15 @@
         </th>
         <td mat-cell *matCellDef="let element; let index = index" [formGroup]="element">
             <mat-form-field>
-                <input name="price{{index}}" #price formControlName="price" matInput type="number" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="getServerError(element, 'price')">
-                    {{getServerError(element, 'price')}}
+                <input name="price{{index}}" #price formControlName="price" matInput type="number"
+                    [errorStateMatcher]="matcher">
+                <mat-error *ngIf="element.getServerError('price')">
+                    {{element.getServerError('price')}}
                 </mat-error>
-                <mat-error *ngIf="hasError(element, 'price')">
+                <mat-error *ngIf="element.hasError('price')">
                     {{'price_required' | translate}}
                 </mat-error>
-                <mat-error *ngIf="hasError(element, 'price', 'min')">
+                <mat-error *ngIf="element.hasError('price', 'min')">
                     {{'price_must_be_greater_then_zero' | translate}}
                 </mat-error>
             </mat-form-field>
@@ -82,11 +85,12 @@
         </th>
         <td mat-cell *matCellDef="let element; let index = index" [formGroup]="element">
             <mat-form-field>
-                <input name="discount{{index}}" formControlName="discount" matInput type="number" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="getServerError(element, 'discount')">
-                    {{getServerError(element, 'discount')}}
+                <input name="discount{{index}}" formControlName="discount" matInput type="number"
+                    [errorStateMatcher]="matcher">
+                <mat-error *ngIf="element.getServerError('discount')">
+                    {{element.getServerError('discount')}}
                 </mat-error>
-                <mat-error *ngIf="hasError(element, 'discount')">
+                <mat-error *ngIf="element.hasError('discount')">
                     {{'discount_required' | translate}}
                 </mat-error>
             </mat-form-field>
@@ -97,11 +101,12 @@
         </th>
         <td mat-cell *matCellDef="let element; let index = index" [formGroup]="element">
             <mat-form-field>
-                <input name="priceWithDiscount{{index}}" formControlName="priceWithDiscount" matInput type="number" [errorStateMatcher]="matcher">
-                <mat-error *ngIf="getServerError(element, 'priceWithDiscount')">
-                    {{getServerError(element, 'priceWithDiscount')}}
+                <input name="priceWithDiscount{{index}}" formControlName="priceWithDiscount" matInput type="number"
+                    [errorStateMatcher]="matcher">
+                <mat-error *ngIf="element.getServerError('priceWithDiscount')">
+                    {{element.getServerError('priceWithDiscount')}}
                 </mat-error>
-                <mat-error *ngIf="hasError(element, 'priceWithDiscount')">
+                <mat-error *ngIf="element.hasError('priceWithDiscount')">
                     {{'price_with_discount_required' | translate}}
                 </mat-error>
             </mat-form-field>

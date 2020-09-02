@@ -15,12 +15,12 @@ namespace SQLContext.Services.Implementations
         public OrderByClauseModel OrderBy(BasePaging paging) =>
             new OrderByClauseModel(
               paging.SortBy != null ?
-              sb
-                 .Append(string.Format("ORDER BY {0} {1}", paging.SortBy.Split(".").Select(x => $"[{x}]"),
-                     (paging.SortOrder == SortOrder.Ascending ? "ASC" : "DESC"))
+              sb.Clear()
+                 .Append(string.Format("ORDER BY {0} {1}", string.Join(".", paging.SortBy.Split(".").Select(x => $"[{x}]")),
+                     (paging.SortOrder == SortOrder.Ascending ? "ASC " : "DESC "))
                   )
-                 .Append(string.Format("OFFSET {0} ROWS", paging.Skip))
-                 .Append(paging.Take != null ? string.Format("FETCH NEXT {0} ROWS ONLY", paging.Take) : null).ToString()
+                 .Append(string.Format("OFFSET {0} ROWS ", paging.Skip))
+                 .Append(paging.Take != null ? string.Format(" FETCH NEXT {0} ROWS ONLY", paging.Take) : null).ToString()
              : null
              );
     }

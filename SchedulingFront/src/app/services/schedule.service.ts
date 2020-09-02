@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UrlHelper } from '../common/helpers/urlHelper';
-import { Schedule, CalendarPaging } from '../models/schedule';
+import { Schedule } from '../models/schedule';
 import { ResponseBase } from '../common/models/responseBase';
 import { Document } from '../models/document';
+import { CalendarPaging } from '../common/models/calendarPaging';
 
 @Injectable({
   providedIn: 'root'

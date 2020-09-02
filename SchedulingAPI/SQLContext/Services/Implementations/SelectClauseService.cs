@@ -1,5 +1,6 @@
 ﻿using Common.Base;
 using Common.Extensions;
+using SQLContext.Extensions;
 using SQLContext.Helpers;
 using SQLContext.Models;
 using SQLContext.Services.Interfaces;
@@ -42,7 +43,7 @@ namespace SQLContext.Services.Implementations
                 var value = (item as MemberExpression);
                 selectModel.Join(value.Expression as MemberExpression);
 
-                var tableName = GetTableName(value.Expression.Type);
+                var tableName = value.Expression.Type.GetTableName();
                 if (tableName == selectModel.Table.Name)
                 {
                     selectModel.SelectedColumns.InsertCol(0, tableName, value.Member.Name, value.Expression.Type);
@@ -59,13 +60,6 @@ namespace SQLContext.Services.Implementations
                         KeyHelper.GetPrimaryKey(c.TableType));
             });
             return selectModel;
-        }
-        private string GetTableName(Type type)
-        {
-            var attribute = type.CustomAttributes.Where(x => x.AttributeType == typeof(TableAttribute)).FirstOrDefault();
-            if (attribute == null)
-                return type.Name;
-            return attribute.ConstructorArguments.FirstOrDefault().Value.ToString();
         }
     }
 }

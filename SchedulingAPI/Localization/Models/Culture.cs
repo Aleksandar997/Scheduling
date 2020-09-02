@@ -7,13 +7,13 @@ namespace Localization.Models
     public class Culture
     {
         [PrimaryKey]
-        public int CultureId { get; set; }
+        public int? CultureId { get; set; }
         public string Name { get; set; }
         public string Flag { get; set; }
         public string Value { get; set; }
         public bool Active { get; set; }
-        public Dictionary<string, string> LocalizationPair => Translate.ToDictionary(k => k.Resource.Name, v => v.Value);
-        public IEnumerable<TranslateModel> Translate { get; set; } = new List<TranslateModel>();
+        public Dictionary<string, string> LocalizationPair { get; set; }
+        //public IEnumerable<TranslateModel> Translate { get; set; } = new List<TranslateModel>();
 
         public Culture() {  }
 

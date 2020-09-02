@@ -26,7 +26,7 @@ import { ToasterModule } from '../toaster/toaster.module';
 import { DataGridModule } from '../dataGrid/dataGrid.module';
 import { DayDetailsComponent } from './dayDetails/dayDetails.component';
 import { TimelineSliderModule } from '../timelineSlider/timelineSlider.module';
-
+// import { CalendarModule as C } from "ion2-calendar";
 
 @NgModule({
   declarations: [

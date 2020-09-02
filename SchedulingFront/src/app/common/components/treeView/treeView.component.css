@@ -1,0 +1,22 @@
+ul, li {
+    list-style-type: none;
+    margin: 0;
+}
+
+.childless {
+    margin-left: 2.4rem;
+}
+
+.checkbox {
+    margin-right: 15px;
+}
+
+
+.addBtn {
+    margin-top: 0.2rem;
+    margin-left: -0.4rem;
+}
+
+.mat-tree-node {
+    overflow: visible;
+}

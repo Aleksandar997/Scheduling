@@ -1,7 +1,9 @@
-﻿using Localization.Models;
+﻿using Entity.Base;
+using Localization.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Localization.Service
 {
@@ -10,6 +12,9 @@ namespace Localization.Service
         void RefreshData();
         IEnumerable<Culture> GetAllLocalizationByCulture();
         //string GetTranslate(string resource);
-        void SetCulture(int cultureId);
+        Task<ResponseBase<IEnumerable<Resource>>> SelectAll(ResourcePaging paging);
+        Task<ResponseBase<Resource>> SelectById(int resourceId);
+        Task<ResponseBase<Resource>> Save(Resource resource, int userId);
+        Task<ResponseBase<IEnumerable<Culture>>> CultureSelectlist();
     }
 }

@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 
 namespace Common.Service
 {
-    public class ReflectionService : IReflectionService
+    public static class ReflectionService 
+        //: IReflectionService
     {
         //public async Task<IEnumerable<object>> InvokeAsync<Target>(Target target, string methodName, object[] parameters, Type[] genericType = null) =>
         //    await InvokeAsync<Target, object>(target, methodName, parameters, genericType);
   
-        public async Task<Output> InvokeAsync<Target, Output>(Target target, string methodName, object[] parameters, Type[] genericType = null)
+        public static async Task<Output> InvokeAsync<Target, Output>(Target target, string methodName, object[] parameters, Type[] genericType = null)
         {
             return await ExecuteAsync(async () =>
             {
@@ -29,7 +30,7 @@ namespace Common.Service
         //public dynamic Invoke<Target>(Target target, string methodName, object[] parameters, Type[] genericType = null) =>
         //    Invoke<Target, dynamic>(target, methodName, parameters, genericType);
 
-        public Output Invoke<Target, Output>(Target target, string methodName, object[] parameters, Type[] genericType = null)
+        public static Output Invoke<Target, Output>(Target target, string methodName, object[] parameters, Type[] genericType = null)
         {
             return Execute(() =>
             {
@@ -43,7 +44,7 @@ namespace Common.Service
             });
         }
 
-        private T Execute<T>(Func<T> func)
+        private static T Execute<T>(Func<T> func)
         {
             try
             {
@@ -55,7 +56,7 @@ namespace Common.Service
             }
         }
 
-        private async Task<T> ExecuteAsync<T>(Func<Task<T>> func)
+        private static async Task<T> ExecuteAsync<T>(Func<Task<T>> func)
         {
             try
             {

@@ -12,8 +12,8 @@ namespace SQLContext.Builders
     public class ManualSqlBuilder : IDisposable
     {
         private string _connectionString;
-        //private ISqlContextExecution _execution = (ISqlContextExecution)DependencyInjectionResolver.ServiceProvider.GetService(typeof(ISqlContextExecution));
-        private ISqlContextExecution _execution = new DapperExecution();
+        private ISqlContextExecution _execution = (ISqlContextExecution)DependencyInjectionResolver.ServiceProvider.GetService(typeof(ISqlContextExecution));
+        //private ISqlContextExecution _execution = new DapperExecution();
         SqlReaderModel sqlReaderModel;
         public ManualSqlBuilder(string connectionString)
         {

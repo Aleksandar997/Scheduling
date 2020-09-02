@@ -33,6 +33,39 @@ export class FormGroupHelper {
 
     private static isFormControlValid = (formControl: FormControl) => formControl.status !== 'INVALID';
 
+    static mapControlsToFormGroup(props: Array<string>, object: any, formGroup: FormGroup) {
+        props.forEach(p => {
+            if (p.includes('.')) {
+                this.mapNestedControl(p.split('.'), object, formGroup);
+            } else {
+                const propNamee = p.firstCharToLower();
+                formGroup.addControl(propNamee, new FormControl(object[propNamee]));
+            }
+        });
+    }
+
+    private static mapNestedControl(prop: Array<string>, object: any, formGroup: FormGroup) {
+        if (prop.length === 0) {
+            return;
+        }
+        const next = prop.shift().firstCharToLower();
+        const objValue = object[next];
+        let c = formGroup.get(next);
+        if (prop.length > 0) {
+            if (!c) {
+                c = formGroup;
+            } else {
+                this.mapNestedControl(prop, objValue, c as FormGroup);
+                return;
+            }
+            (c as FormGroup).addControl(next, new FormGroup({}))
+            this.mapNestedControl(prop, objValue, c.get(next) as FormGroup);
+        } else {
+            formGroup.addControl(next, new FormControl(object[next]));
+        }
+
+    }
+
     static async mapObjectToFormGroup(obj: any, formGroup: FormGroup, firstCicle = true) {
         if (firstCicle) {
             this.disabledProps = new Array<string>();

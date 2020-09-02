@@ -12,9 +12,9 @@ namespace Common.Extensions
     }
     public static class CollectionTreeView
     {
-        public static IEnumerable<T> ToTreeView<T>(this IEnumerable<T> wholeList, Expression<Func<T, int?>> identity) where T : ITreeview<T> =>
-            ToTreeView(wholeList.ToList(), identity);
-        public static List<T> ToTreeView<T>(this List<T> wholeList, Expression<Func<T, int?>> identity) where T : ITreeview<T>
+        public static IEnumerable<T> ToTreeView<T>(this IEnumerable<T> wholeList, Expression<Func<T, int?>> identity, Func<List<T>, List<T>> applyToEachNode = null) where T : ITreeview<T> =>
+            ToTreeView(wholeList.ToList(), identity, applyToEachNode);
+        public static List<T> ToTreeView<T>(this List<T> wholeList, Expression<Func<T, int?>> identity, Func<List<T>, List<T>> applyToEachNode = null) where T : ITreeview<T>
         {
             var parents = wholeList.Where(x => x.ParentId == 0 || x.ParentId == null).ToList();
             parents.ForEach(p => wholeList.Remove(p));
@@ -30,10 +30,9 @@ namespace Common.Extensions
                     identityId = ((body as UnaryExpression).Operand as MemberExpression).Member.Name;
                     break;
             }
-            var a = BuildTreeview(wholeList, identityId, parents);
-            return a;
+            return BuildTreeview(wholeList, identityId, parents, applyToEachNode);
         }
-        public static List<T> BuildTreeview<T>(this List<T> wholeList, string identityId, List<T> parents = null) where T : ITreeview<T>
+        public static List<T> BuildTreeview<T>(this List<T> wholeList, string identityId, List<T> parents = null, Func<List<T>, List<T>> applyToEachNode = null) where T : ITreeview<T>
         {
             foreach (var parent in parents)
             {
@@ -43,12 +42,12 @@ namespace Common.Extensions
                     {
                         parent.Children.Add(child);
                         wholeList.Remove(child);
-                        BuildTreeview(wholeList, identityId, new List<T>() { child });
+                        BuildTreeview(wholeList, identityId, new List<T>() { child }, applyToEachNode);
                     }
                 }
                 wholeList.Remove(parent);
             }
-            return parents;
+            return applyToEachNode != null ? applyToEachNode(parents) : parents;
         }
     }
 

@@ -1,18 +1,29 @@
-import { Component, AfterViewInit, Injector, Input, ViewChild, OnDestroy, ContentChild, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  Injector,
+  Input,
+  ViewChild,
+  OnDestroy,
+  EventEmitter,
+  Output,
+  HostListener,
+  AfterContentInit
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { CalendarPaging } from 'src/app/models/schedule';
 import { Day } from '../../models/day';
 import { FormBase } from '../../base/formBase';
 import { DayDetailsComponent } from './dayDetails/dayDetails.component';
 import { IDayDetail } from './base/dayDetail';
 import { FormGroup } from '@angular/forms';
+import { CalendarPaging } from '../../models/calendarPaging';
 
 @Component({
   selector: 'calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent extends FormBase implements AfterViewInit, OnDestroy {
+export class CalendarComponent extends FormBase implements AfterViewInit, OnDestroy, AfterContentInit {
 
   constructor(private _injector: Injector, private dialog: MatDialog) {
     super(_injector);
@@ -20,9 +31,8 @@ export class CalendarComponent extends FormBase implements AfterViewInit, OnDest
     this.initCalendar();
   }
   @Output() deleteDetail = new EventEmitter<any>();
-  @Output() detail = new EventEmitter<any>();
-  @ViewChild(DayDetailsComponent, { static: false }) dayDetails: DayDetailsComponent<IDayDetail>;
-  @ContentChild('filters', { static: false }) filters;
+  @Output() detail = new EventEmitter<CalendarPaging>();
+  @ViewChild(DayDetailsComponent) dayDetails: DayDetailsComponent<IDayDetail>;
   @Input() displayedColumns: string[];
   opened: Day;
   paging: CalendarPaging;
@@ -57,7 +67,7 @@ export class CalendarComponent extends FormBase implements AfterViewInit, OnDest
     'label_friday',
     'label_saturday'
   ];
-
+  rowHeight;
   initCalendar() {
     this.month = this.activeDate.getMonth();
     this.day = this.activeDate.getDate();
@@ -66,7 +76,14 @@ export class CalendarComponent extends FormBase implements AfterViewInit, OnDest
     this.tiles = [];
     this.initTiles();
   }
-  getRowHeight = () => ((document.getElementById('calendar-card').clientHeight / 3) / 7) + 'px';
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    console.log('a')
+    this.rowHeight = this.calcRowHeight();
+  }
+
+  calcRowHeight = () => ((document.getElementById('calendar-card').clientHeight / 1.12) / 7) + 'px';
   initTiles() {
     const activeMonth = this.activeDate.getMonth();
     let day = new Date(this.year, this.month, 1).getDay();
@@ -109,19 +126,14 @@ export class CalendarComponent extends FormBase implements AfterViewInit, OnDest
   }
   ngAfterViewInit() {
     this.getData();
-
+  }
+  ngAfterContentInit() {
+    setTimeout(() => this.rowHeight = this.calcRowHeight(), 1);
   }
 
   getData(stayOnTile = false) {
     this.stayOnTile = stayOnTile;
-    Object.keys(this.form.controls).forEach(element => {
-      this.paging[element] = this.form.controls[element].value;
-    });
     this.detail.emit(this.paging);
-  }
-  setFilter(filter: any) {
-    this.paging.filter = filter;
-    this.getData();
   }
 
   previousMonth() {
@@ -149,6 +161,11 @@ export class CalendarComponent extends FormBase implements AfterViewInit, OnDest
     });
     if (this.stayOnTile) {
       this.openTilePreview(this.opened);
+      this.stayOnTile = false;
     }
+  }
+
+  navigateToAction() {
+    this.dayDetails.navigateToAction();
   }
 }

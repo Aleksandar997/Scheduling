@@ -1,2 +1,51 @@
 <ng-template portalOutlet>
 </ng-template>
+
+<!-- <div (cdkDragEnded)="mostSoldProducts.dropped($event)" class="example-box"
+    [cdkDragFreeDragPosition]="mostSoldProducts.chartPosition" cdkDragBoundary="#card" cdkDrag>
+    <bar-chart 
+    #mostSoldProducts 
+    [chart]="'MostSoldProductsAndServices'"
+    [xAxisLabel]="'most_sold_products'"
+    [yAxisLabel]="'label_sale'"
+    ></bar-chart>
+</div>
+
+<div (cdkDragEnded)="organizationUnitBySales.dropped($event)" class="example-box"
+    [cdkDragFreeDragPosition]="organizationUnitBySales.chartPosition" cdkDragBoundary="#card" cdkDrag>
+    <bar-chart 
+    #organizationUnitBySales 
+    [chart]="'OrganizationUnitBySales'"
+    [xAxisLabel]="'organization_unit_by_sales'"
+    [yAxisLabel]="'label_sale'"
+    ></bar-chart>
+</div>
+
+<div (cdkDragEnded)="saleInLast12MonthsByProduct.dropped($event)" class="example-box"
+    [cdkDragFreeDragPosition]="saleInLast12MonthsByProduct.chartPosition" cdkDragBoundary="#card" cdkDrag>
+    <bar-chart 
+    #saleInLast12MonthsByProduct 
+    [grouped]="true"
+    [chart]="'SaleInLast12MonthsByProduct'"
+    [xAxisLabel]="'product_by_months'"
+    [yAxisLabel]="'label_sale'"
+    ></bar-chart>
+</div> -->
+
+<div class="chart-row">
+    <bar-chart #mostSoldProducts [chart]="'MostSoldProductsAndServices'" [xAxisLabel]="'most_sold_products'"
+        [yAxisLabel]="'label_sale'"></bar-chart>
+
+    <bar-chart #organizationUnitBySales [chart]="'OrganizationUnitBySales'" [xAxisLabel]="'organization_unit_by_sales'"
+        [yAxisLabel]="'label_sale'"></bar-chart>
+</div>
+
+<div class="chart-row">
+    <bar-chart #saleInLast12MonthsByProduct [grouped]="true" [chart]="'SaleInLast12MonthsByProduct'"
+    [xAxisLabel]="'product_by_months'" [yAxisLabel]="'label_sale'"></bar-chart>
+</div>
+
+<div class="chart-row">
+    <line-chart #averageSaleDuringDayByHours [chart]="'AverageSaleDuringDayByHours'" [grouped]="true"
+    [xAxisLabel]="'average_sale_during_day_by_hours'" [yAxisLabel]="'label_sale'"></line-chart>
+</div>

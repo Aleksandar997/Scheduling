@@ -3,6 +3,7 @@ using SQLContext.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace SQLContext.Extensions
@@ -17,11 +18,28 @@ namespace SQLContext.Extensions
                 var res = resRaw.FirstOrDefault();
                 for (int i = 0; i < execModel.Contexts.Count(); i++)
                 {
-                    var prop = execModel.Contexts[i].ChildTable;
-                    res.GetType().GetProperty(prop).SetValue(res, resRaw[i + 1]);
+                    var prop = execModel.Contexts[i];
+                    GetNested(res.GetType(), prop, res, resRaw[i + 1]);
+
                 }
                 return res;
             }), execModel.SplitOn).ToList();
+        }
+        private static void GetNested(Type type, JoinModel context, object obj, object value)
+        {
+            if (type.GetTableName() == context.ParentTable)
+            {
+                type.GetProperty(context.ChildTable).SetValue(obj, value);
+                return;
+            }
+            var prop = type.GetProperty(context.ParentTable).PropertyType;
+            //var a = type.GetProperty(context.ParentTable).PropertyType;
+            //var b = type.GetProperty(context.ChildTable).GetValue(obj);
+            GetNested(
+                prop, 
+                context,
+                obj.GetType().GetProperty(context.ParentTable).GetValue(obj), 
+                value);
         }
     }
 }

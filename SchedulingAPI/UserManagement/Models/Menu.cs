@@ -15,6 +15,7 @@ namespace UserManagement.Models
         public string Image { get; set; }
         public int Sort { get; set; }
         public bool Active { get; set; }
+        public int NotificationCount { get; set; } = 0;
         [ForeignKey("User")]
         public int UserId { get; set; }
         public List<Role> Role { get; set; }

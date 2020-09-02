@@ -63,7 +63,11 @@ namespace SchedulingAPI.Repository.Implementations
                 var read = await reader.ExecuteManual("[dbo].[Document_SelectById]", new { documentId, userId });
                 var a = ReadData(() =>
                 {
-                    var res = read.Read.ReadFirst<Document>();
+                    var res = read.Read.Read<Document, Schedule, Document>((document, schedule) =>
+                    {
+                        document.Schedule = schedule;
+                        return document;
+                    }, splitOn: "ScheduleId").FirstOrDefault();
                     res.OrganizationUnits = read.Read.Read<OrganizationUnit>().ToList();
                     res.DocumentDetails = read.Read.Read<DocumentDetail>().ToList();
                     return res;

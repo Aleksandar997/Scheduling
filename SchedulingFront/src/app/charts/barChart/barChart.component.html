@@ -1,0 +1,48 @@
+<!-- <div (cdkDragEnded)="dropped($event)" class="example-box"
+[cdkDragFreeDragPosition]="barChartMetaData" cdkDragBoundary="#chartBoundry" cdkDrag>
+    <loader #loader></loader>
+    <ngx-charts-bar-vertical 
+        (window:resize)="onResize()"
+        [view]="view"
+        [results]="data"
+        [xAxisLabel]="'Products'"
+        [legendTitle]="'Product Sale Chart'"
+        [yAxisLabel]="'Sale'"
+        [legend]="true"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [gradient]="true">
+    </ngx-charts-bar-vertical>
+</div> -->
+
+<loader #loader></loader>
+<ngx-charts-bar-vertical *ngIf="!grouped"
+    (window:resize)="onResize()"
+    [view]="view"
+    [results]="data"
+    [xAxisLabel]="xAxisLabel | translate"
+    [legendTitle]="legendTitle | translate"
+    [yAxisLabel]="yAxisLabel | translate"
+    [legend]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [gradient]="true">
+</ngx-charts-bar-vertical>
+<ngx-charts-bar-vertical-2d *ngIf="grouped"
+(window:resize)="onResize()"
+[view]="view"
+[results]="data"
+[xAxisLabel]="xAxisLabel | translate"
+[legendTitle]="legendTitle | translate"
+[yAxisLabel]="yAxisLabel | translate"
+[legend]="true"
+[showXAxisLabel]="true"
+[showYAxisLabel]="true"
+[xAxis]="true"
+[yAxis]="true"
+[gradient]="true">
+</ngx-charts-bar-vertical-2d>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Web.Adapters;
 
 namespace SchedulingAPI.Models
 {
@@ -26,7 +27,6 @@ namespace SchedulingAPI.Models
         public DateTime? DateFrom { get; set; }
         public string Note { get; set; }
         private decimal? sum;
-
         //public decimal? Sum => DocumentDetails.Sum(x => x.PriceWithDiscount);
 
         public decimal? Sum 
@@ -34,6 +34,10 @@ namespace SchedulingAPI.Models
             get => sum ?? DocumentDetails.Sum(x => x.PriceWithDiscount);
             set => sum = value;
         }
+
+
+        public List<int> GetEmployees() => DocumentDetails.Where(x => x.EmployeeId.HasValue).Select(x => x.EmployeeId.Value).Distinct().ToList();
+
         public decimal? Paid { get; set; }
         public int? PricelistTypeId { get; set; }
         public PricelistType PricelistType { get; set; }
@@ -43,8 +47,8 @@ namespace SchedulingAPI.Models
         public long OrganizationUnitId { get; set; }
         public IEnumerable<DocumentDetail> DocumentDetails { get; set; }
         public List<OrganizationUnit> OrganizationUnits { get; set; }
-        private IEnumerable<long> organizationUnitIds;
-        public IEnumerable<long> OrganizationUnitIds
+        private IEnumerable<int> organizationUnitIds;
+        public IEnumerable<int> OrganizationUnitIds
         {
             get => organizationUnitIds ?? OrganizationUnits.Select(x => x.OrganizationUnitId);
             set => organizationUnitIds = value;

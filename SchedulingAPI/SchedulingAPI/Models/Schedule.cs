@@ -1,6 +1,7 @@
 ﻿using Entity.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Web.Attributes;
@@ -11,13 +12,16 @@ namespace SchedulingAPI.Models
     {
         [PrimaryKey]
         public long? ScheduleId { get; set; }
+        //[Required(ErrorMessage = "phone_number_required")]
         public string PhoneNumber { get; set; }
+        //[Required(ErrorMessage = "date_required")]
         public DateTime Date { get; set; }
+        //[Required(ErrorMessage = "customer_required")]
         public long? CustomerId { get; set; }
-        public int? EmployeeId { get; set; }
         public string Employees { get; set; }
         //[ChildValidation]
         public Customer Customer { get; set; } = new Customer();
+        public bool BindToEmployee { get; set; }
     }
 
     public class SchedulePaging

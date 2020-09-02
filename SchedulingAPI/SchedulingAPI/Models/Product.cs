@@ -1,6 +1,8 @@
 ﻿using Entity.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace SchedulingAPI.Models
 {
@@ -18,6 +20,7 @@ namespace SchedulingAPI.Models
         public long? OrganizationUnitId { get; set; }
         public List<ProductPricelist> ProductPricelist { get; set; }
         public List<long> OrganizationUnits { get; set; }
+        public string OrganizationUnitsString { get; set; }
     }
     public class ProductPaging : BasePaging
     {
@@ -35,5 +38,44 @@ namespace SchedulingAPI.Models
         public string OrganizationUnitName { get; set; }
         public decimal? Price { get; set; }
         public long? DocumentDetailId { get; set; }
+    }
+
+    public class EmployeeOrganizationUnitProduct
+    {
+        public long ProductId { get; set; }
+        public string Name { get; set; }
+        public int OrganizationUnitId { get; set; }
+        public int EmployeeId { get; set; }
+    }
+
+    //public class ProductsDetails
+    //{
+    //    public long? ProductId { get; set; }
+    //    public string Name { get; set; }
+    //    public int? OrganizationUnitId { get; set; }
+    //    public string EmployeesString
+    //    {
+    //        set => Employees = value.Split(",").ToList().Select(x => Convert.ToInt64(x.Trim())).ToList();
+    //    }
+    //    public List<long> Employees { get; set; }
+    //}
+
+    public class ProductSelectList
+    {
+        public List<Product> Products { get; set; }
+        public List<ProductPricelist> ProductPricelist { get; set; }
+        public List<EmployeeOrganizationUnitProduct> ProductsByOrgUnit { get; set; }
+        public ProductSelectList(List<Product> products,  List<ProductPricelist> productPricelist, List<EmployeeOrganizationUnitProduct> productsByOrgUnit)
+        {
+            Products = products;
+            ProductPricelist = productPricelist;
+            ProductsByOrgUnit = productsByOrgUnit;
+        }
+    }
+
+    public class ProductSelectListInput
+    {
+        public List<int> OrganizationUnits { get; set; } = new List<int>();
+        public bool AllOrgUnits { get; set; }
     }
 }

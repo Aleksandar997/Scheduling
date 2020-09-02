@@ -11,8 +11,8 @@ namespace SQLContext.Services.Interfaces
 {
     public interface ISqlContextExecution
     {
-        internal Task<ResponseBase<IEnumerable<object>>> Execute(SelectModel selectModel, string connectionString);
-        internal Task<SqlReaderBaseModel> ExecuteManual(
+        Task<ResponseBase<IEnumerable<object>>> Execute(SelectModel selectModel, string connectionString);
+        Task<SqlReaderBaseModel> ExecuteManual(
             string storedProcedure,
             string connectionString,
             DynamicParameter param = null,
@@ -20,7 +20,8 @@ namespace SQLContext.Services.Interfaces
             IDbTransaction transaction = null,
             int? commandTimeout = null
         );
-        internal void Dispose();
+        Task<ResponseBase<int>> ExecuteSave(SaveModel saveModel, string connectionString);
+        void Dispose();
     }
 }
 

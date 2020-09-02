@@ -1,9 +1,11 @@
-﻿using Localization.Interfaces;
+﻿using Entity.Base;
+using Localization.Interfaces;
 using Localization.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Localization.Service
 {
@@ -27,11 +29,6 @@ namespace Localization.Service
         private List<Culture> LocalizationSelectAll()
         {
             return _repository.SelectAllByCulture().Result.Data.ToList();
-        }
-
-        private int SelectInUseCulture()
-        {
-            return _repository.SelectInUseCulture().Result.Data;
         }
 
         public static string GetTranslate(string resource)
@@ -65,5 +62,13 @@ namespace Localization.Service
         {
             return _localization;
         }
+
+        public async Task<ResponseBase<IEnumerable<Resource>>> SelectAll(ResourcePaging paging) => await _repository.SelectAll(paging);
+
+        public async Task<ResponseBase<Resource>> SelectById(int resourceId) => await _repository.SelectById(resourceId);
+
+        public async Task<ResponseBase<Resource>> Save(Resource resource, int userId) => await _repository.Save(resource, userId);
+
+        public async Task<ResponseBase<IEnumerable<Culture>>> CultureSelectlist() => await _repository.CultureSelectlist();
     }
 }

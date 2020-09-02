@@ -19,10 +19,11 @@ namespace SQLContext.Builders
         private IOrderByClauseService _orderByClauseService = DependencyInjectionResolver.GetService<IOrderByClauseService>();
         private IJoinClauseService _joinClauseService = DependencyInjectionResolver.GetService<IJoinClauseService>();
         private ISqlContextExecution _execution = DependencyInjectionResolver.GetService<ISqlContextExecution>();
-
+        private ISaveService _save = DependencyInjectionResolver.GetService<ISaveService>();
         private string _connectionString;
         private string _key;
         private SelectModel selectModel;
+        private SaveModel saveModel;
         private bool _isSelectImplemented = false;
         internal SqlBuilder(SelectModel cache, string connectionString, string key, bool autoJoin)
         {
@@ -58,6 +59,16 @@ namespace SQLContext.Builders
             _orderByClauseService = orderByClauseService;
         }
 
+        public SqlBuilder<T> Save<TResult>(Expression<Func<T, TResult>> param, T input, int? id)
+        {
+            return ExecuteSqlOperation(() =>
+            {
+                if (_isSelectImplemented)
+                    throw new Exception("SELECT IS IMPLEMENTED");
+                saveModel = _save.Save(param, input, id);
+                return this;
+            });
+        }
 
         public SqlBuilder<T> Select<TResult>(Expression<Func<T, TResult>> param)
         {
@@ -79,12 +90,49 @@ namespace SQLContext.Builders
                 return this;
             });
         }
-        public SqlBuilder<T> OrderBy(BasePaging param)
+        public SqlBuilder<T> Where<Tforegin>(Expression<Func<T, Tforegin, bool>> param) where Tforegin : class
         {
             return ExecuteSqlOperation(() =>
             {
                 SelectImplementedCheck();
+                selectModel.WhereClause = _whereClauseService.Where(param);
+                return this;
+            });
+        }
+        public SqlBuilder<T> OrderBy(BasePaging param)
+        {
+            if (param == null)
+                return this;
+            return ExecuteSqlOperation(() =>
+            {
+                SelectImplementedCheck();
                 selectModel.SetOrderByClause(_orderByClauseService.OrderBy(param));
+                return this;
+            });
+        }
+        //public SqlBuilder<T> Join(List<JoinInput> joins)
+        //{
+        //    return ExecuteSqlOperation(() =>
+        //    {
+        //        SelectImplementedCheck();
+        //        if (selectModel.IsGenerated)
+        //            return this;
+        //        foreach (var join in joins)
+        //        {
+        //            selectModel.Joins.Add(_joinClauseService.Join(join.BaseTable, join.JoinTable, selectModel.Table, join.JoinType));
+        //        }
+
+        //        return this;
+        //    });
+        //}
+        public SqlBuilder<T> Join(List<JoinModel> join)
+        {
+            return ExecuteSqlOperation(() =>
+            {
+                SelectImplementedCheck();
+                if (selectModel.IsGenerated)
+                    return this;
+                selectModel.Joins.AddRange(join);
                 return this;
             });
         }
@@ -121,6 +169,11 @@ namespace SQLContext.Builders
         {
             SqlContextCache.TrySetValue(_key, selectModel.Generate());
             return await ExecuteQuerySingle(async () => await _execution.Execute(selectModel, _connectionString));
+        }
+
+        public async Task<ResponseBase<int>> ExecuteSave()
+        {
+            return await _execution.ExecuteSave(saveModel, _connectionString);
         }
 
         private async Task<ResponseBase<T>> ExecuteQuerySingle(Func<Task<ResponseBase<IEnumerable<object>>>> function)

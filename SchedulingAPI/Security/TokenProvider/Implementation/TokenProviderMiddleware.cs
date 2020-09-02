@@ -11,7 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Security.TokenProvider.Interfaces;
-using UserManagement.Repository;
+using UserManagement.Repository.Interfaces;
 using System.Linq;
 using Microsoft.Extensions.Options;
 using Security;
@@ -59,16 +59,13 @@ namespace Web.Security.TokenProvider.Implementation
             }
 
             long userId = 0;
+            int? employeeId = 0;
             var permissions = new List<string>();
 
             if (grantType == "password")
             {
                 string username = context.Request.Form["username"];
                 string password = context.Request.Form["password"];
-                //string culture = context.Request.Form["culture"];
-                //int cultureId = culture != null ? Convert.ToInt32(culture) : LocalizationService._cultureId;
-                //if (cultureId > 0)
-                //    _localization.SetCulture(cultureId);
 
                 var userResponse = await _userRepository.LoginUser(
                      username,
@@ -77,6 +74,19 @@ namespace Web.Security.TokenProvider.Implementation
                  );
 
                 var user = userResponse.Data;
+
+                if (userResponse.Status == ResponseStatus.PasswordExpired)
+                {
+                    context.Response.StatusCode = 400;
+                    var errResponse = new
+                    {
+                        error = "access_denied",
+                        error_description = "Password expired",
+                        status = ResponseStatus.PasswordExpired
+                    };
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(errResponse));
+                    return;
+                }
 
                 if (userResponse.Status != ResponseStatus.Success || user == null || !user.Roles.Any())
                 {
@@ -89,7 +99,8 @@ namespace Web.Security.TokenProvider.Implementation
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(errResponse));
                     return;
                 }
-                userId = user.UserId;
+                userId = user.UserId.Value;
+                employeeId = user.EmployeeId;
                 permissions = user.Permissions.Select(p => p.Code).Distinct().ToList();
             }
             else if (grantType == "refresh_token")
@@ -107,12 +118,13 @@ namespace Web.Security.TokenProvider.Implementation
                     return;
                 }
                 userId = int.Parse(refreshTokenData.UserId);
+                
                 //if (!CacheManager.TryGetValue("users", out IEnumerable<User> data))
                 //{
                 var result = await _userRepository.SelectById(userId);
                 var data = result.Data;
                 //}
-
+                employeeId = data.EmployeeId;
                 permissions = data.Permissions
                     .Select(p => p.Code).Distinct().ToList();
             }
@@ -126,6 +138,8 @@ namespace Web.Security.TokenProvider.Implementation
                 new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                     ClaimValueTypes.Integer64)
             };
+            if (employeeId.HasValue)
+                claims.Add(new Claim(ClaimTypes.UserData, employeeId.Value.ToString()));
 
             foreach (var code in permissions)
             {

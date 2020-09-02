@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Common.Extensions
 {
@@ -16,5 +17,6 @@ namespace Common.Extensions
             }
             return splitArr.LastOrDefault().Trim().Replace(input + '.', "");
         }
+        public static bool ContainsIgnoreCase(this string bValue, string value) => bValue.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
     }
 }

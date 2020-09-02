@@ -1,11 +1,23 @@
-<div class="wrapper">
-    <mat-toolbar *ngIf="title" class="form-layout-actions">
+<div class="wrapper" id="form-layout">
+    <mat-toolbar class="form-layout-actions">
         <h4><span matTooltip="{{title | translate}}">{{title | translate}}</span></h4>
-        <div class="form-actions" *ngIf="!disableActions">
+        <div class="form-actions">
             <ng-container #actions></ng-container>
         </div>
     </mat-toolbar>
     <div class="card-wrapper">
-        <router-outlet></router-outlet>
+        <mat-card class="card filters" *ngIf="showFilters">
+            <mat-card-content>
+                <div class="form-row row-actions overflow" autocomplete="off">
+                    <ng-container #filters></ng-container>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="card content" [ngClass]="{'content-full' : !showFilters}" id="card">
+            <loader #loader></loader>
+            <mat-card-content>
+                <router-outlet></router-outlet>
+            </mat-card-content>
+        </mat-card>
     </div>
 </div>

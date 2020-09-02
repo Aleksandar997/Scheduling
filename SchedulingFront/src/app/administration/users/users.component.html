@@ -1,1 +1,75 @@
-<p>users works!</p>
+<ng-template portalOutlet>
+    <button mat-raised-button [routerLink]="['./add']" color="primary">{{'btn_add_user' | translate}}</button>
+</ng-template>
+<ng-template filtersPortalOutlet [formGroup]="filters">
+    <mat-form-field>
+        <input matInput formControlName="firstName" placeholder="{{'label_first_name' | translate}}">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput formControlName="lastName" placeholder="{{'label_last_name' | translate}}">
+    </mat-form-field>
+</ng-template>
+
+<data-grid #userGrid [displayedColumns]="displayedColumns" matSort [gridName]="'userGrid'"
+    [highlightPreviousVisitedRow]="true" [dataSource]="dataSource" [onRowClickLink]="onRowClickLink"
+    (matSortChange)="onSortChange($event)">
+
+    <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_first_name' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_last_name' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="identificationNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_identification_number' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.employee?.identificationNumber}} </td>
+    </ng-container>
+    <ng-container matColumnDef="roles">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_roles' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.roleNames}}</td>
+    </ng-container>
+    <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_active' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <mat-icon>{{element.active ? 'check' : 'close'}}</mat-icon>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sysDTCreated">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'label_date_created' | translate}}
+        </th>
+        <td mat-cell *matCellDef="let element">
+            {{element.sysDTCreated | date: 'dd/MM/yyyy'}}
+        </td>
+    </ng-container>
+
+    <ng-template #actions let-element let-index="index">
+        <button mat-icon-button matTooltip="{{'tooltip_change_password' | translate}}"
+            (click)="changePass(index)">
+            <mat-icon>vpn_key</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="{{'tooltip_view' | translate}}"
+            [routerLink]="['./view',element.userId]" (click)="userGrid.setCacheActivePage(index)">
+            <mat-icon>remove_red_eye</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="{{'tooltip_edit' | translate}}"
+            [routerLink]="['./edit',element.userId]" (click)="userGrid.setCacheActivePage(index)">
+            <mat-icon>mode_edit</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="{{'tooltip_delete' | translate}}"
+            (click)="deleteUser(element.userId)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </ng-template>
+    <mat-paginator (page)="onPageChange($event)" [length]="datasourceLength">
+    </mat-paginator>
+</data-grid>

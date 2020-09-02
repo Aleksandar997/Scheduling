@@ -1,0 +1,17 @@
+.translate-item > *:not(:last-child) {
+    border-bottom-width: 0.1px;
+    border-bottom-style: solid;
+    border-color: inherit;
+}
+
+.translate-item > * {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+
+.translate-value > * {
+    border-left-style: solid;
+    border-left-width: 0.1px;
+    border-color: #e0e0e0 !important;
+}

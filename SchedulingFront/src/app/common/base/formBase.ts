@@ -1,95 +1,108 @@
-import { Injector } from '@angular/core';
+import { Injector, EventEmitter } from '@angular/core';
 import { LocalData } from '../../common/data/localData';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormArray, AbstractControl, FormGroup, FormControl } from '@angular/forms';
 import { TranslatePipe } from '../pipes/translate/translatePipe';
+import { Platform } from '@angular/cdk/platform';
+import { DeviceHelper } from '../helpers/deviceHelper';
+import { PortalService } from '../services/portal.service';
+import { FormGroup } from '@angular/forms';
+import { FormGroupHelper } from '../helpers/formGroupHelper';
+import { ToasterService } from '../components/toaster/toaster.service';
+import { ModalBaseComponent } from '../modals/modalBase/modalBase.component';
+import { MatDialog } from '@angular/material';
+import { ModalBase } from '../models/modalBase';
+import { ConfirmationModalComponent } from '../modals/confirmationModal/confirmationModal.component';
+import { ResponseBase } from '../models/responseBase';
+import { LoaderService } from '../components/loader/loader.service';
 
 export abstract class FormBase {
     localization: any;
     activeRouter: ActivatedRoute;
     router: Router;
     translate: TranslatePipe;
+    navigateBackUrl;
+    portalService: PortalService;
+    modal: ModalBaseComponent;
+    loaderEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
+    genericName = 'item';
+    awaitExecutionExecuted = false;
     constructor(private injector: Injector) {
         this.localization = LocalData.getTranslations();
         this.activeRouter = injector.get(ActivatedRoute);
+        this.portalService = injector.get(PortalService);
         this.translate = injector.get(TranslatePipe);
         this.router = injector.get(Router);
+        this.isPhone = DeviceHelper.isMobile();
+        this.modal = new ModalBaseComponent(this.injector.get(MatDialog));
     }
+
+    isPhone = false;
 
     requiredLabel = (str: string) => str + ' *';
 
-    addErrors(errors, formGroup: FormGroup) {
-        if (!errors) {
-            return;
-        }
-        Object.keys(errors).forEach(prop => {
-            const orginialProp = prop;
-            prop = prop.firstCharToLower();
-            const propDotSplit = prop.split('.');
-            this.setNestedErrors(propDotSplit, formGroup, errors[orginialProp]);
-        });
-    }
-    private setNestedErrors(props: Array<string>, formGroup: FormGroup, error: string) {
-        const prop = props.shift();
-        let formControl = null;
-        if (!prop.includes('[')) {
-            if (!formGroup) {
-                return;
-            }
-            formControl = formGroup.get(prop.firstCharToLower());
-            if (props.length === 0) {
-                this.setServerError(formControl, error);
-                return;
-            }
-            this.setNestedErrors(props, formControl, error);
-        } else {
-            const propBracketSplit = prop.split('[');
-            const index = propBracketSplit[1].split(']')[0];
-            const formControlParent = formGroup.get(propBracketSplit[0]) as FormArray;
-            this.setNestedErrors(props, formControlParent.controls[index], error);
-        }
-    }
-    private setServerError(formControl: FormArray | AbstractControl, msg: string) {
-        console.log(msg)
-        if (formControl) {
-            formControl.setErrors({
-                serverError: msg
-            });
-        }
-    }
-
-    getServerError(form: FormGroup, control: string) {
-        const formControl = this.getControls(form, control) as FormControl;
-        if (!formControl || !formControl.errors || !formControl.errors.serverError) {
-            return null;
-        }
-        return formControl.errors.serverError;
-    }
-
-    hasError(form: FormGroup, control: string, errorType = 'required') {
-        const formControl = this.getControls(form, control);
-        if (!formControl) {
-            return null;
-        }
-        return formControl.hasError(errorType);
-    }
-
     selectlistCompare = (selectedItem1: any, selectedItem2: any) => selectedItem1 == selectedItem2;
 
-    getControls(form: FormGroup, control: string): FormControl | FormGroup | FormArray {
-        const controls = control.split('.');
-        const formControl = controls.shift();
-        if (controls.length > 0) {
-            return this.getControls(form.get(formControl) as FormGroup, controls.join('.'));
-        } else {
-            if (!form) {
-                return null;
-            }
-            return form.get(formControl) as FormControl;
+    getNestedObjProp(item, path: string) {
+        const props = path.split('.');
+        const firstItem = item[props.shift().firstCharToLower()];
+        if (props.length > 0) {
+            return this.getNestedObjProp(firstItem, props.join('.'));
         }
+        return firstItem;
     }
-
+    getNestedPropName = (path: string) => path.split('.').pop().firstCharToLower();
     getLocalization(key: string) {
         return this.translate.transform(key);
     }
+
+    execGetFunc(func: () => Promise<ResponseBase<any>>) {
+        LoaderService.show();
+        func().then(() => LoaderService.hide()).catch(err => {
+            LoaderService.hide();
+            console.log(err)
+            ToasterService.handleErrors(err, 'error_global');
+        });
+    }
+
+    execFunc(func: () => any,  actionType: ActionType = ActionType.Save, form: FormGroup = null) {
+        if (form && !FormGroupHelper.isValid(form)) {
+            ToasterService.openWarning(this.getLocalization('form_not_valid'));
+            return;
+        }
+        const actionVal = ActionType[actionType].toLowerCase();
+        this.modal.openDialog(
+            new ModalBase(
+                          `confirm_${this.genericName}_${actionVal}_title`,
+                          `confirm_${this.genericName}_${actionVal}_text`,
+                          null,
+                          this.loaderEmitter, () => {
+                this.loaderEmitter.emit(true);
+                (func() as Promise<any>).then(() => {
+                    this.loaderEmitter.emit(false);
+                    this.modal.closeDialog();
+                    ToasterService.openSuccess(`${this.genericName}_${actionVal}_success`);
+                    if (this.navigateBackUrl) {
+                        this.router.navigate([this.navigateBackUrl]);
+                    }
+                }).catch(err => {
+                    if (form) {
+                        form.addServerErrors(err.error);
+                    }
+                    this.loaderEmitter.emit(false);
+                    ToasterService.openError(`${this.genericName}_${actionVal}_error`);
+                });
+            }), ConfirmationModalComponent);
+    }
+
+    awaitExecution(func: () => any, time: number = 600) {
+        if (!this.awaitExecutionExecuted) {
+            setTimeout(() => {
+                func();
+                this.awaitExecutionExecuted = false;
+            }, time);
+        }
+        this.awaitExecutionExecuted = true;
+    }
 }
+
+export enum ActionType { Save, Delete, Cancel }

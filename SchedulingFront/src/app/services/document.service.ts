@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject } from 'rxjs';
 import { DocumentPaging } from '../models/document';
 import { UrlHelper } from '../common/helpers/urlHelper';
 import { ResponseBase } from '../common/models/responseBase';
